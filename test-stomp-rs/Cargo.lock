@@ -1,0 +1,12 @@
+[root]
+name = "test-stomp-rs"
+version = "0.0.1"
+dependencies = [
+ "stomp 0.1.0 (git+https://github.com/zslayton/stomp-rs.git#df6cbfc8cae5f098544c40258f111800b2c4cbfb)",
+]
+
+[[package]]
+name = "stomp"
+version = "0.1.0"
+source = "git+https://github.com/zslayton/stomp-rs.git#df6cbfc8cae5f098544c40258f111800b2c4cbfb"
+

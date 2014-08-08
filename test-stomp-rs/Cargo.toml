@@ -1,0 +1,13 @@
+[package]
+
+name = "test-stomp-rs"
+version = "0.0.1"
+authors = ["itang <live.tang@gmail.com>"]
+
+[[bin]]
+
+name = "test-stomp-rs"
+
+[dependencies.stomp]
+
+git = "https://github.com/zslayton/stomp-rs.git"
