@@ -1,4 +1,9 @@
-object Main2 extends App with Util {
+/**
+ * Daemon Thread Test.
+ *
+ */
+object DaemonThreadTest extends App with Util {
+
   debug("main2")
 
   addShutDownHookForTest()
@@ -8,6 +13,7 @@ object Main2 extends App with Util {
   t.start()
 
   debug("main2")
+
 }
 //output:
 /*

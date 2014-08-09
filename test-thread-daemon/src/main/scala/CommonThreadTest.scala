@@ -1,6 +1,9 @@
-import java.util.concurrent.TimeUnit.SECONDS
+/**
+ * Common Thread Test.
+ *
+ */
+object CommonThreadTest extends Util {
 
-object Main extends Util {
   def main(args: Array[String]): Unit = {
     debug("main")
 
@@ -10,6 +13,7 @@ object Main extends Util {
 
     debug("main")
   }
+
 }
 //output:
 /*

@@ -23,5 +23,5 @@ incOptions := incOptions.value.withNameHashing(true)
 
 assemblySettings
 
-mainClass in assembly := Some("Main")
+mainClass in assembly := Some("BusyThreadTest")
 

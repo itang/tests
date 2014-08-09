@@ -1,5 +1,5 @@
-import java.util.Date
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.concurrent.TimeUnit.SECONDS
 
 trait Util {
@@ -27,7 +27,7 @@ trait Util {
 
         val millis = SECONDS.toMillis(5)
         debug(s"sleep $millis millis")
-        Thread sleep SECONDS.toMillis(5)
+        sleep(5)
         debug(s"end sleep $millis millis")
 
         debug("new thread exit")
@@ -36,4 +36,5 @@ trait Util {
 
   protected def currentThread() = Thread.currentThread()
 
+  protected def sleep(seconds: Long) = Thread sleep SECONDS.toMillis(seconds)
 }
