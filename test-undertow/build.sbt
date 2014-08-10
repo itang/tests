@@ -11,7 +11,7 @@ javacOptions ++= Seq("-encoding", "UTF-8", "-source", "1.7", "-target", "1.7")
 scalacOptions ++= Seq("-deprecation", "-feature", "-Yno-adapted-args", "-Xfatal-warnings")
 
 libraryDependencies ++= Seq(
-  "me.itang" %% "scatang" % "0.1.0-SNAPSHOT",
+  "me.itang" %% "scatang" % "0.1",
   "org.springframework" % "spring-web" % "4.0.6.RELEASE", 
   //"org.springframework.android" % "spring-android-rest-template" % "1.0.1.RELEASE",
   "io.undertow" % "undertow-core" % "1.1.0.Beta6",

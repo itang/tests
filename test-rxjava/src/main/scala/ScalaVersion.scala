@@ -6,9 +6,10 @@ import rx.lang.scala._
 //import rx.lang.scala.schedulers._
 import scala.concurrent.duration._
 
+import scatang._
+
 object ScalaVersion extends App {
-  val numbers = Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
-  val numberObservable: Observable[Int] = Observable.items(numbers: _*)
+  val numberObservable: Observable[Int] = Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9) |> { it => Observable.items(it: _*) }
 
   numberObservable.subscribe(
     n => println(Thread.currentThread() + " " + n),

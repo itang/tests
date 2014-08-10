@@ -11,7 +11,7 @@ javacOptions ++= Seq("-encoding", "UTF-8", "-source", "1.7", "-target", "1.7")
 scalacOptions ++= Seq("-deprecation", "-feature", "-Yno-adapted-args", "-Xfatal-warnings")
 
 libraryDependencies ++= Seq(
-  "me.itang" %% "scatang" % "0.1.0-SNAPSHOT",
+  "me.itang" %% "scatang" % "0.1",
   "com.netflix.rxjava" % "rxjava-core" % "0.20.0-RC4",
   "com.netflix.rxjava" % "rxjava-scala" % "0.20.0-RC4",
   "org.scalatest" % "scalatest_2.11" % "2.2.0" % "test"
