@@ -1,0 +1,13 @@
+build/
+.idea/
+*.iml
+
+.gradle/
+gradlew
+gradle
+gradlew.bat
+
+target/
+
+*.db
+
