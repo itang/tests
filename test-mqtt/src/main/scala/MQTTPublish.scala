@@ -48,7 +48,7 @@ object MQTTPublish extends Base {
 
     mqtt.setHost("localhost", 1883)
     mqtt.setCleanSession(false)
-    //mqtt.setClientId(java.util.UUID.randomUUID().toString())
+    mqtt.setClientId(java.util.UUID.randomUUID().toString())
     mqtt
   }
 }
