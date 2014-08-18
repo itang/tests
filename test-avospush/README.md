@@ -14,7 +14,7 @@
 
 5. 通过maven跑起来
 
-    $ mvn exec:java -Dexec.mainClass=test.testavospush.App
+    $ mvn clean compile && mvn exec:java -Dexec.mainClass=test.testavospush.App
 
     返回结果:{"createdAt":"2014-08-12T18:15:25.957Z","objectId":"53e9e93de4b0e5fa161af8e3"}
 
