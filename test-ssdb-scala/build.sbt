@@ -12,6 +12,7 @@ scalacOptions ++= Seq("-deprecation", "-feature", "-Yno-adapted-args", "-Xfatal-
 
 libraryDependencies ++= Seq(
   "org.nutz" % "ssdb4j" % "8.7",
+  "redis.clients" % "jedis" % "2.5.2",
   "com.lihaoyi" %% "upickle" % "0.2.2",
   "me.itang" %% "scatang" % "0.1",
   "org.scalatest" % "scalatest_2.11" % "2.2.0" % "test"
@@ -33,5 +34,3 @@ assemblySettings
 mainClass in assembly := Some("example.Example")
 
 initialCommands in console := "import scatang._;import scatang.string._"
-
-
