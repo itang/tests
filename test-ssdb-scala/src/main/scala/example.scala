@@ -2,6 +2,9 @@ package example
 
 import collection.JavaConversions._
 import upickle._
+
+import scatang._
+
 import java.util.{ Set => JSet }
 import org.nutz.ssdb4j.SSDBs
 import org.nutz.ssdb4j.spi.SSDB
@@ -10,12 +13,15 @@ import redis.clients.jedis.JedisPool
 import redis.clients.jedis.JedisPoolConfig
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.Transaction
+import java.util.Random
 
 object Example {
 
   def main(args: Array[String]): Unit = {
     // use ssdb4j
     val ssdb: SSDB = SSDBs.simple()
+    ssdb.flushdb("")
+
     ssdb.set("name", "itang").check()
 
     val resp: Response = ssdb.get("name")
@@ -87,6 +93,21 @@ object Example {
       //println("address:" + redis.get("address"))
       val rets = redis.mget("name", "m")
       rets.foreach(println)
+
+      time {
+        for (i <- (1 to 10000)) {
+          val value = new Random().nextInt(i)
+          redis.zadd("largezset", value, s"item-$i-$value")
+        }
+      }
+    }
+
+    withJedis(master) { redis =>
+      time {
+        for (v <- redis.zrange("largezset", 9000, 9050)) {
+          println(v)
+        }
+      }
     }
 
     master.destroy()
