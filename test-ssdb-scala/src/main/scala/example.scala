@@ -110,6 +110,20 @@ object Example {
       }
     }
 
+    withJedis(master) { redis =>
+      redis.lpush("list", "a", "b")
+      for (s <- redis.lrange("list", 0, -1)) {
+        println("list:" + s)
+      }
+
+      for (i <- 0 to 10) {
+        redis.zadd("zset", i, s"member-$i")
+      }
+
+      redis.zrange("zset", 0, -1).foreach(println)
+      redis.zrevrange("zset", 0, -1).foreach(println)
+    }
+
     master.destroy()
     slave.destroy()
   }
