@@ -1,0 +1,9 @@
+[package]
+
+name = "test-rust-uuid"
+version = "0.0.1"
+authors = ["itang <live.tang@gmail.com>"]
+
+[dependencies.uuid]
+
+git = "https://github.com/rust-lang/uuid"
