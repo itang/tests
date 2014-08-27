@@ -10,10 +10,10 @@ import scatang._
 
 import akka.actor.{ ActorSystem, Props, Actor, ActorRef }
 
-trait Cmd
-sealed case class StopActor() extends Cmd
-sealed case class StopSystem() extends Cmd
-sealed case class Content(msg: String) extends Cmd
+sealed trait Cmd
+case object StopActor extends Cmd
+case object StopSystem extends Cmd
+case class Message(msg: String) extends Cmd
 
 object Example {
 
@@ -28,7 +28,7 @@ object Example {
         println("receive stop the actor message")
         context.stop(self)
       }
-      case Content(msg) => {
+      case Message(msg) => {
         count += 1
         if (count > 9990)
           println(msg)
@@ -49,14 +49,15 @@ object Example {
     try {
       Await.result(f, 3.seconds)
     } catch {
-      case e: Exception => println(e.getMessage())
+      case e: Exception => {
+        println(e.getMessage())
+        println("等不了， 直接执行!")
+      }
     }
-
-    println("等不了， 直接执行!")
 
     time {
       for (i <- (0 until 10000)) {
-        actor ! Content(new Date().toString())
+        actor ! Message(new Date().toString())
       }
 
       actor ! StopSystem
