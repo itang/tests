@@ -37,11 +37,10 @@ object Example {
   }
 
   def main(args: Array[String]): Unit = {
-    var actorSystem: ActorSystem = null
-    var actor: ActorRef = null
-    time {
-      actorSystem = ActorSystem("test")
-      actor = actorSystem.actorOf(Props[MyActor], "myactor")
+    val (_, (actorSystem: ActorSystem, actor: ActorRef)) = time {
+      ActorSystem("test") |> { it =>
+        (it, it.actorOf(Props[MyActor], "myactor"))
+      }
     }
 
     print("enter for yes:")
