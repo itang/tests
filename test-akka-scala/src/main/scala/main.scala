@@ -1,47 +1,54 @@
-package example
-
-import scala.language.postfixOps
-
+/**
+ * main.scala
+ */
 import java.util.Date
 
-import scala.concurrent._
-import ExecutionContext.Implicits.global
-import duration._
+import scala.language.postfixOps
+import scala.collection.mutable.{ HashMap => MutableHashMap }
+import scala.concurrent.Await
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.concurrent.duration._
 
-import scatang._
-
-import akka.actor.{ ActorSystem, Props, Actor, ActorRef }
+import akka.actor.Actor
+import akka.actor.ActorRef
+import akka.actor.ActorSystem
+import akka.actor.Props
 import akka.pattern.ask
 import akka.util.Timeout
 
+import scatang._
+
 sealed trait Cmd
+
 case object StopActor extends Cmd
 case object StopSystem extends Cmd
-case class Message(msg: String) extends Cmd
 case object GetThreads extends Cmd
+case class Message(msg: String) extends Cmd
 
-object Example {
+class MyActor extends Actor {
+  var count = 0
+  var map = MutableHashMap[Long, Long]()
 
-  class MyActor extends Actor {
-    var count = 0;
-    var map = scala.collection.mutable.HashMap[Long, Long]()
-    override def receive = {
-      case StopSystem => {
-        println(s"receive exit system message, message total:$count")
-        context.system.shutdown()
-      }
-      case StopActor => {
-        println("receive stop the actor message")
-        context.stop(self)
-      }
-      case GetThreads => this.sender ! map
-      case Message(msg) => {
-        val tid = Thread.currentThread().getId()
-        map += (tid -> (map.getOrElse(tid, 0L) + 1L))
-        count += 1
-      }
+  override def receive = {
+    case StopSystem => {
+      println(s"receive exit system message, message total:$count")
+      context.system.shutdown()
+    }
+    case StopActor => {
+      println("receive stop the actor message")
+      context.stop(self)
+    }
+    case GetThreads => this.sender ! map
+    case Message(msg) => {
+      val tid = Thread.currentThread().getId()
+      map += (tid -> (map.getOrElse(tid, 0L) + 1L))
+      count += 1
     }
   }
+}
+
+object Main {
 
   def main(args: Array[String]): Unit = {
     val (_, (actorSystem: ActorSystem, actor: ActorRef)) = time {
