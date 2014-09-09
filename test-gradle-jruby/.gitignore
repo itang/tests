@@ -1,0 +1,7 @@
+build/
+.gradle/
+gradle/
+.gradletasknamecache
+gradlew
+gradlew.bat
+settings.gradle
