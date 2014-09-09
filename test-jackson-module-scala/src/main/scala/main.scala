@@ -28,7 +28,7 @@ object Main {
   }
 
   private def test(om: ObjectMapper, values: List[Any]) =
-    for (v <- values) {
+    for (v ← values) {
       val json = om.writeValueAsString(v) tap println
       om.readValue(json, classOf[Any]) tap println
     }
