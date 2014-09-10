@@ -7,4 +7,5 @@
                  [compojure "1.1.9"]
                  [http-kit "2.1.19"]
                  [selmer "0.7.0"]
-                 [hiccup "1.0.5"]])
+                 [hiccup "1.0.5"]
+                 [prone "0.6.0"]])
