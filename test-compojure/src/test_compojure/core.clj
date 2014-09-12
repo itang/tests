@@ -44,8 +44,15 @@
                     (redirect "/")))
   (GET "/json" [] handle-json))
 
+(defn wrap-runtime-time [app]
+  (fn [req]
+    (let [start (System/currentTimeMillis)
+          ret (app req)]
+      (assoc-in ret [:headers "X-Runtime"] (- (System/currentTimeMillis) start)))))
+
 (def app (-> myapp
-             prone/wrap-exceptions))
+             (prone/wrap-exceptions)
+             (wrap-runtime-time)))
 
 (defn -main []
   (reset! server (run-server app {:port 5000}))
