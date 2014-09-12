@@ -4,7 +4,8 @@
             [org.httpkit.server :refer [run-server]]
             [selmer.parser :refer [render-file]]
             [hiccup.core :refer :all]
-            [prone.middleware :as prone]))
+            [prone.middleware :as prone]
+            [noir.response :as response]))
 
 (defonce server (atom nil))
 
@@ -24,19 +25,24 @@
 (defn exception [req]
   (throw (RuntimeException. "error")))
 
+(defn handle-json [req]
+  (response/json {:name "itang" :msg "Hello,world"}))
+
 (defroutes myapp
   (GET "/" [] (html [:body
                      [:h1 "Hello World "]
                      [:ul
                       [:li [:a {:href "/hello" :target "_blank"} "Hello"]]
                       [:li [:a {:href "/exception" :target "_blank"} "Exception"]]
-                      [:li [:a {:href "/stop" :target "_blank"} "Stop Server after 5 seconds"]]]
+                      [:li [:a {:href "/stop" :target "_blank"} "Stop Server after 5 seconds"]]
+                      [:li [:a {:href "/json" :target "_blank"} "JSON"]]]
                      [:script {:type "text/javascript"} "setInterval(function(){ window.location.reload(); }, 3000);"]]))
   (GET "/hello" [] hello)
   (GET "/exception" [] exception)
   (GET "/stop" [] (fn [req]
                     (set-timeout! 5000 stop-server!)
-                    (redirect "/"))))
+                    (redirect "/")))
+  (GET "/json" [] handle-json))
 
 (def app (-> myapp
              prone/wrap-exceptions))
