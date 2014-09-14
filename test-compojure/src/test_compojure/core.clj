@@ -54,6 +54,8 @@
              (prone/wrap-exceptions)
              (wrap-runtime-time)))
 
+(def ^:const PORT 8080)
+
 (defn -main []
-  (reset! server (run-server app {:port 5000}))
-  (println "start at :5000"))
+  (reset! server (run-server app {:port PORT}))
+  (println (str "start at :" PORT)))
