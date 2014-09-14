@@ -12,10 +12,9 @@ scalacOptions ++= Seq("-deprecation", "-feature", "-Yno-adapted-args", "-Xfatal-
 
 libraryDependencies ++= Seq(
   "me.itang" %% "scatang" % "0.1",
-  "org.springframework" % "spring-web" % "4.0.6.RELEASE", 
-  //"org.springframework.android" % "spring-android-rest-template" % "1.0.1.RELEASE",
-  "io.undertow" % "undertow-core" % "1.1.0.Beta6",
-  "org.scalatest" % "scalatest_2.11" % "2.2.0" % "test"
+  "org.springframework" % "spring-web" % "4.1.0.RELEASE", 
+  "io.undertow" % "undertow-core" % "1.1.0.Beta7",
+  "org.scalatest" % "scalatest_2.11" % "2.2.2" % "test"
 )
 
 resolvers ++= Seq(
