@@ -1,0 +1,9 @@
+[package]
+
+name = "helloworld"
+version = "0.0.1"
+authors = ["itang <live.tang@gmail.com>"]
+
+[[bin]]
+
+name = "helloworld"
