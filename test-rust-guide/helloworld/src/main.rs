@@ -1,3 +1,5 @@
+use std::io;
+
 fn main() {
   println!("Hello, {:s}!", "Rust");
 
@@ -10,6 +12,16 @@ fn main() {
   comments();
 
   compound_data_types();
+
+  _match();
+
+  loops();
+
+  strings();
+
+  vectors();
+
+  standard_input();
 }
 
 fn variable_bindings() {
@@ -166,4 +178,191 @@ fn compound_data_types() {
     assert!(i == 10);
   }
   tuple_struts_and_newtypes();
+
+  fn enums() {
+    enum Ordering {
+      Less,
+      Equal,
+      Greater,
+    }
+
+    fn cmp(a: int, b: int) -> Ordering {
+      if a < b { Less }
+      else if a > b { Greater }
+      else { Equal }
+    }
+
+    let x = 5i;
+    let y = 10i;
+    let ordering = cmp(x, y);
+
+    // binary operation `==` cannot be applied to
+    /*if(ordering == Less){
+      println!("less");
+    }*/
+
+    match ordering {
+      Less => println!("less"),
+      Greater => println!("greater"),
+      _ => println!("equal")
+    }
+
+    enum OptionalInt {
+      Value(int),
+      Missing,
+    }
+
+    let x = Value(5);
+    let y = Missing;
+
+    fn p(it: OptionalInt) {
+      match it {
+        Value(n) => println!("it is {:d}", n),
+        Missing => println!("it is missing!"),
+      }
+    }
+    p(x);
+    p(y);
+  }
+  enums();
+}
+
+fn _match() {
+  let x = 5i;
+
+  match x {
+    1 => println!("one"),
+    2 => println!("two"),
+    _ => println!("something else"),
+  }
+
+  let i = 10i;
+  let result = match i {
+    10i => i * 10,
+    _ => i * 100,
+  };
+
+  assert!(result == 100);
+}
+
+fn loops() {
+  // for
+  // for var in expression {
+  //   code
+  // }
+
+  for x in range(0i, 5) {
+    println!("{:d}", x);
+  }
+
+  // while
+
+  let mut x = 5u;
+  let mut done = false;
+  while !done {
+    x += x - 3;
+    println!("{}", x);
+    if x % 5 == 0 { done = true; }
+  }
+
+  let mut i = 0i;
+  while true {
+    i = i + 1;
+    if i > 10 { break; }
+  }
+
+  //loop break
+  i = 0i;
+  loop {
+    i = i + 1;
+    if i > 10 { break; }
+  }
+
+  // continue
+  for x in range(0i, 5) {
+    if x % 2 == 0 { continue; }
+    println!("x is:{:d}", x);
+  }
+}
+
+fn strings() {
+  // &str - string slice
+  // String literals are of the type &str
+  let string = "Hello there.";
+  println!("{}", string);
+  // this string is statically allocated
+  // The string binding is a reference to this statically allocated string. String slices have a fixed size, and cannot be mutated
+
+  // String, in-memory string. This string is growable, and is also guaranteed to be UTF-8
+  let mut s = "Hello".to_string();
+  println!("{}", s);
+  s.push_str(", world.");
+  println!("{}", s);
+
+  // String -> &str with as_slice()
+  fn takes_slice(slice: &str) {
+    println!("Got: {}", slice);
+  }
+
+  let s = "Hello".to_string();
+  takes_slice(s.as_slice());
+
+  // To compare a String to a constant string, prefer as_slice()
+  fn compare(string: String) {
+    if string.as_slice() == "Hello" {
+      println!("yes");
+    }
+  }
+  compare("Hello".to_string());
+
+  // Converting a String to a &str is cheap, but converting the &str to a String involves allocating memory
+}
+
+fn vectors() {
+  //Vec<T> (a 'vector')
+  //[T, .. N] (an 'array')
+  //&[T] (a 'slice')
+
+  // Vectors are similar to Strings: they have a dynamic length, and they allocate enough memory to fit. You can create a vector with the vec! macro
+  let nums = vec![1i, 2i, 3i];
+  println!("nums is: {}", nums);
+
+  let nums1 = vec!(1i, 2, 3);
+  println!("nums1 is: {}", nums1);
+
+  // You can create an array with just square brackets
+  let fixed_nums = [1i, 2i, 3i];
+  //println!("{}", fixed_nums); // compile error:  failed to find an implementation of trait core::fmt::Show for [int, .. 3]
+  println!("fixed_nums[0] is:{}", fixed_nums[0]);
+  // println!("fixed_nums[100] is:{}", fixed_nums[100]); // runtime error: index out of bounds
+
+  let mut nums = vec![1i, 2, 3];
+  nums.push(4i); //works
+  println!("nums is: {}", nums);
+
+  //let mut nums = [1i, 2, 3]; // [int, .. 3]
+  //nums.push(4i);
+
+  // get a slice from a vector by using the as_slice() method
+  let vec = vec![1i, 2i, 3i];
+  let slice = vec.as_slice();
+  println!("slice is:{}", slice);
+
+  // All three types implement an iter() method, which returns an iterator
+  for i in vec.iter() {
+    print!("{}", i);
+  }
+  println!("");
+
+  // access a particular element of a vector, array, or slice by using subscript notation
+  let names = ["itang", "tqibm"];
+  println!("The second name is : {}", names[1]);
+}
+
+fn standard_input() {
+  println!("Type something!");
+
+  let input = io::stdin().read_line().ok().expect("Failed to read line");
+
+  println!("{}", input);
 }
