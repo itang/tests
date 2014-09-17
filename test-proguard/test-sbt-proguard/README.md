@@ -1,4 +1,8 @@
+## test sbt-proguard
+
+```
 $ make run
+
 sbt 'proguard:proguard'
 [info] Loading global plugins from /home/itang/.sbt/0.13/plugins
 [info] Loading project definition from /home/itang/my/tests/test-proguard/test-sbt-proguard/project
@@ -25,3 +29,4 @@ Hello, World!
 Hello, World!
 Hello, World!
 Hello, World!
+```
