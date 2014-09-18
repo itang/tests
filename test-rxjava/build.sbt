@@ -12,8 +12,10 @@ scalacOptions ++= Seq("-deprecation", "-feature", "-Yno-adapted-args", "-Xfatal-
 
 libraryDependencies ++= Seq(
   "me.itang" %% "scatang" % "0.1",
-  "com.netflix.rxjava" % "rxjava-core" % "0.20.0-RC4",
-  "com.netflix.rxjava" % "rxjava-scala" % "0.20.0-RC4",
+  //"com.netflix.rxjava" % "rxjava-core" % "0.20.0-RC4",
+  "io.reactivex" % "rxjava" % "1.0.0-rc.1",
+  "com.netflix.rxjava" % "rxjava-scala" % "0.20.0",	
+  //"com.netflix.rxjava" % "rxjava-scala" % "0.20.0-RC4",
   "org.scalatest" % "scalatest_2.11" % "2.2.0" % "test"
 )
 
@@ -30,3 +32,4 @@ assemblySettings
 
 mainClass in assembly := Some("JavaVersion")
 
+net.virtualvoid.sbt.graph.Plugin.graphSettings
