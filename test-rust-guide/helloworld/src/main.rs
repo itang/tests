@@ -22,6 +22,8 @@ fn main() {
   vectors();
 
   standard_input();
+
+  pointers();
 }
 
 fn variable_bindings() {
@@ -365,4 +367,42 @@ fn standard_input() {
   let input = io::stdin().read_line().ok().expect("Failed to read line");
 
   println!("{}", input);
+}
+
+fn pointers() {
+  // References
+  // At runtime, these are the same as a raw machine pointer
+  let x = 5i;
+  let y = &x;
+
+  assert_eq!(5i, *y);
+  assert_eq!(5i, *y);
+
+  let z = y;
+  assert_eq!(5i, *z);
+
+  assert_eq!(5i, *y);
+
+  fn add_one(x: &int) -> int { *x + 1 }
+
+  assert_eq!(6, add_one(&5));
+
+  let mut x = 5i;
+  let y = &mut x; // x must also be mutable
+  *y = 100;
+  assert_eq!(100, *y);
+
+  /*
+
+  Being an owner affords you some privileges:
+
+You control when that resource is deallocated.
+You may lend that resource, immutably, to as many borrowers as you'd like.
+You may lend that resource, mutably, to a single borrower.
+But it also comes with some restrictions:
+
+If someone is borrowing your resource (either mutably or immutably), you may not mutate the resource or mutably lend it to someone.
+If someone is mutably borrowing your resource, you may not lend it out at all (mutably or immutably) or access it in any way.
+*/
+
 }
