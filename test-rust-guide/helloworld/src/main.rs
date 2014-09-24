@@ -1,5 +1,7 @@
 use std::io;
 
+use std::rc::Rc;
+
 fn main() {
   println!("Hello, {:s}!", "Rust");
 
@@ -405,4 +407,22 @@ If someone is borrowing your resource (either mutably or immutably), you may not
 If someone is mutably borrowing your resource, you may not lend it out at all (mutably or immutably) or access it in any way.
 */
 
+  // In Rust, the simplest way to allocate heap variables is using a box
+  let x = box 5i;
+  assert_eq!(5i, *x);
+
+
+  let mut x = box 10i;
+  {
+    let y = &mut x;
+    **y = 100i;
+    //*y = box 100i;
+  }
+  assert_eq!(100i, *x);
+
+  let x = Rc::new(5i);
+  let y = x.clone();
+
+  assert_eq!(5i, *x);
+  assert_eq!(5i, *y);
 }
