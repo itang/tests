@@ -1,0 +1,5 @@
+[package]
+
+name = "traits"
+version = "0.0.1"
+authors = ["itang <live.tang@gmail.com>"]
