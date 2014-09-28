@@ -1,0 +1,9 @@
+[package]
+
+name = "test-iron"
+version = "0.0.1"
+authors = ["itang <live.tang@gmail.com>"]
+
+[dependencies.iron]
+
+git = "https://github.com/iron/iron.git"
