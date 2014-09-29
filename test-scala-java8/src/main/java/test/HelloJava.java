@@ -24,6 +24,7 @@ public class HelloJava {
 
         Future<List<String>> ret = go(() -> list.stream().map(x -> x.toUpperCase()).collect(toList()));
         ret.get().forEach(out::println);
+        pool.shutdown();
     }
 
     private static void go(Runnable runnable) {
