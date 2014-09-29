@@ -2,7 +2,7 @@ package test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toList;
 
 public class HelloJava {
     public static void main(String[] args) {
@@ -14,6 +14,6 @@ public class HelloJava {
         list.add("Hello");
         list.add("World");
 
-        list.stream().map(x -> x.toUpperCase()).collect(Collectors.toList()).forEach(x -> System.out.println(x));
+        list.stream().map(x -> x.toUpperCase()).collect(toList()).forEach(System.out::println);
     }
 }
