@@ -1,0 +1,12 @@
+[root]
+name = "test-redis-rs"
+version = "0.0.1"
+dependencies = [
+ "redis-rs 0.2.0 (git+https://github.com/mitsuhiko/redis-rs.git#cffad4ed20fd94f8b9e8b6c80147d49f8cfcaf7a)",
+]
+
+[[package]]
+name = "redis-rs"
+version = "0.2.0"
+source = "git+https://github.com/mitsuhiko/redis-rs.git#cffad4ed20fd94f8b9e8b6c80147d49f8cfcaf7a"
+

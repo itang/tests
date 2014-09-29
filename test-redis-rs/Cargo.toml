@@ -1,0 +1,9 @@
+[package]
+
+name = "test-redis-rs"
+version = "0.0.1"
+authors = ["itang <live.tang@gmail.com>"]
+
+[dependencies.redis-rs]
+
+git = "https://github.com/mitsuhiko/redis-rs.git"
