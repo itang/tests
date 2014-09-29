@@ -22,3 +22,7 @@ object HelloScala extends App {
 
   private def println(msg: Any): Unit = scala.Console.println(Thread.currentThread() + ": " + msg)
 }
+
+// local type inference
+// call by name (custom controll syntax)
+// implicit conversions
