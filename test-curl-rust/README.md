@@ -4,6 +4,8 @@
 
 ## build & run
 
+```
 $ sudo apt-get install libcurl4-openssl-dev
 $ cargo run
+```
 
