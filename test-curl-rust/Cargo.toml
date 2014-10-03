@@ -1,0 +1,9 @@
+[package]
+
+name = "test-curl-rust"
+version = "0.0.1"
+authors = ["itang <live.tang@gmail.com>"]
+
+[dependencies.curl]
+
+git = "https://github.com/carllerche/curl-rust.git"

@@ -1,0 +1,28 @@
+[root]
+name = "test-curl-rust"
+version = "0.0.1"
+dependencies = [
+ "curl 0.0.1 (git+https://github.com/carllerche/curl-rust.git#6d47499ae7a13a0ee1c31794b572d0cacdf0cd6a)",
+]
+
+[[package]]
+name = "curl"
+version = "0.0.1"
+source = "git+https://github.com/carllerche/curl-rust.git#6d47499ae7a13a0ee1c31794b572d0cacdf0cd6a"
+dependencies = [
+ "url 0.1.0 (git+https://github.com/servo/rust-url#55b18b796ef2cef5490069dd450c60c2cc2c0c1b)",
+]
+
+[[package]]
+name = "encoding"
+version = "0.1.0"
+source = "git+https://github.com/lifthrasiir/rust-encoding#ea41c0226067331a4d13142c81d82b614135c82a"
+
+[[package]]
+name = "url"
+version = "0.1.0"
+source = "git+https://github.com/servo/rust-url#55b18b796ef2cef5490069dd450c60c2cc2c0c1b"
+dependencies = [
+ "encoding 0.1.0 (git+https://github.com/lifthrasiir/rust-encoding#ea41c0226067331a4d13142c81d82b614135c82a)",
+]
+
