@@ -39,14 +39,18 @@
     (let [arg (rand-int 20)]
       (response/json {:fn "fib" :args [arg] :ret (fibit arg)}))))
 
+(defn handle-text [_]
+  "Hello, World!")
+
 (defroutes myapp
            (GET "/" [] (html [:body
                               [:h1 "Hello World "]
                               [:ul
                                [:li [:a {:href "/hello" :target "_blank"} "Hello"]]
+                               [:li [:a {:href "/text" :target "_blank"} "Text"]]
+                               [:li [:a {:href "/json" :target "_blank"} "JSON"]]
                                [:li [:a {:href "/exception" :target "_blank"} "Exception"]]
                                [:li [:a {:href "/stop" :target "_blank"} "Stop Server after 5 seconds"]]
-                               [:li [:a {:href "/json" :target "_blank"} "JSON"]]
                                [:li [:a {:href "/fib" :target "_blank"} "Fib"]]]
                               [:script {:type "text/javascript"} "setInterval(function(){ window.location.reload(); }, 3000);"]]))
            (GET "/hello" [] hello)
@@ -55,6 +59,7 @@
            (GET "/stop" [] (fn [req]
                              (set-timeout! 5000 stop-server!)
                              (redirect "/")))
+           (GET "/text" [] handle-text)
            (GET "/json" [] handle-json))
 
 (defn wrap-runtime-time [app]
