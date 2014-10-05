@@ -1,1 +1,3 @@
-java -Xms2g -Xmx2g -cp `lein classpath` clojure.main -m test-compojure.core
+#!/bin/sh
+
+java -Xms512m -Xmx1g -cp `lein classpath` clojure.main -m test-compojure.core
