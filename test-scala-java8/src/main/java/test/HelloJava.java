@@ -25,11 +25,8 @@ public class HelloJava {
         list.add("Hello");
         list.add("World");
 
-        Future<List<String>> ret = go(() -> {
-            List<String> it = list.stream().map(x -> x.toUpperCase()).collect(toList());
-            it.forEach(HelloJava::println);
-            return it;
-        });
+        Future<List<String>> ret = go(() -> list.stream().map(String::toUpperCase).peek(HelloJava::println)
+                .collect(toList()));
         ret.get(1, TimeUnit.SECONDS);
 
         closeSystem(2, TimeUnit.SECONDS);
