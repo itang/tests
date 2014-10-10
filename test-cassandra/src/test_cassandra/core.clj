@@ -46,13 +46,14 @@
   #_(try! (cql/delete conn USER_POSTS_TABLE_NAME)))
 
 (defn init-users-data [conn]
-  (cql/insert conn USER_TABLE_NAME {:name "Alex" :city "Munich" :age (int 19)})
-  (cql/insert conn USER_TABLE_NAME {:name "Robert" :city "Berlin" :age (int 25)})
-  (cql/insert conn USER_TABLE_NAME {:name "Sam" :city "San Francisco" :age (int 21)})
+  (doto conn
+    (cql/insert USER_TABLE_NAME {:name "Alex" :city "Munich" :age (int 19)})
+    (cql/insert USER_TABLE_NAME {:name "Robert" :city "Berlin" :age (int 25)})
+    (cql/insert USER_TABLE_NAME {:name "Sam" :city "San Francisco" :age (int 21)})
 
-  (cql/insert conn USER_POSTS_TABLE_NAME {:username "Alex" :post_id "post1" :body "first post body"})
-  (cql/insert conn USER_POSTS_TABLE_NAME {:username "Alex" :post_id "post2" :body "second post body"})
-  (cql/insert conn USER_POSTS_TABLE_NAME {:username "Alex" :post_id "post3" :body "third post body"}))
+    (cql/insert USER_POSTS_TABLE_NAME {:username "Alex" :post_id "post1" :body "first post body"})
+    (cql/insert USER_POSTS_TABLE_NAME {:username "Alex" :post_id "post2" :body "second post body"})
+    (cql/insert USER_POSTS_TABLE_NAME {:username "Alex" :post_id "post3" :body "third post body"})))
 
 (defn print-data [conn]
   (doseq [user (cql/select conn USER_TABLE_NAME (where :name [:in ["Alex" "Robert"]]))]
