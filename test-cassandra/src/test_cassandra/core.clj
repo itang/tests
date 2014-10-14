@@ -63,7 +63,7 @@
 
 (defn -main
   "I don't do a whole lot ... yet."
-  [& args]
+  [& _args]
   (try!
     (let [conn (cc/connect [HOST])]
       (init-keyspace conn)
