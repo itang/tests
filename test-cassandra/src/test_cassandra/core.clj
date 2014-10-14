@@ -15,7 +15,7 @@
 (defmacro try! [& body]
   `(try [true (do ~@body)]
      (catch Exception ~'e
-       (-> ~'e .getMessage println)
+       #_(-> ~'e .getMessage println)
        [false ~'e])))
 
 (defn- init-keyspace [conn]
@@ -64,9 +64,10 @@
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (let [conn (cc/connect [HOST])]
-    (init-keyspace conn)
-    (use-keyspace conn)
-    (time (create-tables conn))
-    (init-users-data conn)
-    (print-data conn)))
+  (try!
+    (let [conn (cc/connect [HOST])]
+      (init-keyspace conn)
+      (use-keyspace conn)
+      (time (create-tables conn))
+      (init-users-data conn)
+      (print-data conn))))
