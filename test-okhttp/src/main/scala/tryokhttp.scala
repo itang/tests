@@ -20,7 +20,7 @@ object TryOkHttp {
     client.setConnectTimeout(5, TimeUnit.SECONDS)
 
     //client.setReadTimeout(100, TimeUnit.MILLISECONDS)
-    client.setReadTimeout(500, TimeUnit.MILLISECONDS)
+    client.setReadTimeout(5000, TimeUnit.MILLISECONDS)
 
     val response = client.get(url)
     val headers = response.headers()
@@ -37,6 +37,10 @@ object TryOkHttp {
     }
 
     println(client.getString(url))
+
+    //test https
+    println("*" * 100)
+    println(client.getString("https://www.baidu.com/"))
   }
 
   implicit class StringWrapper(str: String) {
