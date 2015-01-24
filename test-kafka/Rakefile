@@ -1,0 +1,34 @@
+task :default do
+  sh 'rake -T'
+end
+
+namespace 'zkserver' do
+  desc "start zookeeper server"
+  task 'start' do |t|
+    sh 'cd /home/itang/dev-env/zookeeper; ./bin/zkServer.sh start'
+  end
+
+  desc "stop zookeeper server"
+  task 'stop' do |t|
+    sh 'cd /home/itang/dev-env/zookeeper; ./bin/zkServer.sh stop'
+  end
+end
+
+namespace 'kafka' do
+  desc 'start kafka server'
+  task 'start' => %w[zkserver:start] do
+    sh 'cd /home/itang/dev-env/kafka; ./bin/kafka-server-start.sh -daemon config/server.properties'
+  end
+end
+
+namespace 'test' do
+  desc 'test producer'
+  task 'producer' => %w[kafka:start] do
+    ruby 'lib/producer.rb'
+  end
+
+  desc 'test consumer'
+  task 'consumer' => %w[kafka:start] do
+    ruby 'lib/consumer.rb'
+  end
+end
