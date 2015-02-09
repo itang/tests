@@ -19,16 +19,22 @@ namespace 'kafka' do
   task 'start' => %w[zkserver:start] do
     sh 'cd /home/itang/dev-env/kafka; ./bin/kafka-server-start.sh -daemon config/server.properties'
   end
+
+  task 'stop' do
+    sh 'cd /home/itang/dev-env/kafka; ./bin/kafka-server-stop.sh'
+  end
 end
 
 namespace 'test' do
   desc 'test producer'
-  task 'producer' => %w[kafka:start] do
+  task 'producer' do
+    sleep(0.5)
     ruby 'lib/producer.rb'
   end
 
   desc 'test consumer'
-  task 'consumer' => %w[kafka:start] do
+  task 'consumer' do
+    sleep(0.5)
     ruby 'lib/consumer.rb'
   end
 end
