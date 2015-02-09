@@ -4,7 +4,7 @@ name := "test-zookeeper"
 
 version := "1.0-SNAPSHOT"
 
-scalaVersion := "2.11.1"
+scalaVersion := "2.11.5"
 
 javacOptions ++= Seq("-encoding", "UTF-8", "-source", "1.7", "-target", "1.7")
 

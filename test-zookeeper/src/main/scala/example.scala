@@ -1,12 +1,13 @@
 package example
 
+import scala.util.{ Try, Success, Failure }
+
 import org.apache.zookeeper.ZooKeeper
 import org.apache.zookeeper.Watcher
 import org.apache.zookeeper.WatchedEvent
 import org.apache.zookeeper.ZooDefs.Ids
 import org.apache.zookeeper.CreateMode
 import collection.JavaConversions._
-import util.Try
 
 object ClientBase {
   val CONNECTION_TIMEOU = 2000
@@ -81,6 +82,25 @@ object Example {
       }
       //再创建一个零时的
       zk.create("/test2", "test2".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL)
+
+      test_create_dup_node
+    }
+  }
+
+  private def test_create_dup_node(implicit zk: ZooKeeper): Unit = {
+    val stat = zk.exists("/test100", false)
+    Option(stat) match {
+      case Some(_) =>
+      case None =>
+        val path = zk.create("/test100", "test2".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL)
+        println("PATH:" + path)
+
+        Try {
+          zk.create("/test100", "test2".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL)
+        } match {
+          case Success(path) => println(s"path: $path")
+          case Failure(e) => println(s"创建出错了: $e")
+        }
     }
   }
 
@@ -105,6 +125,8 @@ object Example {
   def cleanup(implicit zk: ZooKeeper) {
     Try(zk.recDelete("/testRootPath"))
     Try(zk.recDelete("/testWorks"))
+    Try(zk.recDelete("/test2"))
+    Try(zk.recDelete("/test100"))
   }
 }
 
