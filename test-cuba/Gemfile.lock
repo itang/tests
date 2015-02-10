@@ -1,0 +1,21 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    cuba (3.3.0)
+      rack
+    rack (1.6.0)
+    rack-protection (1.5.3)
+      rack
+    torquebox-core (4.0.0.alpha1-java)
+    torquebox-web (4.0.0.alpha1-java)
+      rack (>= 1.4.0, < 2.0)
+      torquebox-core (= 4.0.0.alpha1)
+
+PLATFORMS
+  java
+
+DEPENDENCIES
+  cuba
+  rack
+  rack-protection
+  torquebox-web (= 4.0.0.alpha1)

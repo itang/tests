@@ -1,0 +1,16 @@
+desc "Default"
+task :default do
+  sh 'rake -T'
+end
+
+desc "Run"
+task :run do
+  sh 'torquebox run'
+end
+
+namespace :deps do 
+  desc "install deps"
+  task :install do
+    sh 'bundle'
+  end
+end
