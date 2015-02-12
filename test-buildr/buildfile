@@ -26,6 +26,9 @@ define "test-buildr" do
   compile.with 'commons-cli:commons-cli:jar:1.2'
   compile.with 'joda-time:joda-time:jar:2.7'
 
+  compile.options.source = '1.8'
+  compile.options.target = '1.8'
+
   run.using :main => "Main"
 
   task :clean_dist do
