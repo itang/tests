@@ -23,9 +23,10 @@ module Resources
     ensure
       begin
         res.close()
+        info("Close Resource")
       rescue e1: Exception
-        error e1
-      end
+         error e1
+      end unless res.nil?
     end
   end
 end
@@ -34,7 +35,7 @@ include Resources
 
 begin
   # MySQL.connect(host, user, password, database, port, socket, flags = 0)
-  with_resource(MySQL.connect("127.0.0.1", "root", "root1", "mydb", 3306_u16, nil)) do |conn|
+  with_resource(MySQL.connect("127.0.0.1", "root", "root", "mydb", 3306_u16, nil)) do |conn|
 
     info(conn.query(%{SELECT 1}))
 
