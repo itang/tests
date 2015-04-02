@@ -1,15 +1,20 @@
-extern crate http;
 extern crate iron;
 
-use std::io::net::ip::Ipv4Addr;
-use iron::{Iron, Request, Response, IronResult};
+use std::env;
+
+use iron::prelude::*;
 use iron::status;
 
-fn hello_world(_: &mut Request) -> IronResult<Response> {
-    Ok(Response::with(status::Ok, "Hello world!"))
+fn main() {
+  Iron::new(|_: &mut Request| {
+  Ok(Response::with((status::Ok, "Hello world!")))
+  }).http("localhost:8080").unwrap();
 }
 
-fn main() {
-    Iron::new(hello_world).listen(Ipv4Addr(127, 0, 0, 1), 3000);
-    println!("On 3000");
+fn _port() -> u16 {
+  let key = "PORT";
+  match env::var(key) {
+    Ok(val) => val.parse::<u16>().ok().expect("error"),
+    Err(_) => 8080
+  }
 }
