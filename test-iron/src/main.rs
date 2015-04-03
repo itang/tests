@@ -6,9 +6,11 @@ use iron::prelude::*;
 use iron::status;
 
 fn main() {
+  let _ = _hostname(); // TODO: String => &'a str
+
   Iron::new(|_: &mut Request| {
   Ok(Response::with((status::Ok, "Hello world!")))
-  }).http("localhost:8080").unwrap();
+  }).http(("localhost", _port())).unwrap();
 }
 
 fn _port() -> u16 {
@@ -16,5 +18,13 @@ fn _port() -> u16 {
   match env::var(key) {
     Ok(val) => val.parse::<u16>().ok().expect("error"),
     Err(_) => 8080
+  }
+}
+
+fn _hostname() -> String {
+  let key = "HOST";
+  match env::var(key) {
+    Ok(val) => val,
+    Err(_) => "localhost".to_string()
   }
 }
