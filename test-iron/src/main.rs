@@ -6,11 +6,13 @@ use iron::prelude::*;
 use iron::status;
 
 fn main() {
-  let _ = _hostname(); // TODO: String => &'a str
+  let _h = _hostname(); // TODO: String => &'a str
+  let port = _port();
+  println!("INFO: hostname:{}, port: {}", _h, port);
 
   Iron::new(|_: &mut Request| {
-  Ok(Response::with((status::Ok, "Hello world!")))
-  }).http(("localhost", _port())).unwrap();
+    Ok(Response::with((status::Ok, "Hello world!")))
+  }).http(("localhost", port)).unwrap();
 }
 
 fn _port() -> u16 {
