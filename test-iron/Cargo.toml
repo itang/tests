@@ -6,4 +6,5 @@ authors = ["itang <live.tang@gmail.com>"]
 
 [dependencies.iron]
 
-git = "https://github.com/iron/iron.git"
+version = "0.1.15"
+
