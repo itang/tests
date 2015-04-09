@@ -1,0 +1,3 @@
+deps do
+  github "manastech/crystal_redis"
+end
