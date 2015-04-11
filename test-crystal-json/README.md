@@ -1,5 +1,7 @@
 # Test Crystal JSON
 
+  Compare with http://serdardogruyol.com/rust-vs-ruby-building-an-api/
+
 ## Usage
 
 $ rake run
