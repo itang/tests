@@ -10,7 +10,7 @@ public class DemoApplication {
 
     @RequestMapping("/")
     public String index() {
-        return "hello";
+        return "hello, " + new java.util.Date();
     }
 
     public static void main(String[] args) {

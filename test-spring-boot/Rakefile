@@ -1,0 +1,11 @@
+task :clean do
+  sh 'mvn clean'
+end
+
+task :run do
+  sh 'mvn spring-boot:run -Drun.jvmArguments="-Xmx512m"'
+end
+
+task :test => %w[clean] do
+  sh 'mvn test'
+end
