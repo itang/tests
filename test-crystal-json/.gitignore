@@ -1,0 +1,6 @@
+.crystal/
+libs/
+.deps/
+bin/
+
+main
