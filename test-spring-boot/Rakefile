@@ -13,3 +13,7 @@ end
 task :test => %w[clean] do
   sh 'mvn test'
 end
+
+task :guard do
+  sh 'guard'
+end

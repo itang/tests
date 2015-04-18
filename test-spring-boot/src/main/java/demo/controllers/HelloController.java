@@ -13,6 +13,6 @@ public class HelloController extends BaseController {
     public String index(HttpServletRequest request) {
         request.getSession().setAttribute("now", new Date().toString());
 
-        return "hello, " + new Date() + "<hr/>Last accessedtime:" + request.getSession().getLastAccessedTime();
+        return "version-1201: hello, " + new Date() + "<hr/>Last accessedtime:" + request.getSession().getLastAccessedTime();
     }
 }
