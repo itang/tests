@@ -3,7 +3,11 @@ task :clean do
 end
 
 task :run do
-  sh 'mvn spring-boot:run -Drun.jvmArguments="-Xmx512m"'
+  sh 'mvn spring-boot:run -Drun.jvmArguments="-Xmx512m" -Dspring.profiles.active=dev'
+end
+
+task :start do
+  sh 'mvn spring-boot:run -Drun.jvmArguments="-Xmx1g" -Dspring.profiles.active=prod'
 end
 
 task :test => %w[clean] do
