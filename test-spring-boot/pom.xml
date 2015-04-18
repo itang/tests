@@ -23,6 +23,7 @@
         <start-class>demo.DemoApplication</start-class>
         <java.version>1.8</java.version>
         <springloaded.version>1.2.3.RELEASE</springloaded.version>
+        <scala.version>2.11.6</scala.version>
     </properties>
 
     <repositories>
@@ -60,6 +61,12 @@
     </pluginRepositories>
 
     <dependencies>
+        <dependency>
+            <artifactId>scala-library</artifactId>
+            <groupId>org.scala-lang</groupId>
+            <version>${scala.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -104,6 +111,34 @@
                         <version>${springloaded.version}</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>scala-compile-first</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>scala-test-compile</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!--<jvmArg>-Xms64m</jvmArg>
+                    <jvmArg>-Xmx1024m</jvmArg>-->
+                    <recompileMode>incremental</recompileMode>
+                    <scalaVersion>${scala.version}</scalaVersion>
+                </configuration>
             </plugin>
         </plugins>
     </build>

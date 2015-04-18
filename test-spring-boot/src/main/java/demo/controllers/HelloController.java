@@ -12,7 +12,6 @@ public class HelloController extends BaseController {
     @RequestMapping(value = "/",produces = "text/html")
     public String index(HttpServletRequest request) {
         request.getSession().setAttribute("now", new Date().toString());
-
-        return "version-1201: hello, " + new Date() + "<hr/>Last accessedtime:" + request.getSession().getLastAccessedTime();
+        return "version-1202: hello, " + new Date() + "<hr/>Last accessedtime:" + request.getSession().getLastAccessedTime();
     }
 }

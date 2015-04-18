@@ -27,7 +27,7 @@
 #   watch(%r{file/path}) { `command(s)` }
 #
 guard :shell do
-  watch(/(.*).java/) {|m|  `mvn compile` }
+  watch(/(.*).(java|scala)/) {|m|  `mvn compile` }
 end
 
 guard 'livereload' do
