@@ -11,10 +11,12 @@ import demo.ext.RedisBootstrapListener;
 // @ComponentScan
 public class DemoApplication {
     public static void main(String[] args) {
-        System.out.println(System.getProperty("spring.profiles.active"));
-        
+        System.out.println("spring.profiles.active: "
+                + System.getProperty("spring.profiles.active"));
+
         SpringApplication application = new SpringApplication(DemoApplication.class);
         application.addListeners(new RedisBootstrapListener());
+
         application.run(args);
     }
 }
