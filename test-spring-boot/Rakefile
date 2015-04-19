@@ -3,7 +3,7 @@ task :clean do
 end
 
 task :run do
-  sh 'mvn spring-boot:run -Drun.jvmArguments="-Xmx512m" -Dspring.profiles.active=dev'
+  sh 'mvn spring-boot:run -Drun.jvmArguments="-Xmx512m" -Drun.arguments="--spring.profiles.active=dev"'
 end
 
 task :start do

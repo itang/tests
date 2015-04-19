@@ -92,6 +92,24 @@
             <artifactId>spring-boot-starter-redis</artifactId>
         </dependency>
 
+        <!-- utils -->
+        <dependency>
+            <groupId>com.javaslang</groupId>
+            <artifactId>javaslang</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.allegro.tech.boot</groupId>
+            <artifactId>spring-boot-starter-handlebars</artifactId>
+            <version>0.1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.kstyrc</groupId>
+            <artifactId>embedded-redis</artifactId>
+            <version>0.6</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -134,8 +152,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <!--<jvmArg>-Xms64m</jvmArg>
-                    <jvmArg>-Xmx1024m</jvmArg>-->
+                    <!--<jvmArg>-Xms64m</jvmArg> <jvmArg>-Xmx1024m</jvmArg> -->
                     <recompileMode>incremental</recompileMode>
                     <scalaVersion>${scala.version}</scalaVersion>
                 </configuration>
