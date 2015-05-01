@@ -1,3 +1,4 @@
 deps do
   github "manastech/crystal_redis"
+  github "itang/crtang"
 end

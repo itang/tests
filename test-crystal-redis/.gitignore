@@ -2,3 +2,5 @@
 libs/
 .deps/
 main
+
+dump.rdb

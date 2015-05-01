@@ -1,6 +1,6 @@
 file "src/main.cr"
 
-task :update do 
+task :update do
   sh 'crystal deps'
 end
 
@@ -11,6 +11,13 @@ end
 
 task :build => %w[main]
 
-task :run => %w[build] do 
+task :run => %w[build] do
   sh './main'
+end
+
+task :clean do
+  sh 'rm main'
+  sh 'rm -rf .crystal'
+  sh 'rm -rf .deps'
+  sh 'rm .deps.lock'
 end
