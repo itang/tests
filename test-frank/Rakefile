@@ -1,16 +1,21 @@
 file "src/main.cr"
 
-task :update do 
+task :update do
   sh 'crystal deps'
 end
 
 file :main => %w[src/main.cr] do |t|
   puts "#{t.name} #{t.prerequisites.join(' ')}"
-  sh 'crystal build src/main.cr'
+  sh 'crystal build src/main.cr --release --threads=8'
 end
 
 task :build => %w[main]
 
-task :run => %w[build] do 
+task :run => %w[build] do
+  sh 'crystal --version'
   sh './main'
+end
+
+task :clean do
+  sh 'rm main'
 end
