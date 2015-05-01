@@ -27,14 +27,14 @@
     </properties>
 
     <repositories>
-        <repository>
+        <!--<repository>
             <id>jtang public</id>
             <url>http://120.24.68.174:8081/nexus/content/groups/public/</url>
             <snapshots>
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
             </snapshots>
-        </repository>
+        </repository>-->
         <repository>
             <id>spring-snapshots</id>
             <url>http://repo.spring.io/libs-snapshot</url>
@@ -44,13 +44,13 @@
         </repository>
     </repositories>
     <pluginRepositories>
-        <pluginRepository>
+        <!--<pluginRepository>
             <id>jtang public</id>
             <url>http://120.24.68.174:8081/nexus/content/groups/public/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-        </pluginRepository>
+        </pluginRepository>-->
         <pluginRepository>
             <id>spring-snapshots</id>
             <url>http://repo.spring.io/libs-snapshot</url>
@@ -67,6 +67,7 @@
             <version>${scala.version}</version>
         </dependency>
 
+        <!-- for spring boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -87,34 +88,55 @@
             <artifactId>spring-session</artifactId>
             <version>1.0.1.RELEASE</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-redis</artifactId>
         </dependency>
 
-        <!-- utils -->
-        <dependency>
-            <groupId>com.javaslang</groupId>
-            <artifactId>javaslang</artifactId>
-            <version>1.2.0</version>
-        </dependency>
         <dependency>
             <groupId>pl.allegro.tech.boot</groupId>
             <artifactId>spring-boot-starter-handlebars</artifactId>
             <version>0.1.1</version>
         </dependency>
 
+        <!-- end spring boot -->
+
+        <!-- for utils -->
+        <dependency>
+            <groupId>com.javaslang</groupId>
+            <artifactId>javaslang</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.squareup.okio</groupId>
+            <artifactId>okio</artifactId>
+            <version>1.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <!-- end utils -->
+
+        <!-- for dev -->
         <dependency>
             <groupId>com.github.kstyrc</groupId>
             <artifactId>embedded-redis</artifactId>
             <version>0.6</version>
         </dependency>
+        <!-- end dev -->
 
+        <!-- test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- end test -->
     </dependencies>
 
     <build>
