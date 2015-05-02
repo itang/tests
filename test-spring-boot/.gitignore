@@ -9,3 +9,5 @@ tmp/
 .idea/
 
 .cache
+
+dump.rdb

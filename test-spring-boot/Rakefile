@@ -9,12 +9,12 @@ end
 
 desc "run (on dev mode)"
 task :run do
-  sh 'mvn spring-boot:run -Drun.jvmArguments="-Xmx512m" -Drun.arguments="--spring.profiles.active=dev"'
+  sh 'mvn spring-boot:run -Drun.jvmArguments="-Xmx512m -Drun.mode=dev -Dspring.profiles.active=dev" -Drun.arguments="--spring.profiles.active=dev"'
 end
 
 desc "run (on prod mode)"
 task :start do
-  sh 'mvn spring-boot:run -Drun.jvmArguments="-Xmx1g" -Dspring.profiles.active=prod'
+  sh 'mvn spring-boot:run -Drun.jvmArguments="-Xmx1g -Drun.mode=prod -Dspring.profiles.active=prod"'
 end
 
 desc "test"

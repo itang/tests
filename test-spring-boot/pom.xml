@@ -27,14 +27,8 @@
     </properties>
 
     <repositories>
-        <!--<repository>
-            <id>jtang public</id>
-            <url>http://120.24.68.174:8081/nexus/content/groups/public/</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </repository>-->
+        <!--<repository> <id>jtang public</id> <url>http://120.24.68.174:8081/nexus/content/groups/public/</url> 
+            <snapshots> <enabled>true</enabled> <updatePolicy>always</updatePolicy> </snapshots> </repository> -->
         <repository>
             <id>spring-snapshots</id>
             <url>http://repo.spring.io/libs-snapshot</url>
@@ -44,13 +38,8 @@
         </repository>
     </repositories>
     <pluginRepositories>
-        <!--<pluginRepository>
-            <id>jtang public</id>
-            <url>http://120.24.68.174:8081/nexus/content/groups/public/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>-->
+        <!--<pluginRepository> <id>jtang public</id> <url>http://120.24.68.174:8081/nexus/content/groups/public/</url> 
+            <snapshots> <enabled>true</enabled> </snapshots> </pluginRepository> -->
         <pluginRepository>
             <id>spring-snapshots</id>
             <url>http://repo.spring.io/libs-snapshot</url>
@@ -141,6 +130,7 @@
 
     <build>
         <plugins>
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -151,6 +141,16 @@
                         <version>${springloaded.version}</version>
                     </dependency>
                 </dependencies>
+               <!--
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>com.github.kstyrc</groupId>
+                            <artifactId>embedded-redis</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+                -->
             </plugin>
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
