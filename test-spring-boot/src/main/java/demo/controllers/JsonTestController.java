@@ -11,7 +11,7 @@ import com.google.common.collect.Lists;
 
 @Controller
 @RequestMapping("/test/json")
-public class JsonTestController {
+public class JsonTestController extends BaseController {
 
     @RequestMapping("")
     public String index(ModelMap model) {

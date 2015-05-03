@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class BaseController {
-    protected Logger logger = LoggerFactory.getLogger(this.getClass());
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    // protected Logger getLogger(){
-    // return this.logger;
-    // }
+    protected String redirect(String path) {
+        return "redirect:" + path;
+    }
 }
