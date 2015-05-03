@@ -36,6 +36,7 @@
         <jquery.version>2.1.3</jquery.version>
         <bootstrap.version>3.3.4</bootstrap.version>
         <lodash.version>3.6.0</lodash.version>
+        <handlebarsjs.version>3.0.0-1</handlebarsjs.version>
 
         <embedded-redis.version>0.6</embedded-redis.version>
         <springloaded.version>1.2.3.RELEASE</springloaded.version>
@@ -180,6 +181,11 @@
             <groupId>org.webjars</groupId>
             <artifactId>lodash</artifactId>
             <version>${lodash.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>handlebars</artifactId>
+            <version>${handlebarsjs.version}</version>
         </dependency>
         <!-- end webjars -->
 

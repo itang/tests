@@ -1,0 +1,21 @@
+{{# partial "content" }} hello, {{user.name}}
+<hr />
+hello2, {{# user}} {{name}} {{/user}}
+<hr />
+JSON:
+<code>{{json user}}</code>
+
+<table id="jstmp" class="table">{{embedded "test/json/_row"}}
+</table>
+{{/partial}} {{# partial "more-js" }}
+<script type="text/javascript" src="/webjars/handlebars/3.0.0-1/handlebars.min.js"></script>
+<script>
+	$.getJSON("/test/json/data", function(ret) {
+		console.log(JSON.stringify(ret));
+		
+		var source = $("#test-json-_row-hbs-html").html();
+		var template = Handlebars.compile(source);
+		$("#jstmp").html(template({"users": ret}));
+	});
+</script>
+{{/partial}} {{> layout/application}}
