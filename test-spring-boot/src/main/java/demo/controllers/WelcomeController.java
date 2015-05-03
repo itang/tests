@@ -19,7 +19,9 @@ public class WelcomeController extends BaseController {
 
         model.put("now", new Date());
         model.put("lastAccessedTime", request.getSession().getLastAccessedTime());
-
+        model.put("sessionId", request.getSession().getId());
+        model.put("creationTime", request.getSession().getCreationTime());
+        model.put("session", request.getSession());
         return "welcome";
     }
 }
