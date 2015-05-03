@@ -8,7 +8,7 @@ public abstract class DevMode {
     public static void bootstrap(final SpringApplication application) {
         try {
             application.addListeners((ApplicationListener<?>) Class.forName(
-                    "demo.ext.RedisBootstrapListener").newInstance());
+                    "demo.dev.RedisBootstrapListener").newInstance());
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
             e.printStackTrace();
         }
