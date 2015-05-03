@@ -1,0 +1,13 @@
+{{# partial "content" }}
+
+<p>now:{{now}}</p>
+
+<table>
+  {{#each list}}
+  <tr>
+    <td>* {{this}}</td>
+  </tr>
+  {{/each}}
+
+</table>
+{{/partial}} {{> layout/application}}
