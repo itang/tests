@@ -14,9 +14,11 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import demo.ext.BaseController;
+
 @Controller
 @RequestMapping("/test/libs")
-public class LibsTestController {
+public class LibsTestController extends BaseController {
 
     @RequestMapping("")
     public String index() {

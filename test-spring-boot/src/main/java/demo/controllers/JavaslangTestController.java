@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import demo.ext.BaseController;
+
 @Controller
 @RequestMapping("/javaslang")
 public class JavaslangTestController extends BaseController {

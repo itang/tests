@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.collect.Lists;
 
+import demo.ext.BaseController;
+
 @Controller
 @RequestMapping("/test/json")
 public class JsonTestController extends BaseController {

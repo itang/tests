@@ -1,4 +1,4 @@
-package demo.ext;
+package demo.dev;
 
 import java.io.IOException;
 
@@ -8,7 +8,7 @@ import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
 
 import redis.embedded.RedisServer;
-import demo.utils.Nets;
+import demo.utils.Utils;
 
 public class RedisBootstrapListener implements ApplicationListener<ApplicationStartedEvent> {
 
@@ -26,7 +26,7 @@ public class RedisBootstrapListener implements ApplicationListener<ApplicationSt
     @Override
     public void onApplicationEvent(ApplicationStartedEvent event) {
         LOG.debug("ApplicationStartedEvent: {}", event);
-        if (!Nets.available(DEFAULT_REDIS_PORT)) {
+        if (!Utils.availablePort(DEFAULT_REDIS_PORT)) {
             LOG.warn("Redis port unavailabled, check Redis service have started...");
             return;
         }

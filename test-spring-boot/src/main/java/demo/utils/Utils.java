@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
 
-public abstract class Nets {
-    public static boolean available(int port) {
+public abstract class Utils {
+    public static boolean availablePort(int port) {
         if (port < 1 || port > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Invalid start port: " + port);
         }

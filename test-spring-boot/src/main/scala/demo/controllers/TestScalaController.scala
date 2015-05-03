@@ -1,6 +1,8 @@
 package demo.controllers
 
 import org.springframework.stereotype.Controller
+
+import demo.ext.BaseController;
 import org.springframework.web.bind.annotation.{ ResponseBody, RequestMapping }
 
 @Controller
