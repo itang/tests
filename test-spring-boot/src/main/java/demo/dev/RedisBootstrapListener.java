@@ -12,10 +12,10 @@ import demo.utils.Utils;
 
 public class RedisBootstrapListener implements ApplicationListener<ApplicationStartedEvent> {
 
-    private static final int DEFAULT_REDIS_PORT = 6379;
-    private RedisServer redisServer = null;
-
     private static Logger LOG = LoggerFactory.getLogger(RedisBootstrapListener.class);
+    private static final int DEFAULT_REDIS_PORT = 6379;
+
+    private RedisServer redisServer = null;
 
     public RedisBootstrapListener() {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
