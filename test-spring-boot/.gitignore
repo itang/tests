@@ -11,3 +11,4 @@ tmp/
 .cache
 
 dump.rdb
+logs/

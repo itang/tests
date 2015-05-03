@@ -13,6 +13,8 @@ public class WelcomeController extends BaseController {
 
     @RequestMapping(value = "/")
     public String index(HttpServletRequest request, ModelMap model) {
+        logger.debug("WelcomeController");
+
         request.getSession().setAttribute("now", new Date().toString());
 
         model.put("now", new Date());

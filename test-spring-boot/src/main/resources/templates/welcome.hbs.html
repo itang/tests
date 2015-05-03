@@ -1,15 +1,26 @@
-<html>
-<head>
-</head>
-<body>
-  <h1>Hello, Spring-Boot</h1>
-  <p>version-11: hello, {{now}}</p>
+{{# partial "more-css" }}
+<link href="/public/css/main.css" rel="stylesheet">
+{{/partial}}
 
-  <p>Last accessedtime: {{lastAccessedTime}}</p>
+{{# partial "content" }}
+<p>version-11: hello, {{now}}</p>
 
-  <ul>
-    <li><a href="/javaslang">javaslang test</a></li>
-    <li><a href="/test/libs">libs test</a></li>
-  </ul>
-</body>
-</html>
+<p>Last accessedtime: {{lastAccessedTime}}</p>
+
+<ul>
+  <li><a href="/javaslang">javaslang test</a></li>
+  <li><a href="/test/libs">libs test</a></li>
+  <li><a href="/test/json">Json test</a></li>
+</ul>
+<hr />
+
+<ul>
+  <li><a href="https://github.com/allegro/handlebars-spring-boot-starter" target="_blank">handlebars-spring-boot-starter</a></li>
+</ul>
+{{/partial}}
+
+{{# partial "more-js" }}
+<script src="/webjars/lodash/3.6.0/lodash.min.js"></script>
+{{/partial}}
+
+{{> layout/application}}
