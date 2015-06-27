@@ -9,6 +9,7 @@ assert :hello.to_s == "hello"
 
 puts typeof(typeof(:hello))
 assert :hello.class == typeof(:hello)
+assert :hello.class == Symbol
 
 class String
   def hello

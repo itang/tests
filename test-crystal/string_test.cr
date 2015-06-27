@@ -22,6 +22,7 @@ assert (s == "Hello \
 s = %(hello ("world"))
 
 assert (s == "hello (\"world\")")
+assert (s == %[hello ("world")])
 
 ## Interpolation
 
@@ -33,4 +34,3 @@ s = "1"
 
 assert s.to_i == 1
 assert 1.to_s == s
-
