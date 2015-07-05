@@ -5,9 +5,15 @@ module Util
     raise "Assert failure! #{msg}" unless b
   end
 
-  def assert_equal(a, b, message="")
+  def assert_equal(a, b)
     if a != b
       assert(false, "#{a} != #{b}")
+    end
+  end
+
+  def assert_nil(a)
+    if !a.nil?
+      assert(false, "a is't nil")
     end
   end
 end
