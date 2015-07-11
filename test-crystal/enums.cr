@@ -63,3 +63,23 @@ end
 assert has_conf(IOMode::All, IOMode::Async)
 assert has_conf(IOMode::None, IOMode::None)
 assert has_conf(IOMode::All, IOMode::All)
+
+puts Color.new(1)
+assert_equal Color.new(2), Color::Blue
+
+puts Color.new(10)
+p Color.new(20).class
+assert_not_equal Color.new(20), Color::Red
+
+enum Color4
+ Red
+ Green
+ Blue
+
+ def red?
+   self == Color4::Red
+ end
+end
+
+assert Color4::Red.red?
+assert !Color4::Blue.red?

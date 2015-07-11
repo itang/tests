@@ -11,6 +11,12 @@ module Util
     end
   end
 
+  def assert_not_equal(a, b)
+    if a == b
+      assert(false, "#{a} == #{b}")
+    end
+  end
+
   def assert_nil(a)
     if !a.nil?
       assert(false, "a is't nil")
