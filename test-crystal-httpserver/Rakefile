@@ -1,0 +1,5 @@
+desc 'run'
+task :run do
+  sh 'crystal build --release src/test-crystal-httpserver.cr -o main'
+  sh './main'
+end
