@@ -5,23 +5,47 @@ end
 namespace 'zkserver' do
   desc "start zookeeper server"
   task 'start' do |t|
-    sh 'cd /home/itang/dev-env/zookeeper; ./bin/zkServer.sh start'
+    sh 'cd $ZK_HOME; ./bin/zkServer.sh start'
   end
 
   desc "stop zookeeper server"
   task 'stop' do |t|
-    sh 'cd /home/itang/dev-env/zookeeper; ./bin/zkServer.sh stop'
+    sh 'cd $ZK_HOME; ./bin/zkServer.sh stop'
   end
 end
 
 namespace 'kafka' do
   desc 'start kafka server'
   task 'start' => %w[zkserver:start] do
-    sh 'cd /home/itang/dev-env/kafka; ./bin/kafka-server-start.sh -daemon config/server.properties'
+    sh 'cd $KAFKA_HOME; ./bin/kafka-server-start.sh -daemon config/server.properties'
   end
 
+  desc 'stop kafka server'
   task 'stop' do
-    sh 'cd /home/itang/dev-env/kafka; ./bin/kafka-server-stop.sh'
+    sh 'cd $KAFKA_HOME; ./bin/kafka-server-stop.sh'
+  end
+
+  namespace :create do
+    desc 'create topics'
+    task :topic, [:name] do |t, args|
+      name = args[:name] || ENV['name']
+      partitions = 1
+      replication-factor = 1
+      sh "bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor #{replication-factor} --partitions #{partitions} --topic #{name}"
+    end
+  end
+
+  namespace :show do
+    desc 'list topics'
+    task :topics do
+      sh 'kafka-topics.sh --list --zookeeper localhost:2181'
+    end
+
+    desc 'topic detail'
+    task :topic, [:name] do |t, args|
+      name = args[:name] || ENV['name']
+      sh "kafka-topics.sh --zookeeper localhost:2181 --describe #{name}"
+    end
   end
 end
 
