@@ -19,6 +19,7 @@ impl ToJson for Person {
         m.to_json()
     }
 }
+
 fn main() {
     let source = "Hello, {{name}}";
     let mut handlebars = Handlebars::new();
@@ -26,10 +27,10 @@ fn main() {
 
     let data = Person {
         name: "Ning Sun".to_string(),
-        age: 27
+        age: 32767
     };
 
     let result = handlebars.render("hello", &data);
+
     println!("{:?}", result);
-    println!("Hello, world!");
 }
