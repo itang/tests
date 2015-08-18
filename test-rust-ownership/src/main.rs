@@ -1,5 +1,3 @@
-#[warn(unused_variables)]
-
 #[derive(Debug)]
 struct A {
     name: String,
@@ -22,7 +20,7 @@ fn main() {
 
     // 2. When an object passes out of scope, it is destroyed and is no longer usable.
     {
-        let a1 = A{ name: "tqibm".to_string() };
+        let _a1 = A{ name: "tqibm".to_string() };
     }
     //let b1 = a1; // error: unresolved name `a`
 
