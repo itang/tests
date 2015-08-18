@@ -1,0 +1,8 @@
+[package]
+name = "test-handlebars"
+version = "0.1.0"
+authors = ["itang <live.tang@gmail.com>"]
+
+[dependencies]
+handlebars = "*"
+rustc-serialize = "*"
