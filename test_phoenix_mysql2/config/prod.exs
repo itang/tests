@@ -60,10 +60,11 @@ config :logger, level: :info
 # which should be versioned separately.
 import_config "prod.secret.exs"
 
-# Configure your database
+# Configure your database,
+# here just for DEMO, it should be in prod.secret.exs
 config :test_phoenix_mysql2, TestPhoenixMysql2.Repo,
   adapter: Ecto.Adapters.MySQL,
   username: "root",
   password: "root",
   database: "test_phoenix_mysql2_prod",
-  pool_size: 10
+  pool_size: 20
