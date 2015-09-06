@@ -62,3 +62,10 @@ namespace 'test' do
     ruby 'lib/consumer.rb'
   end
 end
+
+namespace 'dev' do
+  desc 'prepare env'
+  task :prepare do
+    sh 'gem install poseidon'
+  end
+end
