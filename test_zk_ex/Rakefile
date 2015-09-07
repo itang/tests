@@ -1,0 +1,6 @@
+task :default => :run
+
+task :run do
+  desc 'mix run'
+  sh 'mix run lib/test_zk_ex.ex'
+end
