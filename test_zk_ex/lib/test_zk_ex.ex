@@ -7,10 +7,10 @@ defmodule TestZkEx do
   end
 
   def tree(pid, dir, level \\ 0) do
-    path = repeat(" ", level) <> dir
+    path = repeat(level * 2) <> dir
 
     case ZK.get(pid, dir) do
-       {:ok, {data, _}} -> IO.puts "#{path} [#{data}"
+       {:ok, {data, _}} -> IO.puts "#{path} - [#{data}]"
         _ -> IO.puts path
     end
 
@@ -20,9 +20,9 @@ defmodule TestZkEx do
     end
   end
 
-  defp repeat(x, n) do
+  defp repeat(n, x \\ " ") do
     # 0..n |> Enum.map(fn _ -> x end) |> Enum.join("")
-    Stream.cycle([x]) |> Enum.take(n) |> Enum.join("")
+    Stream.cycle([x]) |> Stream.take(n) |> Enum.join("")
   end
 end
 
