@@ -39,6 +39,8 @@ initialCommands in console := "import scatang._;"
 
 initialCommands in (Test, console) := """ammonite.repl.Repl.run("")"""
 
+Revolver.settings
+
 publishTo := {
   val nexus = "http://120.24.68.174:8081/nexus/content/repositories"
   if (isSnapshot.value)

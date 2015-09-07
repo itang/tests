@@ -9,6 +9,9 @@ import com.softwaremill.react.kafka.KafkaMessages.StringKafkaMessage
 import kafka.serializer.{StringDecoder, StringEncoder}
 import com.softwaremill.react.kafka.{ReactiveKafka, ProducerProperties, ConsumerProperties}
 
+import concurrent.duration._
+import concurrent.duration.TimeUnit
+
 import org.reactivestreams.{Subscription, Subscriber, Publisher}
 
 object Main {
@@ -27,6 +30,8 @@ object Main {
       decoder = new StringDecoder()
     ).consumerTimeoutMs(timeInMs = 100)
       .readFromEndOfStream()
+      //.commitInterval(FiniteDuration(1000, MILLISECONDS))
+      .commitInterval(1000.millisecond)
       .kafkaOffsetsStorage(dualCommit = true)
 
     val publisher: Publisher[StringKafkaMessage] = kafka.consume(consumerProperties)

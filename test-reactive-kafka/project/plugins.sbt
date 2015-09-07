@@ -5,3 +5,5 @@ addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.7.5")
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.2.0")
 
 addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "0.7.0")
+
+addSbtPlugin("io.spray" % "sbt-revolver" % "0.7.2")
