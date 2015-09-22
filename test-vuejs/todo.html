@@ -1,0 +1,35 @@
+<html>
+<head>
+<style type="text/css">
+  li {
+    cursor: pointer;
+  }
+  li.done {
+    text-decoration: line-through;
+  }
+</style>
+<script src="vue.js"></script>
+</head>
+<body>
+  <div id="demo">
+    <h1>{{title}}</h1>
+    <ul>
+      <li v-repeat="todos" v-on="click: done = !done" class="{{done ? 'done' : ''}}">
+      {{content}}
+      </li>
+    </ul>
+  </div>
+  <script>
+    var demo = new Vue({
+      el: "#demo",
+      data: {
+        title: 'todos',
+        todos: [
+          {done: true, content: 'Learn JavaScript'},
+          {done: false, content: 'Learn Vue.js'}
+        ]
+      }
+    });
+  </script>
+</body>
+</html>
