@@ -1,0 +1,25 @@
+<html>
+<head>
+<style type="text/css">
+
+</style>
+<script src="vue.js"></script>
+</head>
+<body>
+  <pre>directive="expression | filterId [args...]"</pre>
+  <div id="demo">
+    <p>capitalize: {{name | capitalize}}</p>
+    <p>uppercase | reverse: {{name | uppercase | reverse}}</p>
+    <p>pluralize: {{count}}{{count | pluralize 'st'}}  <button v-on="click: count = 1">set one</button><button v-on="click: count = 2">set two</button></p>
+  </div>
+  <script>
+    var demo = new Vue({
+      el: "#demo",
+      data: {
+        name: "itang",
+        count: 2,
+      }
+    });
+  </script>
+</body>
+</html>

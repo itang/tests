@@ -1,0 +1,32 @@
+<html>
+<head>
+<style type="text/css">
+
+</style>
+<script src="vue.js"></script>
+</head>
+<body>
+  <div id="demo">
+    <div v-text="message"></div>
+    <div v-text="'hello, ' + user.firstName + ' ' + user.lastName"></div>
+    <button v-on="click : clickHandler">click me</button>
+    <div v-pre>some
+    text {{message}}</div>
+  </div>
+  <script>
+    var demo = new Vue({
+      el: "#demo",
+      data: {
+        message: "hello, world",
+        user: {
+          firstName: 'tang',
+          lastName: 'tian'
+        },
+        clickHandler: function(){
+          alert("click me!");
+        }
+      }
+    });
+  </script>
+</body>
+</html>
