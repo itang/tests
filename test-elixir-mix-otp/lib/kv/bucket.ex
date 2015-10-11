@@ -1,8 +1,11 @@
+require Logger
+
 defmodule KV.Bucket do
   @doc """
   Starts a new bucket
   """
   def start_link do
+    Logger.info "KV.Bucket start_link ..."
     Agent.start_link(fn -> HashDict.new end)
   end
 

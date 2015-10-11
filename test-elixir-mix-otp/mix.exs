@@ -14,7 +14,11 @@ defmodule KV.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger]]
+    [applications: [:logger],
+     mod: {KV, []}]
+
+     # The :mod option specifies the “application callback module”, followed by the arguments to be passed on application start.
+     # The application callback module can be any module that implements the Application behaviour.
   end
 
   # Dependencies can be Hex packages:
