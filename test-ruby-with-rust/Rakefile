@@ -1,0 +1,9 @@
+task :default => :benchmark
+
+desc "benchmark"
+task :benchmark do
+  sh 'gem install ffi'
+  sh '(cd fibonacci; cargo build --release)'
+  sh 'time ruby fibo_in_ruby.rb'
+  sh 'time ruby fibo.rb'
+end
