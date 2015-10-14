@@ -1,9 +1,16 @@
-task :default => :benchmark
+task :default => :run
 
-desc "benchmark"
-task :benchmark do
+desc "prepare"
+task :prepare do
   sh 'gem install ffi'
   sh '(cd fibonacci; cargo build --release)'
+end
+
+desc "run"
+task :run do
   sh 'time ruby fibo_in_ruby.rb'
   sh 'time ruby fibo.rb'
 end
+
+desc "benchmark"
+task :benchmark => [:prepare, :run]
