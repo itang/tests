@@ -1,0 +1,4 @@
+package example.HelloWorld where
+
+hello :: [String] -> IO ()
+hello _ = println "Hello, world!"
