@@ -62,6 +62,11 @@ class JMHSample_01_HelloWorld {
   }
 
   @Benchmark
+  def get_logger_by_method_cache(): Unit = {
+    Hello.INSTANCE.logger_v2.debug("hello")
+  }
+
+  @Benchmark
   def get_logger_by_static(): Unit = {
     Hello._logger.debug("hello")
   }
