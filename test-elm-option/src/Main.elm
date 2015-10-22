@@ -1,9 +1,10 @@
 module Main where
 
-import Option exposing (Option(Some, None), map, flatMap, getOrElse)
+import Option exposing (Option(Some, None), map, flatMap, getOr)
 import String exposing(toUpper)
 import Html exposing (..)
 import Debug
+
 
 -- MAIN
 main : Html
@@ -14,19 +15,25 @@ main =
 
 -- MODEL
 type alias Model = List (Option String)
+
+
 model : Model
 model = init
 
 init : List (Option String)
-init = [Some "hello, world", None]
+init =
+  [Some "hello, world", None]
 
 -- VIEW
 view : Model -> Html
 view model =
   ul [] (List.map item model)
 
+
 wrap : Option String -> String
-wrap = (Option.map toUpper) >> getOrElse "hello"
+wrap =
+  (Option.map toUpper) >> getOr "hello"
+
 
 item : Option String -> Html
 item a =
