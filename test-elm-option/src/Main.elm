@@ -1,7 +1,7 @@
 module Main where
 
 import Option exposing (Option(Some, None), map, flatMap, getOr)
-import String exposing(toUpper)
+import String exposing (toUpper)
 import Html exposing (..)
 import Debug
 
@@ -9,8 +9,10 @@ import Debug
 -- MAIN
 main : Html
 main =
-  let _ = Debug.log "init model" model
-  in view model
+  let
+    _ = Debug.log "init model" model
+  in
+    view model
 
 
 -- MODEL
@@ -22,7 +24,7 @@ model = init
 
 init : List (Option String)
 init =
-  [Some "hello, world", None]
+  [Some "Java", Some "Julia", Some "Clojure", Some "Scala", Some "Frege", Some "Ruby", Some "Rust", Some "Elixir", None]
 
 -- VIEW
 view : Model -> Html
@@ -32,7 +34,7 @@ view model =
 
 wrap : Option String -> String
 wrap =
-  (Option.map toUpper) >> getOr "hello"
+  (Option.map toUpper) >> getOr "..."
 
 
 item : Option String -> Html
