@@ -1,0 +1,22 @@
+task :default => :run
+
+directory "bin"
+
+file "bin/main" => "bin" do |t|
+  puts "#{t.name} #{t.prerequisites.join(' ')}"
+  sh 'idris main.idr -o bin/main'
+end
+
+task :build => "bin/main" do
+
+end
+
+task :run => :build do
+  sh 'du -sh bin/main'
+  sh 'bin/main'
+end
+
+task :clean do
+  sh 'rm -rf bin'
+  sh 'rm -rf *.ibc'
+end
