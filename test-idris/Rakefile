@@ -2,9 +2,9 @@ task :default => :run
 
 directory "bin"
 
-file "bin/main" => "bin" do |t|
-  puts "#{t.name} #{t.prerequisites.join(' ')}"
-  sh 'idris main.idr -o bin/main'
+file "bin/main" => ["bin"] + Dir["src/**/*.idr"] do |t|
+  puts "#{t.name} => [#{t.prerequisites.join(', ')}]"
+  sh 'idris src/main.idr -o bin/main'
 end
 
 task :build => "bin/main" do
