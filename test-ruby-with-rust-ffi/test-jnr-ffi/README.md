@@ -22,6 +22,9 @@ sh 'cp $JRUBY_HOME/lib/jni/x86_64-Linux/libjffi-1.2.so src/main/resources/jni/x8
 
 ## Run
 
-$ cd ../fibonacci && cargo build --release
-$ cd ..
-$ sbt run
+```
+$ (cd ../fibonacci; cargo build --release)
+
+$ export JRUBY_HOME=/home/itang/.rbenv/versions/jruby-9.0.1.0
+$ rake prepare && rake run
+```
