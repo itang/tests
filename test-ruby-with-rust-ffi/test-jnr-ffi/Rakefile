@@ -1,0 +1,26 @@
+namespace :dev do
+  desc 'Generate Scalastyle config'
+  task :scalastyle_config do
+    sh 'sbt scalastyleGenerateConfig'
+  end
+end
+
+desc 'prepare env'
+task :prepare do
+  sh 'mkdir -p src/main/resources/jni/x86_64-Linux'
+  sh 'cp $JRUBY_HOME/lib/jni/x86_64-Linux/libjffi-1.2.so src/main/resources/jni/x86_64-Linux'
+end
+
+desc 'run'
+task :run do
+  sh 'sbt run'
+end
+
+namespace :source do
+  namespace :check do
+    desc 'check scala style'
+    task :scalastyle do
+      sh 'sbt scalastyle'
+    end
+  end
+end
