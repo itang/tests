@@ -1,0 +1,21 @@
+task :default => :build
+
+directory "bin"
+
+file "bin/helloworld" => "bin" do
+  sh 'rustc -O -v helloworld.rs --out-dir bin/'
+end
+
+desc 'build'
+task :build => "bin/helloworld" do
+
+end
+
+desc 'run'
+task :run => :build do
+  sh 'bin/helloworld'
+end
+
+task :clean do
+  sh 'rm -rf bin'
+end
