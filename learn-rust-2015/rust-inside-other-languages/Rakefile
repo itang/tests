@@ -1,0 +1,22 @@
+task :default => :run
+
+desc 'prepare'
+task :prepare do
+  sh 'gem install ffi'
+  sh 'cnpm install ffi'
+end
+
+file "embed/target/release/libembed.so" => Dir["embed/**/*.rs"] do
+  sh 'cd embed;cargo build --release'
+end
+
+desc 'run'
+task :run => "embed/target/release/libembed.so" do
+  sh 'time ruby embed.rb'
+  sh 'time node embed.js'
+end
+
+desc 'clean'
+task :clean do
+  sh 'cd embed; cargo clean'
+end
