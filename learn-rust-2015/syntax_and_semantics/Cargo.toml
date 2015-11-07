@@ -1,0 +1,4 @@
+[package]
+name = "syntax_and_semantics"
+version = "0.1.0"
+authors = ["itang <live.tang@gmail.com>"]
