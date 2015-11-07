@@ -59,9 +59,9 @@ fn main() {
 
     let handles: Vec<_> = philosophers.into_iter()
                                       .map(|p /* : Philosopher */| {
-                                          let table = table.clone();
+                                          let table: Arc<Table> = table.clone();
                                           thread::spawn(move || {
-                                              p.eat(&table);
+                                              p.eat(&table); // &Arc<T> => &T
                                           })
                                       })
                                       .collect();
