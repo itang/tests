@@ -1,0 +1,21 @@
+task :default => :run
+
+directory "target/classes"
+
+file "target/classes/MainKt.class" => ["target/classes"] + Dir["src/*.kt"]  do
+  sh "kotlinc -d target/classes #{Dir["src/*.kt"].join(' ')}"
+end
+
+desc 'compile'
+task :compile => "target/classes/MainKt.class" do
+end
+
+desc 'run'
+task :run => :compile do
+  sh 'kotlin -cp target/classes/:. MainKt'
+end
+
+desc 'clean'
+task :clean do
+  sh 'rm -rf target/classes'
+end
