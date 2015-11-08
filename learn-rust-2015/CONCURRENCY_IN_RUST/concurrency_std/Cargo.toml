@@ -1,0 +1,4 @@
+[package]
+name = "test-move"
+version = "0.1.0"
+authors = ["itang <live.tang@gmail.com>"]
