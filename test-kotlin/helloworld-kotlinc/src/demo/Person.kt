@@ -7,17 +7,13 @@ interface Helloable {
     fun sayHello(): Int
 }
 
-class Person (val name: String, val lock: ReentrantReadWriteLock = ReentrantReadWriteLock()) : Helloable {
-    var age = 10
-
+class Person (val name: String, var age: Int = 10, val lock: ReentrantReadWriteLock = ReentrantReadWriteLock()) : Helloable {
     public override fun sayHello(): Int {
-        lock.read {
-            println("Hello, ${name}:${age} with ${lock}")
-        }
+        // lock.read { }
         lock.write {
-            age = 105
+            println("${Thread.currentThread()}: Hello, ${name}:${age} with ${lock}")
+            age += 1
+            return age
         }
-
-        return age
     }
 }
