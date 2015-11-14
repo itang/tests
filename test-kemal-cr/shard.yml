@@ -1,0 +1,12 @@
+name: hello-cr
+version: 0.1.0
+
+authors:
+  - itang <live.tang@gmail.com>
+
+license: MIT
+
+dependencies:
+  kemal:
+    github: kemalcr/kemal
+    branch: master

@@ -1,0 +1,6 @@
+version: 1.0
+shards:
+  kemal:
+    github: kemalcr/kemal
+    commit: db48f40fe6be0bce3b18fdd9ff2b7d6a43f1b44b
+
