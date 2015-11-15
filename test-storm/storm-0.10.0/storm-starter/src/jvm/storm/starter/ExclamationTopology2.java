@@ -72,7 +72,8 @@ public class ExclamationTopology2 {
     public static void main(String[] args) throws Exception {
         TopologyBuilder builder = new TopologyBuilder();
 
-        builder.setSpout("word", new RandomSentenceSpout(), 10);
+        // 创建spout 10个线程， 20个task实例 for "spout word"
+        builder.setSpout("word", new RandomSentenceSpout(), 10).setNumTasks(20);
         builder.setBolt("exclaim1", new ExclamationBolt(), 3).shuffleGrouping("word");
         builder.setBolt("exclaim2", new ExclamationBolt(), 2).shuffleGrouping("exclaim1");
 
