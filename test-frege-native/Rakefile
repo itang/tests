@@ -1,0 +1,12 @@
+task :default => :run
+
+directory "build"
+
+desc 'compile'
+task :compile => "build" do
+  sh 'fregec SimpleIO.fr'
+end
+
+task :run => :compile do
+  sh 'frege examples.SimpleIO'
+end
