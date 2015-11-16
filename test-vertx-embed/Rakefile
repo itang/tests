@@ -13,3 +13,8 @@ namespace :source do
     end
   end
 end
+
+desc 'run'
+task :run do
+  sh 'sbt-repox run'
+end

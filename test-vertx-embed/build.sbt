@@ -35,6 +35,17 @@ incOptions := incOptions.value.withNameHashing(true)
 
 mainClass in assembly := Some("Main")
 
+assemblyMergeStrategy in assembly := {
+  //case PathList("javax", "servlet", xs @ _*)         => MergeStrategy.first
+  //case PathList(ps @ _*) if ps.last endsWith ".html" => MergeStrategy.first
+  //case "application.conf"                            => MergeStrategy.concat
+  //case "unwanted.txt"                                => MergeStrategy.discard
+  case "META-INF/io.netty.versions.properties"         => MergeStrategy.first
+  case x =>
+    val oldStrategy = (assemblyMergeStrategy in assembly).value
+    oldStrategy(x)
+}
+
 net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource
