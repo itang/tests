@@ -1,4 +1,4 @@
-name := "test-frege"
+name := "test-frege-with-sbt"
 
 version := "1.0-SNAPSHOT"
 
@@ -11,8 +11,9 @@ javacOptions ++= Seq("-encoding", "UTF-8", "-source", "1.8", "-target", "1.8", "
 scalacOptions ++= Seq("-deprecation", "-feature", "-Yno-adapted-args", "-Xfatal-warnings", "-YclasspathImpl:flat")
 
 libraryDependencies ++= Seq(
-  //"org.scalaz" %% "scalaz-core" % "7.1.0",
-  //"com.chuusai" %% "shapeless" % "2.0.0",
+  //"org.scalaz" %% "scalaz-core" % "7.1.5",
+  //"com.chuusai" %% "shapeless" % "2.2.5",
+  "me.itang" %% "scatang" % "0.1",
   "org.scalatest" %% "scalatest" % "2.2.4" % "test",
   "com.lihaoyi" %% "ammonite-repl" % "0.4.8" % "test"  cross CrossVersion.full
 )
@@ -27,7 +28,17 @@ resolvers += "itang's repos" at "http://www.haoshuju.net:8078"
 
 incOptions := incOptions.value.withNameHashing(true)
 
-mainClass in assembly := Some("Main")
+mainClass in assembly := Some("example.HelloWorld")
+
+assemblyMergeStrategy in assembly := {
+  //case PathList("javax", "servlet", xs @ _*)         => MergeStrategy.first
+  //case PathList(ps @ _*) if ps.last endsWith ".html" => MergeStrategy.first
+  //case "application.conf"                            => MergeStrategy.concat
+  //case "unwanted.txt"                                => MergeStrategy.discard
+  case x =>
+    val oldStrategy = (assemblyMergeStrategy in assembly).value
+    oldStrategy(x)
+}
 
 net.virtualvoid.sbt.graph.Plugin.graphSettings
 
