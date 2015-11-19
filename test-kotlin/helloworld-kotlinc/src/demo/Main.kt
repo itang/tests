@@ -3,9 +3,7 @@ package demo
 /**
  * test kotlin.
  */
-fun String.rr(times: Int): String {
-    return repeat(times)
-}
+infix fun String.rr(times: Int) : String = repeat(times)
 
 fun main(args: Array<String>) {
     println("args.size: ${args.size}")
