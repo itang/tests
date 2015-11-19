@@ -1,10 +1,5 @@
 package demo
 
-/**
- * test kotlin.
- */
-infix fun String.rr(times: Int) : String = repeat(times)
-
 fun main(args: Array<String>) {
     println("args.size: ${args.size}")
 
@@ -18,13 +13,8 @@ fun main(args: Array<String>) {
     }
 
     val ts = arrayOf(Thread({say()}), Thread({say()}), Thread({say()}))
-
     ts.map {
         it.start()
         it
     }.forEach { it.join() }
-    //for(t in ts) {
-    //    t.start()
-    //    t.join()
-    //}
 }
