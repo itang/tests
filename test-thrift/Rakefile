@@ -1,0 +1,8 @@
+task :default do
+  sh 'rake -T'
+end
+
+desc 'gen java'
+task :java do
+  sh 'thrift --gen java hello.thrift'
+end
