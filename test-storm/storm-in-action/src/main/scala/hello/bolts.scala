@@ -12,6 +12,7 @@ import util.Log
 import java.util.Date
 
 class SayHelloBolt extends BaseRichBolt with Log {
+
   var collector: OutputCollector = _
 
   def prepare(conf: JMap[_, _], context: TopologyContext, collector: OutputCollector): Unit = {
@@ -36,9 +37,11 @@ class SayHelloBolt extends BaseRichBolt with Log {
 }
 
 class CounterHelloBolt extends BaseRichBolt with Log {
+
   var collector: OutputCollector = _
 
-  val map = new JHashMap[String, Integer]
+  type Counters = JHashMap[String, Integer]
+  val counters = new Counters
 
   def prepare(conf: JMap[_, _], context: TopologyContext, collector: OutputCollector): Unit = {
     info("prepare")
@@ -52,11 +55,10 @@ class CounterHelloBolt extends BaseRichBolt with Log {
   }
 
   def execute(tuple: Tuple): Unit = {
-    info(s"execute: ${map}")
+    info(s"execute: ${counters}")
 
     val word = tuple.getString(0)
-    val counter: Integer = map.getOrDefault(word, 0) + 1
-    map.put(word, counter)
+    val counter: Integer = counters.merge(word, 1, (o, n) => o + n)
 
     val _time = tuple.getValueByField("time")
     this.collector.emit(tuple, new Values(word, counter))
