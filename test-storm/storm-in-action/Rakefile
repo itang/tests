@@ -1,3 +1,7 @@
+task :default do
+  sh 'rake -T'
+end
+
 namespace :dev do
   desc 'Generate Scalastyle config'
   task :scalastyle_config do
@@ -11,5 +15,12 @@ namespace :source do
     task :scalastyle do
       sh 'sbt scalastyle'
     end
+  end
+end
+
+namespace :run do
+  desc 'run:hello'
+  task :hello do
+    sh 'sbt "run hello"'
   end
 end
