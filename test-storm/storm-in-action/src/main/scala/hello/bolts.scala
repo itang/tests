@@ -51,6 +51,7 @@ class CounterHelloBolt extends BaseRichBolt with Log {
 
   def declareOutputFields(declarer: OutputFieldsDeclarer): Unit = {
     info("declareOutputFields")
+
     declarer.declare(new Fields("word", "counter"))
   }
 
@@ -58,11 +59,13 @@ class CounterHelloBolt extends BaseRichBolt with Log {
     info(s"execute: ${counters}")
 
     val word = tuple.getString(0)
-    val counter: Integer = counters.merge(word, 1, (o, n) => o + n)
+    val counter = counters.merge(word, 1, (o, n) => o + n)
 
     val _time = tuple.getValueByField("time")
-    this.collector.emit(tuple, new Values(word, counter))
 
-    this.collector.ack(tuple);
+    // 没有后续bolt消费， 此bolt emit 的tuple不纳入整个tuple tree? 不影响ack?
+    collector.emit(tuple, new Values(word, counter))
+
+    collector.ack(tuple)
   }
 }
