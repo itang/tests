@@ -1,0 +1,9 @@
+[package]
+authors = ["itang <live.tang@gmail.com>"]
+name = "test-conduit"
+version = "0.1.0"
+
+[dependencies]
+civet = "0.8.1"
+conduit = "0.7.4"
+conduit-router = "0.7.3"
