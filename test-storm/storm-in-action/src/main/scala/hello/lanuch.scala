@@ -17,27 +17,23 @@ abstract class BaseTopologyLauch(lauchConf: LauchConf, grouping: (String, BoltDe
     val builder = topologyBuilder()
 
     // 设置Spout 组件
-    val spout_parallelism_hint = lauchConf.spout.parallelism_hint;
     val spoutName = s"${name}_spout"
-    builder.setSpout(spoutName, new HelloSpout, spout_parallelism_hint)
+    builder.setSpout(spoutName, new HelloSpout, lauchConf.spout.parallelism_hint)
 
     // 设置Bolt 组件
-    val say_hello_bolt_parallelism_hint = lauchConf.sayBolt.parallelism_hint
     val boltSayHello = s"${name}_bolt_sayhello"
-    builder.setBolt(boltSayHello, new SayHelloBolt, say_hello_bolt_parallelism_hint)
-      .shuffleGrouping(spoutName).setNumTasks(lauchConf.sayBolt.num_tasks)
-
-    grouping(spoutName, builder.setBolt(s"${name}_bolt_counthello", new CounterHelloBolt, lauchConf.counterBolt.parallelism_hint))
+    grouping(spoutName, builder.setBolt(boltSayHello, new SayHelloBolt, lauchConf.sayBolt.parallelism_hint).setNumTasks(lauchConf.sayBolt.num_tasks))
+    builder.setBolt(s"${name}_bolt_counthello", new CounterHelloBolt, lauchConf.counterBolt.parallelism_hint)
 
     // 构造topology 实例
     val topology = builder.createTopology()
-
     // 构造配置对象
     val conf = new Config();
     //conf.setDebug(true);
 
     submitTopology(name, remote, conf, topology)
   }
+
 }
 
 object HelloTopologyLanuch extends BaseTopologyLauch(
