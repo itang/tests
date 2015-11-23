@@ -23,4 +23,19 @@ namespace :run do
   task :hello do
     sh 'sbt "run hello"'
   end
+
+  desc 'run:hello_fields'
+  task :hello_fields do
+    sh 'sbt "run hello-fields"'
+  end
+
+  desc 'run:hello_global'
+  task :hello_global do
+    sh 'sbt "run hello-global"'
+  end
+
+  desc 'run:hello_all'
+  task :hello_all do
+    sh 'sbt "run hello-all"'
+  end
 end

@@ -32,10 +32,11 @@ class HelloSpout extends BaseRichSpout with Log {
   override def nextTuple() {
     info("nextTuple")
 
-    val word = List("hello", "hi", "yeah")(Random.nextInt(3))
+    val list = List("hello", "hi", "yeah", "ok", "good")
+    val word = list(Random.nextInt(list.size))
     val date = new Date
     val objectId = word + date.getTime
-    Thread.sleep(5000)
+    Thread.sleep(3000)
     outputCollector.emit(new Values(word, date), objectId)
   }
 

@@ -9,6 +9,8 @@ trait Log {
     println(s"INFO ${title} - ${this} - ${now} - ${Thread.currentThread.getName} :: $msg")
   }
 
-  private def now(): String = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date)
+  def formatDate(d: Date, pattern: String = "yyyy-MM-dd HH:mm:ss") = new SimpleDateFormat(pattern).format(d)
+
+  def now(): String = formatDate(new Date)
 
 }

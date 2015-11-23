@@ -1,15 +1,17 @@
 package hello
 
-import java.util.{ Map => JMap, HashMap => JHashMap }
-import backtype.storm.topology.base.BaseRichBolt
-import backtype.storm.topology.OutputFieldsDeclarer
-import backtype.storm.tuple.Tuple
-import backtype.storm.task.TopologyContext
+import java.util.Date
+import java.util.{ HashMap => JHashMap }
+import java.util.{ Map => JMap }
+
 import backtype.storm.task.OutputCollector
+import backtype.storm.task.TopologyContext
+import backtype.storm.topology.OutputFieldsDeclarer
+import backtype.storm.topology.base.BaseRichBolt
 import backtype.storm.tuple.Fields
+import backtype.storm.tuple.Tuple
 import backtype.storm.tuple.Values
 import util.Log
-import java.util.Date
 
 class SayHelloBolt extends BaseRichBolt with Log {
 
@@ -27,10 +29,11 @@ class SayHelloBolt extends BaseRichBolt with Log {
   }
 
   def execute(tuple: Tuple): Unit = {
-    info(s"execute: ${tuple}")
-
     val word = tuple.getString(0)
     val _time = tuple.getValueByField("time")
+
+    info(s"execute: ${word} ${formatDate(_time.asInstanceOf[Date])}")
+
     this.collector.emit(tuple, new Values(word.toUpperCase(), new Date))
     this.collector.ack(tuple);
   }
