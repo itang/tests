@@ -2,7 +2,7 @@ f = File.new("access.log",  "w+")
 users = ["itang", "tqibm", "live.tang", "tangqiong"]
 
 loop do
-  msg = "#{users[users.size * rand]} #{Time.now}\n"
+  msg = "#{users[rand(users.size)]} #{Time.now}\n"
   f.write(msg)
   f.flush
   sleep(1)
