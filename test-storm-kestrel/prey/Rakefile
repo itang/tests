@@ -1,0 +1,7 @@
+require "bundler/gem_tasks"
+
+desc 'consumer'
+task :consumer do
+  require './consumer.rb'
+  Consumer.main
+end

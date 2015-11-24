@@ -8,3 +8,4 @@ lib/
 .settings
 
 .svn
+.cache-main

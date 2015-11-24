@@ -11,9 +11,6 @@ javacOptions ++= Seq("-encoding", "UTF-8", "-source", "1.8", "-target", "1.8", "
 scalacOptions ++= Seq("-deprecation", "-feature", "-Yno-adapted-args", "-Xfatal-warnings", "-YclasspathImpl:flat", "-Xexperimental")
 
 libraryDependencies ++= Seq(
-  //"org.scalaz" %% "scalaz-core" % "7.1.5",
-  //"com.chuusai" %% "shapeless" % "2.2.5",
-  "me.itang" %% "scatang" % "0.1",
   "org.scalatest" %% "scalatest" % "2.2.4" % "test",
   "storm" % "storm-kestrel" % "0.9.0-wip5-multischeme",
   //"org.apache.thrift" % "libthrift" % "0.9.3",

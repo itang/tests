@@ -9,19 +9,17 @@ object Main {
 
     var loop = true
     while (loop) {
-      val msg = StdIn.readLine()
-
-      msg match {
+      StdIn.readLine() match {
         case null => println("readline => null")
-        case e if e.nonEmpty => {
+        case msg if msg.nonEmpty => {
           println(s"put $msg to access quene...")
           client.put("access", msg, 0)
         }
         case _ => loop = false
       }
-
     }
+
     println("Exit!")
   }
-}
 
+}
