@@ -38,4 +38,9 @@ namespace :run do
   task :hello_all do
     sh 'sbt "run hello-all"'
   end
+  
+  desc 'run:accesslogs'
+  task :accesslogs do
+    sh 'sbt "run accesslogs"'
+  end
 end

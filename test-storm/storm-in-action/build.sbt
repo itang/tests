@@ -13,6 +13,10 @@ scalacOptions ++= Seq("-deprecation", "-feature", "-Yno-adapted-args", "-Xfatal-
 libraryDependencies ++= Seq(
   "me.itang" %% "scatang" % "0.1",
   "org.apache.storm" % "storm-core" % "0.10.0",//% "provided",
+
+  "storm" % "storm-kestrel" % "0.9.0-wip5-multischeme",
+  "storm" % "libthrift7" % "0.7.0-2",
+
   "org.scalatest" %% "scalatest" % "2.2.4" % "test",
   "com.lihaoyi" %% "ammonite-repl" % "0.4.8" % "test"  cross CrossVersion.full
 )
