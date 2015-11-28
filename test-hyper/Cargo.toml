@@ -1,0 +1,7 @@
+[package]
+authors = ["itang <live.tang@gmail.com>"]
+name = "test-hyper"
+version = "0.1.0"
+
+[dependencies]
+hyper = "0.7.0"
