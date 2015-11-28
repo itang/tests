@@ -7,11 +7,13 @@ import utest.TestableSymbol
 import utest.assert
 
 object TutorialTest extends TestSuite {
+
   // Initialize App
+  TutorialApp.setupUI()
 
   def tests = TestSuite {
     'HelloWorld{
-      assert(jQuery("p:contains('Hello World')").length == 2)
+      assert(jQuery("p:contains('Hello World')").length == 1)
     }
 
     'ButtonClick{
@@ -23,7 +25,7 @@ object TutorialTest extends TestSuite {
 
       for (c <- 1 to 5) {
         button.click()
-        assert(messageCount == c * 2)
+        assert(messageCount == c)
       }
     }
   }

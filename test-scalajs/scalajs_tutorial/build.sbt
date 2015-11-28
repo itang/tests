@@ -12,7 +12,7 @@ scalacOptions ++= Seq("-deprecation", "-feature", "-Yno-adapted-args", "-Xfatal-
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2.2.4" % "test",
-  "com.lihaoyi" %% "ammonite-repl" % "0.4.8" % "test"  cross CrossVersion.full
+  "com.lihaoyi" %% "ammonite-repl" % "0.5.0" % "test"  cross CrossVersion.full
 )
 
 resolvers ++= Seq(
@@ -27,8 +27,8 @@ incOptions := incOptions.value.withNameHashing(true)
 
 enablePlugins(ScalaJSPlugin)
 
-libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.8.0"
-libraryDependencies += "be.doeraene" %%% "scalajs-jquery" % "0.8.0"
+libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.8.2"
+libraryDependencies += "be.doeraene" %%% "scalajs-jquery" % "0.8.1"
 
 // run with nodejs
 // dom with phantomjs
@@ -62,8 +62,6 @@ assemblyMergeStrategy in assembly := {
     val oldStrategy = (assemblyMergeStrategy in assembly).value
     oldStrategy(x)
 }
-
-net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource
 

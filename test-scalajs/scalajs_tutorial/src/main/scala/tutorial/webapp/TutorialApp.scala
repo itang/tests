@@ -11,28 +11,32 @@ object TutorialApp extends JSApp {
 
   val $ = jQuery
 
-  def appendPar(targetNode: dom.Node, text: String): Unit = {
-    val parNode = document.createElement("p")
-    val textNode = document.createTextNode(text)
-    parNode.appendChild(textNode)
-    targetNode.appendChild(parNode)
-  }
-
-  @JSExport
-  def addClickedMessage(): Unit = {
-    appendPar(document.body, "You clicked the button")
-  }
+  //  def appendPar(targetNode: dom.Node, text: String): Unit = {
+  //    val parNode = document.createElement("p")
+  //    val textNode = document.createTextNode(text)
+  //    parNode.appendChild(textNode)
+  //    targetNode.appendChild(parNode)
+  //  }
+  //
+  //  @JSExport
+  //  def addClickedMessage(): Unit = {
+  //    appendPar(document.body, "You clicked the button")
+  //  }
 
   def main(): Unit = {
-    println("Hello world!")
-    appendPar(document.body, "Hello World")
-    
+    println("Hello, Scala.js")
     $(setupUI _)
   }
-  
+
   def setupUI(): Unit = {
-    $("#click-me-button2").click(addClickedMessage _)
-    $("body").append("<p>[Hello World]</p>")
+    $("""<button type="button">Click me!</button>""")
+      .click(addClickedMessage _)
+      .appendTo(jQuery("body"))
+    $("body").append("<p>Hello World</p>")
+  }
+
+  def addClickedMessage(): Unit = {
+    $("body").append("<p>You clicked the button!</p>")
   }
 
 }
