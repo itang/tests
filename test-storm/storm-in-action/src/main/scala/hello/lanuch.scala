@@ -13,25 +13,18 @@ case class LauchConf(spout: Parallelism, sayBolt: Parallelism, counterBolt: Para
 abstract class BaseTopologyLauch(lauchConf: LauchConf, grouping: (String, BoltDeclarer) => BoltDeclarer) extends Lanuch {
 
   override def apply(name: String, remote: Boolean): Unit = {
-    // 实例化topologyBuilder
-    val builder = topologyBuilder()
+    submitTopology(name, remote) { (builder, _config) =>
+      // 设置Spout 组件
+      val spoutName = s"${name}_spout"
+      builder.setSpout(spoutName, new HelloSpout, lauchConf.spout.parallelism_hint)
 
-    // 设置Spout 组件
-    val spoutName = s"${name}_spout"
-    builder.setSpout(spoutName, new HelloSpout, lauchConf.spout.parallelism_hint)
+      // 设置Bolt 组件
+      val boltSayHello = s"${name}_bolt_sayhello"
+      grouping(spoutName, builder.setBolt(boltSayHello, new SayHelloBolt, lauchConf.sayBolt.parallelism_hint).setNumTasks(lauchConf.sayBolt.num_tasks))
+      builder.setBolt(s"${name}_bolt_counthello", new CounterHelloBolt, lauchConf.counterBolt.parallelism_hint)
 
-    // 设置Bolt 组件
-    val boltSayHello = s"${name}_bolt_sayhello"
-    grouping(spoutName, builder.setBolt(boltSayHello, new SayHelloBolt, lauchConf.sayBolt.parallelism_hint).setNumTasks(lauchConf.sayBolt.num_tasks))
-    builder.setBolt(s"${name}_bolt_counthello", new CounterHelloBolt, lauchConf.counterBolt.parallelism_hint)
-
-    // 构造topology 实例
-    val topology = builder.createTopology()
-    // 构造配置对象
-    val conf = new Config();
-    //conf.setDebug(true);
-
-    submitTopology(name, remote, conf, topology)
+      //conf.setDebug(true);
+    }
   }
 
 }
@@ -51,4 +44,22 @@ object HelloGlobalGroupingTopologyLanuch extends BaseTopologyLauch(
 object HelloAllGroupingTopologyLanuch extends BaseTopologyLauch(
   LauchConf(Parallelism(1), Parallelism(2, 4), Parallelism(1, 1)),
   (name, dc) => dc.allGrouping(name))
+
+object HelloMultiSubscriptionsTopologyLauch extends Lanuch {
+
+  override def apply(name: String, remote: Boolean): Unit = {
+    submitTopology(name, remote) { (builder, _config) =>
+      // 设置Spout 组件
+      val spoutName = s"${name}_spout"
+      builder.setSpout(spoutName, new HelloSpout, 1)
+
+      // 设置Bolt 组件
+      // counter和sayhello的bolt task 平分处理来自spout的消息tuple
+      val boltSayHello = s"${name}_bolt_sayhello"
+      builder.setBolt(boltSayHello, new SayHelloBolt, 2).shuffleGrouping(spoutName)
+      builder.setBolt(s"${name}_bolt_counthello", new CounterHelloBolt, 2).shuffleGrouping(spoutName)
+    }
+  }
+
+}
 

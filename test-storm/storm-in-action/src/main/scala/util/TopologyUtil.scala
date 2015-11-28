@@ -8,7 +8,18 @@ import backtype.storm.Config
 
 object TopologyUtil {
 
-  def submitTopology(name: String, remote: Boolean, conf: Config, topology: StormTopology): Unit = {
+  def submitTopology(name: String, remote: Boolean)(set: (TopologyBuilder, Config) => Unit) {
+    val builder = topologyBuilder()
+    val config = new Config
+
+    set(builder, config)
+
+    submitTopology(name, remote, config, builder.createTopology())
+  }
+
+  def topologyBuilder() = new TopologyBuilder
+
+  private def submitTopology(name: String, remote: Boolean, conf: Config, topology: StormTopology): Unit = {
     if (remote) {
       // 设置workers数为3.
       conf.setNumWorkers(3);
@@ -28,7 +39,5 @@ object TopologyUtil {
       //      cluster.shutdown()
     }
   }
-
-  def topologyBuilder() = new TopologyBuilder
 
 }
