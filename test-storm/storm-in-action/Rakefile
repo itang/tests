@@ -25,7 +25,7 @@ namespace :run do
   end
 
   desc 'run:hello remote'
-  task :hello_remote" do
+  task :hello_remote do
     sh 'sbt "run hello remote"'
   end
 
