@@ -41,6 +41,7 @@ assemblyMergeStrategy in assembly := {
   case "com/esotericsoftware/minlog/Log.class"         => MergeStrategy.first
   case "com/esotericsoftware/minlog/Log$Logger.class"  => MergeStrategy.first
   case "project.clj"                                   => MergeStrategy.discard
+  case "defaults.yaml"                                 => MergeStrategy.discard
   case x =>
     val oldStrategy = (assemblyMergeStrategy in assembly).value
     oldStrategy(x)
