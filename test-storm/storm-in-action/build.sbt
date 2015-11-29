@@ -12,7 +12,7 @@ scalacOptions ++= Seq("-deprecation", "-feature", "-Yno-adapted-args", "-Xfatal-
 
 libraryDependencies ++= Seq(
   "me.itang" %% "scatang" % "0.1",
-  "org.apache.storm" % "storm-core" % "0.10.0",//% "provided",
+  "org.apache.storm" % "storm-core" % "0.10.0" % "provided",
 
   "storm" % "storm-kestrel" % "0.9.0-wip5-multischeme",
   "storm" % "libthrift7" % "0.7.0-2",

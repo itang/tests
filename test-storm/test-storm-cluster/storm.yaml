@@ -1,0 +1,18 @@
+## @see https://github.com/apache/storm/blob/master/conf/defaults.yaml
+########### These MUST be filled in for a storm configuration
+storm.zookeeper.servers:
+    - "localhost"
+#    - "server2"
+
+nimbus.host: "localhost"
+
+storm.local.dir: "storm-local"
+storm.log4j2.conf.dir: "log4j2"
+
+supervisor.slots.ports:
+    - 6700
+    - 6701
+    - 6702
+    - 6703
+
+ui.port: 8091

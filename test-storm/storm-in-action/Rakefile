@@ -24,6 +24,11 @@ namespace :run do
     sh 'sbt "run hello"'
   end
 
+  desc 'run:hello remote'
+  task :hello_remote" do
+    sh 'sbt "run hello remote"'
+  end
+
   desc 'run:hello_fields'
   task :hello_fields do
     sh 'sbt "run hello-fields"'

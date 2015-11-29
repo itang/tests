@@ -21,7 +21,7 @@ abstract class BaseTopologyLauch(lauchConf: LauchConf, grouping: (String, BoltDe
       // 设置Bolt 组件
       val boltSayHello = s"${name}_bolt_sayhello"
       grouping(spoutName, builder.setBolt(boltSayHello, new SayHelloBolt, lauchConf.sayBolt.parallelism_hint).setNumTasks(lauchConf.sayBolt.num_tasks))
-      builder.setBolt(s"${name}_bolt_counthello", new CounterHelloBolt, lauchConf.counterBolt.parallelism_hint)
+      builder.setBolt(s"${name}_bolt_counthello", new CounterHelloBolt, lauchConf.counterBolt.parallelism_hint).shuffleGrouping(boltSayHello)
 
       //conf.setDebug(true);
     }
