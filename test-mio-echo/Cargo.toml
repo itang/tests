@@ -1,0 +1,7 @@
+[package]
+authors = ["itang <live.tang@gmail.com>"]
+name = "test-mio-echo"
+version = "0.1.0"
+
+[dependencies]
+mio = "0.4.4"
