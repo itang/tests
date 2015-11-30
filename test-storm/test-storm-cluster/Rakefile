@@ -1,0 +1,29 @@
+task :default do
+  sh 'rake -T'
+end
+
+desc "run nimbus"
+task :run_nimbus do
+  #system "cd /home/itang/dev-env/storm;bin/storm nimbus > /dev/null 2>&1 &"
+  sh "cd /home/itang/dev-env/storm;bin/storm nimbus"
+end
+
+desc "run supervisor"
+task :run_supervisor do
+  sh "cd /home/itang/dev-env/storm;bin/storm supervisor"
+end
+
+desc "run ui"
+task :run_ui do
+  sh "cd /home/itang/dev-env/storm;bin/storm ui"
+end
+
+desc "submit hello topology"
+task :submit_hello_topology do
+  sh "cd ../storm-in-action;sbt assembly;storm jar target/scala-2.11/storm-in-action-assembly-1.0-SNAPSHOT.jar Main hello true"
+end
+
+desc "stop hello topology"
+task :stop_test do
+  sh "storm kill hello"
+end
