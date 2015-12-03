@@ -1,0 +1,9 @@
+task :default do
+  sh 'rake -T'
+end
+
+desc 'run prod'
+task :run_prod do
+  sh 'sbt assembly'
+  sh 'java -Xms512m -Xmx512m -XX:+UseG1GC -jar target/scala-2.11/test-undertow-assembly-1.0-SNAPSHOT.jar'
+end
