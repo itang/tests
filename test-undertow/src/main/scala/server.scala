@@ -11,9 +11,9 @@ import scatang.string._
 object Server extends App with Util {
 
   val server: Undertow = Undertow.builder().addHttpListener(8080, "localhost").setHandler { exchange: HttpServerExchange =>
-    for (header <- exchange.getRequestHeaders()) {
-      println(header.getHeaderName().toString().padRight(20) + ":" + header.mkString(","))
-    }
+    // for (header <- exchange.getRequestHeaders()) {
+    //   println(header.getHeaderName().toString().padRight(20) + ":" + header.mkString(","))
+    // }
 
     exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/plain")
     exchange.getResponseSender().send("Hello, world!")
@@ -21,4 +21,3 @@ object Server extends App with Util {
 
   server.start()
 }
-
