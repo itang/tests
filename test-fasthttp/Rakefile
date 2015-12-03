@@ -1,0 +1,21 @@
+task :default do
+  sh 'rake -T'
+end
+
+desc 'build'
+task :build do
+  sh 'gb build all'
+end
+
+desc 'run'
+task :run => :build do
+  sh 'bin/hello'
+end
+
+desc 'deps'
+task :deps do
+  sh 'mkdir -p vendor/src'
+
+  sh 'mkdir -p vendor/src/github.com/valyala/fasthttp'
+  sh 'git clone git@github.com:valyala/fasthttp.git vendor/src/github.com/valyala/fasthttp'
+end
