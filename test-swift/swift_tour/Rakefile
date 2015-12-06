@@ -1,0 +1,14 @@
+task :default => :run
+
+file ".build/debug/swift_tour" => Dir["Sources/**/*.swift"] do
+  sh 'swift build'
+end
+
+desc "build"
+task :build => ".build/debug/swift_tour" do
+end
+
+desc "run"
+task :run => :build do
+  sh '.build/debug/swift_tour'
+end
