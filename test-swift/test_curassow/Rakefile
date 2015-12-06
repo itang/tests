@@ -1,0 +1,21 @@
+task :default => :run
+
+bin = ".build/release/test_curassow"
+
+file bin => Dir["Sources/**/*.swift"] do
+  sh 'swift build -c release'
+end
+
+desc "build"
+task :build => bin do
+end
+
+desc "run"
+task :run => :build do
+  sh "#{bin} --workers 2 --bind 127.0.0.1:9000"
+end
+
+desc "guard"
+task :guard do
+  sh 'guard'
+end

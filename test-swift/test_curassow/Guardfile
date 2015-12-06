@@ -1,0 +1,7 @@
+guard :shell do
+  watch(/Sources\/(.*).swift/) do |m|
+    puts m[0] + " has changed."
+    system "rake run"
+  end
+end
+
