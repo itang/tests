@@ -12,3 +12,8 @@ desc "run"
 task :run => :build do
   sh '.build/debug/swift_tour'
 end
+
+desc "guard"
+task :guard do
+  sh 'guard'
+end
