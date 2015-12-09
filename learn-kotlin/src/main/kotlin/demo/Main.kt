@@ -30,23 +30,20 @@ fun test1() {
 
     fun pi(s: String): Int? = parseInt(s)
 
-    INFO("Hello, Kotlin")
-    INFO(parseInt("100"))
-    INFO(parseInt("100x"))
+    DEBUG("Hello, Kotlin")
+    DEBUG(parseInt("100"))
+    DEBUG(parseInt("100x"))
 
     val s = getValue() as String // hacked
-    INFO(pi(s))
+    DEBUG(pi(s))
 }
 
 fun test_extension() {
     val len = "hello".tap { println(it.toUpperCase()) }.length
-    INFO("length: $len", "extension")
+    DEBUG("length: $len", "extension")
 }
 
-fun INFO(message: Any?, title: String? = null) {
-    if (title == null) {
-        println("INFO: $message")
-    } else {
-        println("INFO: $title $message")
-    }
+fun DEBUG(message: Any?, title: String? = null) {
+    val line = listOf(message, title).filterNotNull().joinToString(" ")
+    println("DEBUG: $line")
 }
