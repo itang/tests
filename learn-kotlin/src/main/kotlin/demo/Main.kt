@@ -6,10 +6,10 @@ fun main(args: Array<String>) {
 }
 
 // extension method
-fun <T> T.tap(f : (x: T) -> Unit ) : T {
-  f(this)
+fun <T> T.tap(consumer: (x: T) -> Unit): T {
+    consumer(this)
 
-  return this
+    return this
 }
 
 fun test1() {
@@ -39,14 +39,14 @@ fun test1() {
 }
 
 fun test_extension() {
-    val len = "hello".tap { println(it.toUpperCase()) }.length()
-    INFO("length: ${len}", "extension")
+    val len = "hello".tap { println(it.toUpperCase()) }.length
+    INFO("length: $len", "extension")
 }
 
 fun INFO(message: Any?, title: String? = null) {
     if (title == null) {
-        println("INFO: ${message}")
+        println("INFO: $message")
     } else {
-        println("INFO: ${title} ${message}")
+        println("INFO: $title $message")
     }
 }
