@@ -1,0 +1,19 @@
+task :default do
+  sh 'rake -T'
+end
+
+desc 'run server'
+task :server do
+  sh 'gradle run'
+end
+
+desc 'run client'
+task :client do
+  sh 'gradle distZip'
+  sh %(cd build/distributions;unzip test-armeria-thrift.zip; cd test-armeria-thrift; java -cp lib/*:. demo.ClientKt)
+end
+
+desc 'clean'
+task :clean do
+  sh 'gradle clean'
+end
