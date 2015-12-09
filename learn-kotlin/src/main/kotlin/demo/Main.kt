@@ -2,6 +2,14 @@ package demo
 
 fun main(args: Array<String>) {
     test1()
+    test_extension()
+}
+
+// extension method
+fun <T> T.tap(f : (x: T) -> Unit ) : T {
+  f(this)
+
+  return this
 }
 
 fun test1() {
@@ -22,10 +30,23 @@ fun test1() {
 
     fun pi(s: String): Int? = parseInt(s)
 
-    println("Hello, Kotlin")
-    println(parseInt("100"))
-    println(parseInt("100x"))
+    INFO("Hello, Kotlin")
+    INFO(parseInt("100"))
+    INFO(parseInt("100x"))
 
     val s = getValue() as String // hacked
-    println(pi(s))
+    INFO(pi(s))
+}
+
+fun test_extension() {
+    val len = "hello".tap { println(it.toUpperCase()) }.length()
+    INFO("length: ${len}", "extension")
+}
+
+fun INFO(message: Any?, title: String? = null) {
+    if (title == null) {
+        println("INFO: ${message}")
+    } else {
+        println("INFO: ${title} ${message}")
+    }
 }
