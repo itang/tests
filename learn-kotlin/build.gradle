@@ -3,7 +3,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.0-beta-2423'
+    classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.0-beta-3595'
   }
 }
 
@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-  compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.0-beta-2423'
+  compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.0-beta-3595'
 }
 
 sourceSets {
@@ -25,4 +25,3 @@ sourceSets {
 
 mainClassName = 'demo.MainKt'
 defaultTasks 'run'
-
