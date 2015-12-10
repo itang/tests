@@ -19,7 +19,7 @@ repositories {
 
 dependencies {
     compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.0-beta-3595'
-    compile 'com.linecorp.armeria:armeria:0.6.0.Final'
+    compile 'com.linecorp.armeria:armeria:0.6.1.Final'
     compile 'org.apache.thrift:libthrift:0.9.3'
     //compile 'org.slf4j:slf4j-api:1.7.13'
     compile 'ch.qos.logback:logback-classic:1.1.3'
