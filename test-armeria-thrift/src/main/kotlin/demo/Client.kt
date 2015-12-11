@@ -11,4 +11,17 @@ fun main(args: Array<String>) {
 
     val greeting: String = helloService.hello("Armerian World")
     println(greeting)
+
+    time {
+        println(helloService.hello("Kotlin"))
+    }
+}
+
+fun time(t: () -> Unit): Unit {
+    val start = System.currentTimeMillis()
+
+    t()
+
+    val end = System.currentTimeMillis()
+    println("Elapsed time: ${((end - start) / 1000.0)} msecs")
 }
