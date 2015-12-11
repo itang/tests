@@ -30,5 +30,5 @@ sourceSets {
     main.java.srcDirs += 'src/main/java'
 }
 
-mainClassName = 'demo.MainKt'
+mainClassName = 'demo.ServerKt'
 defaultTasks 'run'
