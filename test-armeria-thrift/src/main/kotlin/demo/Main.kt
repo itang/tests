@@ -1,6 +1,5 @@
 package demo
 
-import com.example.thrift.HelloService
 import com.linecorp.armeria.common.SerializationFormat
 import com.linecorp.armeria.common.SessionProtocol
 import com.linecorp.armeria.server.Server
@@ -8,6 +7,8 @@ import com.linecorp.armeria.server.ServerBuilder
 import com.linecorp.armeria.server.docs.DocService
 import com.linecorp.armeria.server.logging.LoggingService
 import com.linecorp.armeria.server.thrift.ThriftService
+
+import com.example.thrift.HelloService
 import impl.service.MyHelloServiceAsync
 
 fun main(args: Array<String>) {

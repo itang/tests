@@ -8,7 +8,7 @@ task :server do
 end
 
 desc 'run client'
-task :client do
+task :client => %w[clean] do
   sh 'gradle distZip'
   sh %(cd build/distributions;unzip test-armeria-thrift.zip; cd test-armeria-thrift; java -cp lib/*:. demo.ClientKt)
 end
