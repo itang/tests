@@ -3,6 +3,7 @@ package demo
 import com.example.thrift.HelloService
 import com.linecorp.armeria.client.Clients
 import util.loop
+import util.tap
 import util.time
 
 fun main(args: Array<String>) {
@@ -11,15 +12,16 @@ fun main(args: Array<String>) {
             HelloService.Iface::class.java
     ) // javaClass<HelloService.Iface>()
 
-    val (greeting: String, _e) = time { helloService.hello("Armerian World") }
-    println(greeting)
-
-    time {
-        println(helloService.hello("Kotlin"))
-    }
+    val (greeting: String, elapsed: Double) = time { helloService.hello("Armerian World") }
+    println("$greeting Elapsed: $elapsed")
 
     1000.loop { i ->
-        println(helloService.hello("$i: Kotlin"))
+        time {
+            helloService.hello("$i: Kotlin")
+        }.tap { p ->
+            println("${p.first} Elapsed: ${p.second}")
+        }
+
         Thread.sleep(1000)
     }
 }

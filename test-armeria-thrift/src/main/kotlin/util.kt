@@ -28,3 +28,8 @@ fun Int.loop(consumer: (x: Int) -> Unit): Unit {
 fun Date.strfmt(pattern: String = "yyyy-MM-dd HH:mm:ss"): String {
     return SimpleDateFormat(pattern).format(this)
 }
+
+fun <T> T.tap(block: (T) -> Unit): T {
+    block(this)
+    return this
+}
