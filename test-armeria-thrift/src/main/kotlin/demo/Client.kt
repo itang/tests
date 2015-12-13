@@ -2,9 +2,8 @@ package demo
 
 import com.example.thrift.HelloService
 import com.linecorp.armeria.client.Clients
-
-import util.time
 import util.loop
+import util.time
 
 fun main(args: Array<String>) {
     val helloService: HelloService.Iface = Clients.newClient(
@@ -12,7 +11,7 @@ fun main(args: Array<String>) {
             HelloService.Iface::class.java
     ) // javaClass<HelloService.Iface>()
 
-    val greeting: String = time { helloService.hello("Armerian World") }
+    val (greeting: String, _e) = time { helloService.hello("Armerian World") }
     println(greeting)
 
     time {
@@ -24,4 +23,3 @@ fun main(args: Array<String>) {
         Thread.sleep(1000)
     }
 }
-

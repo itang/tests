@@ -1,25 +1,26 @@
 package util
 
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.*
 
-fun <T> time(t: () -> T): T {
+fun <T> time(block: () -> T): Pair<T, Double> {
     val start = System.nanoTime()
 
-    val ret = t()
+    val ret = block()
 
-    val end = System.nanoTime()
+    val elapsed = (System.nanoTime() - start) / 1000000.0
 
-    println("Elapsed time: ${((end - start) / 1000000.0)} msecs")
+    println("Elapsed time: $elapsed msecs")
 
-    return ret
+    return Pair(ret, elapsed)
 }
 
-fun Int.loop(block: (x: Int) -> Unit): Unit {
-    var i = 0
+fun Int.loop(consumer: (x: Int) -> Unit): Unit {
     val max = this
+
+    var i = 0
     while (i < max) {
-        block(i)
+        consumer(i)
         i += 1
     }
 }
