@@ -3,10 +3,10 @@ package util
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun <T> time(block: () -> T): Pair<T, Double> {
+fun <T> time(action: () -> T): Pair<T, Double> {
     val start = System.nanoTime()
 
-    val ret = block()
+    val ret = action()
 
     val elapsed = (System.nanoTime() - start) / 1000000.0
 
@@ -29,7 +29,8 @@ fun Date.strfmt(pattern: String = "yyyy-MM-dd HH:mm:ss"): String {
     return SimpleDateFormat(pattern).format(this)
 }
 
-fun <T> T.tap(block: (T) -> Unit): T {
-    block(this)
+fun <T> T.tap(action: (T) -> Unit): T {
+    action(this)
+
     return this
 }
