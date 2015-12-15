@@ -1,5 +1,13 @@
 package demo
 
+import kotlin.test.assertEquals
+
+/*fun assert(cond: Boolean, msg: String = ""){
+    if(!cond){
+        throw AssertionError( "Assert Failure!" + (if (msg.isEmpty()) "" else " $msg") )
+    }
+}*/
+
 fun main(args: Array<String>) {
     test1()
 
@@ -45,11 +53,11 @@ fun defining_local_variables() {
     DEBUG(x)
 }
 
-fun string_templates(){
+fun string_templates() {
     val args = arrayOf("hello", "world")
     DEBUG("First argument: ${args[0]}")
 
-    val second =args[1]
+    val second = args[1]
     DEBUG("Second argument: $second")
 }
 
@@ -68,19 +76,20 @@ fun conditional_expressions() {
 
     //Using nullable values and checking for null
     fun parseInt(str: String): Int? {
-        return tryIt(str){ Integer.parseInt(it) }
+        return tryIt(str) { Integer.parseInt(it) }
     }
+
     val x = parseInt("100")
     val y = parseInt("200")
     //println(x * y)
-    if( x!= null && y != null){
+    if ( x != null && y != null) {
         DEBUG(x * y)
     }
 
     // using type checks and automatic casts
     // the is operator checks if an expression is an instance of a type.
     fun getStringLength(obj: Any): Int? {
-        if(obj is String){
+        if (obj is String) {
             return obj.length
         }
 
@@ -91,22 +100,22 @@ fun conditional_expressions() {
 
     //for loop
     val args = arrayOf("a", "b", "c")
-    for (arg in args){
+    for (arg in args) {
         println(arg)
     }
-    for (i in args.indices){
+    for (i in args.indices) {
         println(args[i])
     }
 
     //while loop
     var i = 0
-    while (i < 3){
+    while (i < 3) {
         println(i++)
     }
 
     //when expression
-    fun cases(obj: Any){
-        when (obj){
+    fun cases(obj: Any) {
+        when (obj) {
             1 -> println("One")
             "Hello" -> println("Greeting")
             is Long -> println("Long")
@@ -118,10 +127,10 @@ fun conditional_expressions() {
 
     // using ranges
     val m = 101
-    if (x in 1..m-1)
+    if (x in 1..m - 1)
         println("ok")
-    val array = arrayOf(1,2,3)
-    if (x !in 0..array.lastIndex){
+    val array = arrayOf(1, 2, 3)
+    if (x !in 0..array.lastIndex) {
         DEBUG("x is $x")
     }
 
@@ -130,20 +139,20 @@ fun conditional_expressions() {
 
     // using collections
     val names = listOf("itang", "tqibm")
-    for(name in names)
+    for (name in names)
         println(name)
 
-    if ("itang" in names){
+    if ("itang" in names) {
         println("Yes")
     }
 
     names.filter { it.startsWith("t") }
-    .sortedBy { it }
-    .map{ it.toUpperCase() }
-    .forEach { println(it) }
+            .sortedBy { it }
+            .map { it.toUpperCase() }
+            .forEach { println(it) }
 }
 
-fun test_more(){
+fun test_more() {
     test_basic_types()
 }
 
@@ -185,23 +194,23 @@ fun test_basic_types() {
     }
     numbers()
 
-    fun operations(){
+    fun operations() {
         val x = (1 shl 2) and 0x000FF000
         println(x)
     }
     operations()
 
-    fun charactors(){
-        fun check(c: Char){
+    fun charactors() {
+        fun check(c: Char) {
             //if (c == 1){ //ERROR: incompatible types
-            if(c == 'A'){
+            if (c == 'A') {
                 println("OK")
             }
         }
         check('A')
 
         fun decimalDigitValue(c: Char): Int {
-            if (c !in '0'..'9'){
+            if (c !in '0'..'9') {
                 throw IllegalArgumentException("Out of range")
             }
             return c.toInt() - '0'.toInt()
@@ -212,9 +221,9 @@ fun test_basic_types() {
     }
     charactors()
 
-    fun booleans(){
-        val a : Boolean? = true
-        if(a !=null && a){
+    fun booleans() {
+        val a: Boolean? = true
+        if (a != null && a) {
             println("true")
         }
         val b = false
@@ -224,22 +233,23 @@ fun test_basic_types() {
             println("ss")
             return false
         }
+
         val c = a as Boolean
-        if( c || printit()){
+        if ( c || printit()) {
             DEBUG("OK")
         }
-        if(c && printit()){
+        if (c && printit()) {
             DEBUG("SHIT")
         }
 
         val d = !c
-        if(!d){
+        if (!d) {
             println("OK")
         }
     }
     booleans()
 
-    fun arrays(){
+    fun arrays() {
         /*
         class MyArray<T> private constructor(){
             val size: Int
@@ -248,13 +258,53 @@ fun test_basic_types() {
             fun iterator():Iterator<T>
         }
         */
-        val arr = arrayOf(1,2,3)
+        val arr = arrayOf(1, 2, 3)
         DEBUG("arr.length: ${arr.size}")
 
-        val arr2 = Array(5, { i -> (i * i).toString()})
+        val arr2 = Array(5, { i -> (i * i).toString() })
         DEBUG(java.util.Arrays.toString(arr2))
+
+        val intArr = intArrayOf(1, 2, 3)
+        DEBUG(intArr[0] + intArr[2])
+
+        assertEquals(intArr[0], 1)
     }
     arrays()
+
+    fun strings() {
+        // Strings are represented by the type String . Strings are immutable
+        //Elements of a string are characters that can be
+        //accessed by the indexing operation: s[i] . A string can be iterated over with a for-loop
+        val str = "Hello, World"
+        for (c in str) {
+            println(c)
+        }
+        val s = "Hello, world!\n"
+        assertEquals("Hello", s.split(",")[0])
+
+        val text = """
+        for (c in "foo")
+          print(c)
+"""
+        assert(text.contains("for"))
+    }
+    strings()
+
+    fun string_templates() {
+        val i = 10
+        val s = "i = $i"
+        assertEquals("i = 10", s)
+
+        val s1 = "abc"
+        val str = "$s1.length is ${s.length}"
+        DEBUG(str)
+        val str2 = """$s1 123"""
+        assertEquals(str2, "abc 123")
+
+        val price = "${'$'}9.99"
+        assertEquals("$9.99", price)
+    }
+    string_templates()
 }
 
 /////////////////////////////////////////////////////////////////
@@ -268,7 +318,7 @@ fun <T> T.tap(consumer: (x: T) -> Unit): T {
     return this
 }
 
-fun <A, B> tryIt(a: A?, consumer: (A) -> B) : B? {
+fun <A, B> tryIt(a: A?, consumer: (A) -> B): B? {
     if (a == null) {
         return null
     } else {
@@ -285,7 +335,7 @@ fun test1() {
     fun getValue(): String? = "1000d"
 
     fun parseInt(s: String?): Int? {
-       return tryIt(s){ Integer.parseInt(it) }
+        return tryIt(s) { Integer.parseInt(it) }
     }
 
     fun pi(s: String): Int? = parseInt(s)
