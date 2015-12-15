@@ -12,20 +12,24 @@ fun <T> T.tap(consumer: (x: T) -> Unit): T {
     return this
 }
 
+fun <A, B> tryIt(a: A?, consumer: (A) -> B) : B? {
+    if (a == null) {
+        return null
+    } else {
+        try {
+            return consumer(a)
+        } catch(e: Exception) {
+            println("WARN: ${e.message}")
+            return null
+        }
+    }
+}
+
 fun test1() {
     fun getValue(): String? = "1000d"
 
     fun parseInt(s: String?): Int? {
-        if (s == null) {
-            return null
-        } else {
-            try {
-                return Integer.parseInt(s)
-            } catch(e: Exception) {
-                println("WARN: ${e.message}")
-                return null
-            }
-        }
+       return tryIt(s){ Integer.parseInt(it) }
     }
 
     fun pi(s: String): Int? = parseInt(s)
