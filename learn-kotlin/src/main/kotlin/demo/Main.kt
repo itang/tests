@@ -2,12 +2,6 @@ package demo
 
 import kotlin.test.assertEquals
 
-/*fun assert(cond: Boolean, msg: String = ""){
-    if(!cond){
-        throw AssertionError( "Assert Failure!" + (if (msg.isEmpty()) "" else " $msg") )
-    }
-}*/
-
 fun main(args: Array<String>) {
     test1()
 
