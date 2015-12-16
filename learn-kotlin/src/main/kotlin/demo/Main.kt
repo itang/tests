@@ -1,5 +1,6 @@
 package demo
 
+import com.sun.net.ssl.SSLContextSpi
 import demo.classes.User
 import java.util.*
 import java.text.SimpleDateFormat as DFormat
@@ -7,6 +8,8 @@ import java.lang.String.format
 import javax.inject.Inject
 
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 fun main(args: Array<String>) {
     test1()
@@ -639,7 +642,252 @@ fun test_classes_objects() {
     // Note that Kotlin does not have a new keyword.
     val invoice = Invoice()
     val customer = Customer("ss")
+
+    //class Members
+    // constructors and initializer blocks
+    // Functions
+    // Properties
+    // Nested and Inner Classes
+    // Object Declarations
+
+    fun test_inheriatance() {
+        class Example // Implicitly inheriats from any
+        // Any is not java.lang.Object ; in particular, it does not have any members other than equals() , hashCode() and
+        // toString()
+
+        // To declare an explicit supertype, we place the type after a colon in the class header:
+        open class Base(p: Int)
+
+        class Derived(val p: Int) : Base(p)
+
+        val d = Derived(100)
+        assertEquals(d.p, 100)
+
+        class Base2(p: Int)
+        //class Derived2(val p: Int) : Base2(p) // This type is final, so it cannot be inherited from
+
+        class Context
+        class AttributeSet
+        open class View(context: Context) {
+            constructor(context: Context, attr: AttributeSet) : this(context)
+        }
+
+        class MyView : View {
+            constructor(ctx: Context) : super(ctx)
+
+            constructor(ctx: Context, attr: AttributeSet) : super(ctx, attr)
+        }
+
+        //Overriding Members
+        open class B {
+            open fun v() {
+                println("B")
+            }
+
+            fun nv() {
+            }
+        }
+
+        class BB() : B() {
+            override fun v() {
+                println("BB")
+            }
+
+            //override fun nv(){}
+        }
+
+        val b: B = B()
+        b.v()
+        val b2: BB = BB()
+        b2.v()
+
+        val b3: B = BB()
+        b3.v()
+
+        open class BBB() : B() {
+            //A member marked override is itself open, i.e. it may be overridden in subclasses. If you want to prohibit re-overriding, use
+            //final
+            final override fun v() {
+                println("BBB")
+            }
+        }
+
+        val b4: B = BBB()
+        b4.v()
+
+        class B2() : BBB() {
+            //override fun v(){}
+        }
+
+        val b5: B = B2()
+        b5.v()
+
+        //Overriding Rules
+        fun overridingRules() {
+            open class A {
+                open fun f() {
+                    println("A")
+                }
+
+                fun a() {
+                    println("a")
+                }
+            }
+
+            class C() : A(), IB {
+                final override fun f() {
+                    super<A>.f()
+                    super<IB>.f()
+                }
+
+                override fun b() {
+                    super.b()
+                }
+
+                override fun c() {
+                    println("C")
+                }
+            }
+
+            val c = C()
+            c.f()
+        }
+        overridingRules()
+
+        fun abstract_classes() {
+            abstract class A {
+                abstract fun f()
+            }
+
+            class C() : A(), IB {
+                override fun f() {
+                    super.f()
+                }
+
+                override fun c() {
+                    println("C")
+                }
+            }
+
+            val c = C()
+            c.f()
+
+            // We can override a non-abstract open member with an abstract one
+            open class Base {
+                open fun f() {
+                }
+            }
+
+            abstract class Derived : Base() {
+                override abstract fun f()
+            }
+        }
+        abstract_classes()
+    }
+
+    test_inheriatance()
+
+    fun test_companion() {
+        //If you need to write a function that can be called without having a class instance but needs access to the internals of a class
+        //(for example, a factory method), you can write it as a member of an object declaration inside that class.
+
+        // Even more specifically, if you declare a companion object inside your class, you’ll be able to call its members with the same
+        // syntax as calling static methods in Java/C#, using only the class name as a qualifier
+        ObjectA.hello()
+
+        val oa = ObjectCampanionA.create()
+        oa.hello()
+    }
+    test_companion()
+
+    fun sealed_classes() {
+        //Sealed classes are used for representing restricted class hierarchies, when a value can have one of the types from a limited
+        //set, but cannot have any other type
+        fun eval(expr: Expr): Double = when (expr) {
+            is Expr.Const -> expr.number
+            is Expr.Sum -> eval(expr.e1) + eval(expr.e2)
+            Expr.NotANumber -> Double.NaN
+        }
+        assertEquals(eval(Expr.Sum(Expr.Const(100.0), Expr.Const(200.0))), 300.0)
+    }
+    sealed_classes()
+
+    //
+    fun properties_fields() {
+        // Classes in Kotlin can have properties. These can be declared as mutable, using the var keyword or read-only using the val
+        //keyword
+        class Address {
+            public var name: String = ""
+        }
+
+        val addr = Address()
+        println(addr.name)
+        addr.name = "sh"
+        assertEquals(addr.name, "sh")
+
+        // Getters and Setters
+        /*
+        var <propertyName>: <PropertyType> [= <property_initializer>]
+          <getter>
+          <setter>
+         */
+        class A {
+            var name: String = "a"
+
+            var fullName: String
+                get() = name.toUpperCase()
+                set(value) {
+                    this.name = value
+                }
+
+            val isEmpty: Boolean
+                get() = fullName.isEmpty()
+        }
+
+        val a = A()
+        assertEquals("a", a.name)
+        assertEquals("A", a.fullName)
+        assertFalse { a.isEmpty }
+    }
+    properties_fields()
 }
+
+interface IB {
+    fun f() {
+        println("IB")
+    }
+
+    fun b() {
+        print("ib")
+    }
+
+    fun c(): Unit
+}
+
+object ObjectA {
+    fun hello() {
+        println("Hello ObjectA")
+    }
+}
+
+
+class ObjectCampanionA {
+    companion object Factory {
+        fun create(): ObjectCampanionA = ObjectCampanionA()
+    }
+
+    fun hello() {
+        println("ObjectCampanionA")
+    }
+}
+
+sealed class Expr {
+    class Const(val number: Double) : Expr()
+    class Sum(val e1: Expr, val e2: Expr) : Expr()
+
+    object NotANumber : Expr()
+}
+
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
