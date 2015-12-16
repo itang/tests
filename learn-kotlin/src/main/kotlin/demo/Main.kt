@@ -389,8 +389,147 @@ fun test_control_flow() {
             tryIt("100") { Integer.parseInt(it) } -> println("100")
             else -> println("s does not encode x")
         }
+
+        val validNumbers = arrayOf(100, 200, 300)
+        when (x) {
+            in 1..10 -> println("x is in the range")
+            in validNumbers -> println("x is valid")
+            !in 10..20 -> println("x is outside the range")
+            else -> println("none of the above")
+        }
+
+        val s = "hello,world"
+        val hasPrefix = when (s) {
+            is String -> s.startsWith("hello")
+            else -> false
+        }
+        assert(hasPrefix)
+
+        fun Int.isOdd(): Boolean {
+            return this % 2 == 1
+        }
+
+        fun Int.isEven(): Boolean {
+            return this % 2 == 0
+        }
+        //as if else if chain
+        println("x: $x")
+        when {
+            x.isOdd() -> println("x is odd")
+            x.isEven() -> println("x is even")
+            else -> println("x is funny")
+        }
     }
     test_when()
+
+    fun test_for_loop() {
+        /*
+        for iterates through anything that provides an iterator, i.e.
+        — has a member- or extension-function iterator() , whose return type
+        — has a member- or extension-function next() , and
+        — has a member- or extension-function hasNext() that returns Boolean .
+        All of these three functions need to be marked as operator .
+         */
+        val list = listOf(1, 2, 3)
+        for (it in list) {
+            println(it)
+        }
+
+        val arr = arrayOf(1, 2, 3, 4, 5)
+        for (i in arr.indices) {
+            println("$i: ${arr[i]}")
+        }
+        val arr2 = arrayOf(200, 300, 400, 500)
+        arr2.forEachIndexed { a, b -> println("$a, $b") }
+
+        for ((index, value) in arr2.withIndex()) {
+            println("$index: $value")
+        }
+    }
+    test_for_loop()
+
+    fun test_while_loop() {
+        var x = 10
+        while (x > 0) {
+            println(x)
+            x--;
+        }
+
+        val random = java.util.Random()
+        fun retrieveData(): Int {
+            return random.nextInt(10)
+        }
+
+        do {
+            val y = retrieveData()
+            println("y: $y")
+        } while (y < 6)
+    }
+
+    test_while_loop()
+
+    fun test_return_jump() {
+        /*
+        — return. By default returns from the nearest enclosing function or anonymous function.
+        — break. Terminates the nearest enclosing loop.
+        — continue. Proceeds to the next step of the nearest enclosing loop.
+         */
+        //Break and Continue Labels
+        var sum = 0
+        loop@ for (i in 1..100) {
+            for (j in 1..100) {
+                sum++
+                if (i + j > 10)
+                    break@loop
+            }
+        }
+        DEBUG("sum: $sum")
+
+        // Return at Labels
+        val ints = arrayOf(1, 2, 3, 5, 6, 100)
+        fun foo(): Int {
+            var i = 0
+            ints.forEach {
+                if (it > 4) return it
+                i++
+            }
+            return i
+        }
+        assertEquals(5, foo())
+
+        fun foo2(): Int {
+            var i = 0
+            ints.forEach lit@ {
+                if (it > 4) return@lit
+                i += it
+            }
+            return i
+        }
+
+        fun foo3(): Int {
+            var i = 0
+            ints.forEach {
+                if (it > 5) return@forEach
+                i += it
+            }
+            return i
+        }
+        assertEquals(foo3(), 1 + 2 + 3 + 5)
+
+        //Alternatively, we can replace the lambda expression with an anonymous function. A return statement in an anomymous
+        //function will return from the anonymous function itself.
+
+        fun foo4(): Int {
+            var i = 0
+            ints.forEach(fun(it: Int) {
+                if (it > 5) return
+                i += it
+            })
+            return i
+        }
+        assertEquals(foo4(), 1 + 2 + 3 + 5)
+    }
+    test_return_jump()
 }
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
