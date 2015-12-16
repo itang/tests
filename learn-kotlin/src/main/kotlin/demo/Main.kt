@@ -1,8 +1,11 @@
 package demo
 
+import demo.classes.User
 import java.util.*
 import java.text.SimpleDateFormat as DFormat
 import java.lang.String.format
+import javax.inject.Inject
+
 import kotlin.test.assertEquals
 
 fun main(args: Array<String>) {
@@ -155,6 +158,8 @@ fun test_more() {
     test_packages()
 
     test_control_flow()
+
+    test_classes_objects()
 }
 
 fun test_basic_types() {
@@ -530,6 +535,110 @@ fun test_control_flow() {
         assertEquals(foo4(), 1 + 2 + 3 + 5)
     }
     test_return_jump()
+}
+
+fun test_classes_objects() {
+    class Invoice {
+
+    }
+
+    class Empty
+
+    // constructors
+    // A class in Kotlin can have a primary constructor and one or more secondary constructors. The primary constructor is
+    // part of the class header: it goes after the class name (and optional type parameters).
+    // If the primary constructor does not have any annotations or visibility modifiers, the constructor keyword can be omitted:
+    class Person constructor(firstname: String) {
+
+    }
+
+    class Person2(firstname: String) {
+
+    }
+
+    //The primary constructor cannot contain any code. Initialization code can be placed in initializer blocks, which are prefixed
+    //with the init keyword:
+    class Customer(name: String) {
+        init {
+            DEBUG("Customer initialized with value ${name}")
+        }
+    }
+
+    val c = Customer("itang")
+    println(c)
+    // They can also be used in property
+    // initializers declared in the class body:
+    class Customer2(name: String) {
+        val customerKey = name.toUpperCase()
+    }
+
+    val c2 = Customer2("itang")
+    DEBUG("c2.customerKey: ${c2.customerKey}")
+
+    // for declaring properties and initializing them from the primary constructor, Kotlin has a concise syntax:
+    class Person3(val firstName: String, val lastName: String, var age: Int) {
+    }
+
+    val p = Person3("tang", "da", 100)
+    DEBUG("p.firstName: ${p.firstName}, p.lastName:${p.lastName}, p.age: ${p.age}")
+    p.age = 120
+    DEBUG("p.firstName: ${p.firstName}, p.lastName:${p.lastName}, p.age: ${p.age}")
+
+    class Person4 {
+
+    }
+
+    // If the constructor has annotations or visibility modifiers, the constructor keyword is required, and the modifiers go before
+    class Customer3 @Inject constructor(name: String) {
+
+    }
+
+    val user = User("itang")
+    println(user.name)
+
+    // secondary constructors, which are prefixed with constructor:
+    class A {
+        var theName: String
+
+        constructor(name: String) {
+            theName = name
+        }
+    }
+
+    val a = A("itang")
+    println("a.theName: ${a.theName}")
+
+    //If the class has a primary constructor, each secondary constructor needs to delegate to the primary constructor, either directly
+    //or indirectly through another secondary constructor(s).
+    class B(val name: String) {
+        var a: A = A(name)
+
+        constructor(name: String, a: A) : this(name) {
+            this.a = a
+        }
+    }
+
+    val b = B("itang")
+    assertEquals(b.name, "itang")
+    assertEquals(b.a.theName, "itang")
+
+    val b2 = B("itang", A("tqibm"))
+    assertEquals(b2.name, "itang")
+    assertEquals(b2.a.theName, "tqibm")
+
+    //
+    class C(val name: String = "C")
+
+    val co = C()
+    val co2 = C("CC")
+    assertEquals(co.name, "C")
+    assertEquals(co2.name, "CC")
+
+    //Creating instances of classes
+    // To create an instance of a class, we call the constructor as if it were a regular function:
+    // Note that Kotlin does not have a new keyword.
+    val invoice = Invoice()
+    val customer = Customer("ss")
 }
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
