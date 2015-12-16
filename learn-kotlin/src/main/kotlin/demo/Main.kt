@@ -1,5 +1,8 @@
 package demo
 
+import java.util.*
+import java.text.SimpleDateFormat as DFormat
+import java.lang.String.format
 import kotlin.test.assertEquals
 
 fun main(args: Array<String>) {
@@ -148,6 +151,10 @@ fun conditional_expressions() {
 
 fun test_more() {
     test_basic_types()
+
+    test_packages()
+
+    test_control_flow()
 }
 
 fun test_basic_types() {
@@ -301,6 +308,90 @@ fun test_basic_types() {
     string_templates()
 }
 
+fun test_packages() {
+    /*
+    All the contents (such as classes and functions) of the source file are contained by the package declared. So, in the example
+above, the full name of baz() is foo.bar.baz , and the full name of Goo is foo.bar.Goo .
+If the package is not specified, the contents of such a file belong to “default” package that has no name
+     */
+    // package foo.bar
+    // import foo.Bar
+    // import foo.*
+    // import foo.Bar
+    // import bar.Bar as bBar
+    println(DFormat("yyyy-MM-dd").format(Date()))
+    DEBUG(format("hello, %s", "world"))
+
+    // the import keyword is not restricted to importing classes; you can also use it to import other declarations:
+    // top-level functions and properties
+    // functions and properties declared in object declarations;
+    // enum constants
+
+    //Visibility of Top-level Declarations
+    // if a top-level declaration is marked private, it is private to the file it's declared in.
+
+}
+
+fun test_control_flow() {
+    fun test_if_expression() {
+        // if is an expression
+        val a = 100
+        var max = a
+        val b = 200
+        if (a < b) {
+            max = b
+        }
+        assertEquals(max, 200)
+
+        fun max(a: Int, b: Int): Int {
+            val max = if (a > b ) a else b
+            return max
+        }
+        assertEquals(300, max(100, 300))
+
+        fun max2(a: Int, b: Int): Int {
+            val max = if ( a > b) {
+                println("Choose a")
+                a
+            } else {
+                println("Choose b")
+                b
+            }
+            return max
+        }
+        assertEquals(max2(1, 2), 2)
+
+        if (a > 10) {
+            println("a > 10")
+        } else if (a > 100) {
+            println("a > 100")
+        } else {
+            println("a<= 10")
+        }
+    }
+    test_if_expression()
+
+    fun test_when() {
+        val x = 100
+        when (x) {
+            1 -> print("x == 1")
+            2 -> print("x == 2")
+            else -> {
+                print("x is neither 1 nor 2")
+            }
+        }
+        val b = 1
+        when (b) {
+            0, 1 -> println("x == 0 or x == 1")
+            else -> println("otherwise")
+        }
+        when (x) {
+            tryIt("100") { Integer.parseInt(it) } -> println("100")
+            else -> println("s does not encode x")
+        }
+    }
+    test_when()
+}
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
