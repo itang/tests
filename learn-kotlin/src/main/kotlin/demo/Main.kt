@@ -842,12 +842,39 @@ fun test_classes_objects() {
 
             val isEmpty: Boolean
                 get() = fullName.isEmpty()
+
+            var setterVisibility: String = "abc"
+                private set
+
+            var setterWithAnnotation: Any? = null
+                @Inject set
+
         }
 
         val a = A()
         assertEquals("a", a.name)
         assertEquals("A", a.fullName)
         assertFalse { a.isEmpty }
+
+        // Backing fields
+        // classes in kotlin cannot have fields, sometimes it is necessary to have a backing field when using custom
+        // accessors. for these purposes, Kotlin provides an automatic backing field which can be accesse using the field
+        // identifier
+
+        class B {
+            var counter = 0 // the initializer value is written directly to the backing field
+                set(value) {
+                    if (value > 0)
+                        field = value
+                }
+        }
+
+        val b = B()
+        assertEquals(b.counter, 0)
+        b.counter = -1
+        assertEquals(b.counter, 0)
+        b.counter = 100
+        assertEquals(b.counter, 100)
     }
     properties_fields()
 }
