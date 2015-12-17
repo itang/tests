@@ -163,6 +163,10 @@ fun test_more() {
     test_control_flow()
 
     test_classes_objects()
+
+    test_interfaces()
+
+    visibility_modifiers()
 }
 
 fun test_basic_types() {
@@ -875,8 +879,114 @@ fun test_classes_objects() {
         assertEquals(b.counter, 0)
         b.counter = 100
         assertEquals(b.counter, 100)
+
+        fun compile_time_constants() {
+            // top-level or member of an object
+            // initialized with a value of type String or a primitive type
+            // No custom getter
+            // such properties can be used in annotations
+            @Deprecated(Constants.SUBSYSTEM_DEPRECATED) fun foo() {
+                println("deprecated")
+            }
+            foo()
+        }
+        compile_time_constants()
+
+        fun late_initialized_properties() {
+            class TestSubject {
+                fun method() {
+                    println("sss")
+                }
+            }
+
+            class MyTest {
+                // tip for compiler
+                lateinit var subject: TestSubject
+
+                /*@SetUp*/ fun setup() {
+                    subject = TestSubject()
+                }
+
+                /*@Test*/fun test() {
+                    subject.method()
+                }
+            }
+        }
     }
     properties_fields()
+}
+
+fun test_interfaces() {
+    class Child : MyInterface {
+        override val property: Int = 29
+        override fun bar() {
+            println("bar")
+        }
+    }
+
+    val child = Child()
+    child.bar()
+    child.foo()
+}
+
+fun visibility_modifiers() {
+    // Classes, objects, interfaces, constructors, functions, properties and their setters can have visibility modifiers.
+    // (Getters always
+    // have the same visibility as the property.)
+
+    // Packages.
+    //
+    // If you do not specify any visibility modifier, public is used by default, which means that your declarations will be visible
+    // everywhere;
+    // If you mark a declaration private , it will only be visible inside the file containing the declaration;
+    // If you mark it internal , it is visible everywhere in the same module;
+    // protected is not available for top-level declarations.
+
+    //classes and Interfaces
+    // — private means visible inside this class only (including all its members);
+    // — protected — same as private + visible in subclasses too;
+    // — internal — any client inside this module who sees the declaring class sees its internal members;
+    // — public — any client who sees the declaring class sees its public members.
+    open class Outer {
+        private val a = 1
+        protected val b = 2
+        internal val c = 3
+        val d = 4 // public by default
+
+        inner protected class Nested {
+            public val e: Int = 5
+        }
+    }
+
+    class Subclass : Outer() {
+        fun test() {
+            //this.a // a is not visible
+            println(b)
+            println(c)
+            println(d)
+        }
+    }
+
+    //constructors
+    // By default, all constructors are public
+
+    //val c = PrivateConsClass()
+    val c = PrivateConsClass.create()
+    assertEquals(c.a, 100)
+
+    // Modules
+    // a module is a set of Kotlin files compiled together
+
+}
+
+
+interface MyInterface {
+    val property: Int // abstract
+
+    fun bar()
+    fun foo() {
+        print(property)
+    }
 }
 
 interface IB {
@@ -915,6 +1025,15 @@ sealed class Expr {
     object NotANumber : Expr()
 }
 
+object Constants {
+    const val SUBSYSTEM_DEPRECATED: String = "This subsystem is deprecated"
+}
+
+class PrivateConsClass private constructor(val a: Int) {
+    companion object Factory {
+        fun create(): PrivateConsClass = PrivateConsClass(100)
+    }
+}
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
