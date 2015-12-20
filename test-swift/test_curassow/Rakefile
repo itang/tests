@@ -19,3 +19,8 @@ desc "guard"
 task :guard do
   sh 'guard'
 end
+
+desc "clean"
+task :clean do
+  sh 'rm -rf .build Packages'
+end
