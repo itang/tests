@@ -1,6 +1,6 @@
 package demo
 
-import com.sun.net.ssl.SSLContextSpi
+
 import demo.classes.User
 import java.util.*
 import java.text.SimpleDateFormat as DFormat
@@ -9,6 +9,7 @@ import javax.inject.Inject
 
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 fun main(args: Array<String>) {
@@ -18,13 +19,15 @@ fun main(args: Array<String>) {
 
     test_define_functions()
 
-    defining_local_variables();
+    defining_local_variables()
 
-    string_templates();
+    string_templates()
 
-    conditional_expressions();
+    conditional_expressions()
 
-    test_more();
+    test_more()
+
+    test_extensions()
 }
 
 fun test_define_functions() {
@@ -976,9 +979,70 @@ fun visibility_modifiers() {
 
     // Modules
     // a module is a set of Kotlin files compiled together
+    // an IntelliJ IDEA module;
+    // a Maven or Gradle project;
+    // a set of files compiled with one invocation of the Ant task.
+}
+
+fun test_extensions() {
+    fun MutableList<Int>.swap(index1: Int, index2: Int) {
+        val tmp = this[index1] // 'this'  corrensponds to the list
+        this[index1] = this[index2]
+        this[index2] = tmp
+    }
+
+    //val l = mutableListOf(1,2,3)
+    //l.swap(0, 2)
+    //assertEquals(l, mutableListOf(3,2,1))
+
+    fun <T> MutableList<T>.swap(index1: Int, index2: Int) {
+        val tmp = this[index1]
+        this[index1] = this[index2]
+        this[index2] = tmp
+    }
+
+    // Extensions are resolved statically
+    // . If
+    //there’s a member and extension of the same type both applicable to given arguments, a member always wins
+    class C {
+        fun foo(): String {
+            return ("member")
+        }
+    }
+
+    fun C.foo(): String {
+        return ("extension")
+    }
+
+    val c = C()
+    assertEquals("member", c.foo())
+
+    // extension properties
+    //val <T> List<T>.lastIndex: Int
+    //get() = size - 1
+
+    //Companion Object Extensions
+    //If a class has a companion object defined, you can also define
+    // extension functions and properties for the companion
+    fun MyClass.Companion.foo(): MyClass {
+        return MyClass()
+    }
+
+    val m = MyClass.foo()
+    assertNotNull(m)
+
+    //Scope of Extendions
+    //most of the time we define extensions on the top level.
 
 }
 
+class MyClass {
+    companion object {}
+}
+
+// extension properties
+val <T> List<T>.lastIndex: Int
+    get() = size - 1
 
 interface MyInterface {
     val property: Int // abstract
