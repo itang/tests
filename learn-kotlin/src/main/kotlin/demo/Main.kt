@@ -6,6 +6,7 @@ import java.util.*
 import java.text.SimpleDateFormat as DFormat
 import java.lang.String.format
 import javax.inject.Inject
+import kotlin.concurrent.thread
 
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -1077,7 +1078,86 @@ fun test_data_classes() {
 }
 
 fun test_generics() {
+    // the wildcard with an extends-bound (upper bound) makes the type covariant
+    // PECS stands for Producer-Extends, Consumer-Super.
 
+    // site variance: we can annotate
+    // the type parameter T of Source to make sure that it is only returned (produced) from members of Source<T> , and never
+    // consumed. To do this we provide the out modifier
+    abstract class Source<out T> {
+        abstract fun nextT(): T
+    }
+
+    fun demo(strs: Source<String>) {
+        val objects: Source<Any> = strs // This is ok, since T is an out-parameter.
+    }
+
+    // in "clever words" thay say that the class C is covariant in the parmeter T, or that T is a convariant type parameter.
+    // can think of C as being a producer of T's, and NOT a consumer of T' s
+    // The out modifier is called a variance annotation
+
+    // in addition to out, Kotlin provides a complementary variance annotation: in. It makes a type parameter
+    // contravariant: it can only be consumed and never producer. A good example
+    // of a contravariant class is Comparable:
+    abstract class Comparable1<in T> {
+        abstract fun compareTo(other: T): Int
+    }
+
+    fun demo(x: Comparable1<Number>) {
+        x.compareTo(1.0) // 1.0 has type double, which is a subtype of Number
+        // Thus , we can assign x to a variable of type comparable<Double>
+        val y: Comparable1<Double> = x //
+    }
+    //The Existential Transformation: Consumer in, Producer out! :-)
+
+    //type projections
+    // use-site variance: Type projections
+
+    //Generic functions
+    // functions
+
+    fun <T> singletonList(item: T): List<T> {
+        return listOf(item)
+    }
+
+    val s = singletonList(1000)
+    assertEquals(s, listOf(1000))
+
+    val l = singletonList<Long>(1)
+    println(l[0].javaClass)
+
+    //Generic constraints
+    // Upper Bounds: upper bound that corresponds to Java’s extends keyword:
+
+    fun <T : Comparable<T>> sort(list: List<T>) {
+    }
+    sort(listOf(1, 2, 3)) // ok. Int is a subtype of Comparable<Int>
+    //sort(listOf(HashMap<Int, String>())) //
+
+    // The default upper bound (if none specified) is Any? .
+    // If the same type parameter needs more than one upper bound, we need a separate where-clause:
+
+    fun <T> cloneWhenGreater(list: List<T>, threshold: T): List<T>
+            where T : Comparable<T>,
+    T : Cloneable2<T> {
+        return list.filter { it > threshold }.map { it.clone() }
+    }
+
+    data class CC(val i: Int) : Comparable<CC>, Cloneable2<CC> {
+        override fun compareTo(other: CC): Int {
+            return i - other.i
+        }
+
+        override fun clone(): CC {
+            return CC(i)
+        }
+
+    }
+    println(cloneWhenGreater(listOf(CC(1), CC(2), CC(3)), CC(2)))
+}
+
+interface Cloneable2<T> {
+    fun clone(): T
 }
 
 class MyClass {
