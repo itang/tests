@@ -28,6 +28,10 @@ fun main(args: Array<String>) {
     test_more()
 
     test_extensions()
+
+    test_data_classes()
+
+    test_generics()
 }
 
 fun test_define_functions() {
@@ -1033,6 +1037,46 @@ fun test_extensions() {
 
     //Scope of Extendions
     //most of the time we define extensions on the top level.
+
+}
+
+fun test_data_classes() {
+    data class User(val name: String, val age: Int)
+    // - equals() hashCode()
+    // - toString()
+    // - componentN()
+    // - copy()
+
+    // Th primary constructor needs to have at least one parameter
+    // All primary constructor parameters need to be marked as val or var.
+    // Data classes can't be abstract, open, sealed or inner.
+    // Data classes may not extend other classes (but may implements interfaces).
+    data class User2(val name: String = "", val age: Int = 1)
+
+    val user = User("itang", 30)
+    //copy
+    val jack = user.copy(name = "Jack", age = 100)
+    assertEquals("Jack", jack.name)
+    assertEquals(100, jack.age)
+
+    val newjack = jack.copy(age = 10)
+    assertEquals("Jack", newjack.name)
+    assertEquals(10, newjack.age)
+
+    // Data classes and Destructuring Declarations
+    val jane = User("Jane", 35)
+    val (name, age) = jane
+    println("$name, $age years of age")
+
+    //standard library provides Pair and Triple
+    val kv = Pair("Itang", 100)
+    assertEquals(kv.first, "Itang")
+    assertEquals(kv.second, 100)
+    val (key, value) = kv
+    assertEquals("$key-$value", "Itang-100")
+}
+
+fun test_generics() {
 
 }
 
