@@ -1,0 +1,7 @@
+[package]
+authors = ["itang <live.tang@gmail.com>"]
+name = "test-rayon"
+version = "0.1.0"
+
+[dependencies]
+rayon = "0.0.1"
