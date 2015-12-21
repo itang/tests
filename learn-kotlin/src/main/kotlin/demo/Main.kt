@@ -7,11 +7,11 @@ import java.text.SimpleDateFormat as DFormat
 import java.lang.String.format
 import javax.inject.Inject
 import kotlin.concurrent.thread
-
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
+import kotlin.properties.Delegates
+import kotlin.properties.getValue
+import kotlin.properties.setValue
+import kotlin.reflect.KProperty
+import kotlin.test.*
 
 fun main(args: Array<String>) {
     test1()
@@ -33,6 +33,217 @@ fun main(args: Array<String>) {
     test_data_classes()
 
     test_generics()
+
+    test_nested_classes()
+
+    test_enum_classes()
+
+    test_object_expressions_and_declarations()
+
+    test_delegation()
+}
+
+fun test_delegation() {
+    val b = DBaseImpl(10)
+    DDerived(b).print()
+
+    //Delegated Properties
+    // - lazy properties: the value gets computed only upon first access
+    // - observable properties: listeners get notified about changes to this property,
+    // - storing properties in a map, not in separate field each.
+    class Delegate {
+        operator fun getValue(thisRef: Any?, property: KProperty<*>): String {
+            return "$thisRef, thak yhou for delegating '${property.name}' to me!"
+        }
+
+        operator fun setValue(thisRef: Any?, property: KProperty<*>, value: String) {
+            println("$value has been assgind to '${property.name} in $thisRef.'")
+        }
+    }
+
+    class Example {
+        var p: String by Delegate()
+    }
+
+    val e = Example()
+    e.p = 100.toString()
+    println(e.p)
+
+    // Standard Delegates
+    // Lazy
+    //lazy() is a function that takes a lambda and returns an instance of Lazy<T> which can serve as a delegate for
+    //implementing a lazy property: the first call to get() executes the lambda passed to lazy() and remembers the result,
+    //subsequent calls to get() simply return the remembered result
+    class LazyTest {
+        val lazyValue: String by lazy {
+            println("computed!")
+            "Hello"
+        }
+    }
+
+    val l = LazyTest()
+    println(l.lazyValue.javaClass)
+    assertEquals(l.lazyValue, "Hello")
+    assertEquals(l.lazyValue, "Hello")
+
+    class User {
+        var name: String by Delegates.observable("<no name>") {
+            p, old, new ->
+            println("$old -> $new")
+        }
+    }
+
+    val user = User()
+    println(user.name)
+    assertEquals(user.name, "<no name>")
+    user.name = "itang"
+
+    assertEquals(user.name, "itang")
+    user.name = "tqibm"
+
+    //storing properties in a Map
+    class User2(val map: Map<String, Any?>) {
+        val name: String by map
+        val age: Int by map
+        val addr: String by map
+    }
+
+    val user2 = User2(mapOf("name" to "Itang", "age" to 25))
+    assertEquals(user2.name, "Itang")
+    assertEquals(user2.age, 25)
+
+    assertFails { user2.addr }
+
+    //
+    class MutableUser(val map: MutableMap<String, Any?>) {
+        var name: String by map
+        var age: Int by map
+    }
+
+    val m = HashMap<String, Any?>()
+    m.put("name", "itang")
+    m.put("age", 100)
+
+    val user3 = MutableUser(m)
+    assertEquals(user3.name, "itang")
+    user3.name = "tqibm"
+    assertEquals(m.get("name"), "tqibm")
+}
+
+interface DBase {
+    fun print()
+}
+
+class DBaseImpl(val x: Int) : DBase {
+    override fun print() {
+        println(x)
+    }
+}
+
+class DDerived(b: DBase) : DBase by b
+
+fun test_object_expressions_and_declarations() {
+    open class A(x: Int) {
+        open val y: Int = x
+    }
+
+    val ab = object : A(1), Aoed {
+        override val y = 15
+    }
+    assertEquals(15, ab.y)
+
+    val adHoc = object {
+        var x: Int = 5
+        var y: Int = 10
+    }
+    println(adHoc.x + adHoc.y)
+
+
+    DataProviderManager.registerDataProvider(DataProvider())
+    println(DataProviderManager.allDataProviders)
+
+    //Companion Objects
+    val myclassIntance = MyClass2.create()
+    println(myclassIntance)
+
+    println(MyClass3.create())
+    println(MyClass4.create())
+
+    // — object declarations are initialized lazily, when accessed for the first time
+    // — object expressions are executed (and initialized) immediately, where they are used
+}
+
+interface Aoed {}
+class DataProvider {}
+
+object DataProviderManager {
+    fun registerDataProvider(provider: DataProvider) {
+        // ...
+    }
+
+    val allDataProviders: Collection<DataProvider>
+        get () = listOf()
+}
+
+class MyClass2 {
+    companion object Factory {
+        fun create(): MyClass2 = MyClass2()
+    }
+}
+
+class MyClass3 {
+    companion object {
+        fun create(): MyClass3 = MyClass3()
+    }
+}
+
+interface Factory<T> {
+    fun create(): T
+}
+
+class MyClass4 {
+    companion object : Factory<MyClass4> {
+        override fun create(): MyClass4 = MyClass4()
+    }
+}
+
+fun test_enum_classes() {
+    val d: Direction = Direction.NORTH
+    assertEquals(d, Direction.NORTH)
+
+    val c: Color = Color.BLUE
+    assertEquals(c, Color.BLUE)
+    assertEquals(c.rgb, 0x0000FF)
+
+    println(Arrays.toString(ProtocolState.values()))
+
+    val s = ProtocolState.valueOf("WAITING")
+    assertEquals(s, ProtocolState.WAITING)
+
+    assertEquals(s.name, "WAITING")
+    assertEquals(s.ordinal, 0)
+}
+
+enum class Direction {
+    NORTH, SOUTH, WEST, EAST
+}
+
+enum class Color(val rgb: Int) {
+    RED(0xFF0000),
+    GREEN(0x00FF00),
+    BLUE(0x0000FF)
+}
+
+enum class ProtocolState {
+    WAITING {
+        override fun signal() = TALKING
+    },
+
+    TALKING {
+        override fun signal() = WAITING
+    };
+
+    abstract fun signal(): ProtocolState
 }
 
 fun test_define_functions() {
@@ -1154,6 +1365,30 @@ fun test_generics() {
 
     }
     println(cloneWhenGreater(listOf(CC(1), CC(2), CC(3)), CC(2)))
+}
+
+fun test_nested_classes() {
+    class Outer2 {
+        private val bar: Int = 1
+
+        inner class Nested {
+            fun foo() = 2
+        }
+    }
+
+    val outer = Outer()
+    val outer2 = Outer2()
+    val d = Outer.Nested().foo()
+    val dd = Outer2().Nested().foo()
+    assertEquals(d, dd)
+}
+
+class Outer {
+    private val bar: Int = 1
+
+    /* java public static */class Nested {
+        fun foo() = 2
+    }
 }
 
 interface Cloneable2<T> {
