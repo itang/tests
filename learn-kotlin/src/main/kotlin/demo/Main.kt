@@ -14,7 +14,10 @@ import kotlin.concurrent.thread
 import kotlin.properties.Delegates
 import kotlin.properties.getValue
 import kotlin.properties.setValue
+import kotlin.reflect.KClass
+import kotlin.reflect.KMutableProperty
 import kotlin.reflect.KProperty
+import kotlin.reflect.jvm.javaGetter
 import kotlin.test.*
 
 fun main(args: Array<String>) {
@@ -59,6 +62,279 @@ fun main(args: Array<String>) {
     test_this()
 
     test_equal()
+
+    test_operator_overloading()
+
+    test_null_safety()
+
+    test_exceptions()
+
+    test_annotations()
+
+    test_reflection()
+
+    test_type_safe_builders()
+}
+
+fun test_type_safe_builders() {
+
+}
+
+fun test_reflection() {
+    // The most basic reflection feature is getting the runtime reference to a Kotlin class. To obtain the reference to a statically
+    // known Kotlin class, you can use the class literal syntax
+    class MyClass
+
+    val c: KClass<MyClass> = MyClass::class
+
+    println(c)
+
+    val j: Class<MyClass> = MyClass::class.java
+    println(j)
+
+    // Function References
+
+    fun isOdd(x: Int) = x % 2 != 0
+    // We can easily call it directly ( isOdd(5) ), but we can also pass it as a value, e.g. to another function. To do this, we use the
+    //:: operator:
+    println(arrayListOf(1, 2, 3, 4, 5).filter(::isOdd))
+
+    fun <A, B, C> compose(f: (B) -> C, g: (A) -> B): (A) -> C {
+        return { x -> f(g(x)) }
+    }
+
+    fun toString(x: Int) = x.toString()
+    fun getLength(x: String) = x.length
+    val numAsLentoLength = compose(::getLength, ::toString)
+    assertEquals(3, numAsLentoLength(100))
+
+    /*
+    The expression ::x evaluates to a property object of type KProperty<Int> , which allows us to read its value using
+get() or retrieve the property name using the name property. For more information, please refer to the docs on the
+KProperty class.
+For a mutable property, e.g. var y = 1 , ::y returns a value of type KMutableProperty<Int>, which has a set()
+method.
+     */
+
+    class D {
+        var x = 1
+    }
+
+    val d = D()
+
+    val p: KProperty<Int> = D::x
+    assertEquals(p.getter.name, "<get-x>")
+    assertEquals(p.getter.call(d), 1)
+
+
+    val p2: KMutableProperty<Int> = D::x
+    p2.setter.call(d, 100)
+    assertEquals(p.getter.call(d), 100)
+
+    class Foo
+
+    fun function(factory: () -> Foo) {
+        val x: Foo = factory()
+    }
+    function(::Foo)
+
+}
+
+fun test_annotations() {
+    /*
+    @Target specifies the possible kinds of elements which can be annotated with the annotation (classes, functions,
+    properties, expressions etc.);
+
+    @Retention specifies whether the annotation is stored in the compiled class files and whether it’s visible through
+    reflection at runtime (by default, both are true);
+
+    @Repeatable allows using the same annotation on a single element multiple times;
+
+     */
+
+    @Fancy class Foo {
+        @Fancy fun baz(@Fancy foo: Int): Int {
+            return (@Fancy 1)
+        }
+    }
+
+    class Foo2 @Inject constructor(de: MyClass)
+
+    class MyDependency
+    class Foo3 {
+        var x: MyDependency? = null
+            @Inject set
+    }
+
+    @Special("example") class Foo4 {}
+
+    // Lambdas
+    val f = @Suspendable { Thread.sleep(1) }
+    f.invoke()
+
+    //
+    annotation class Ann
+
+    class Example(@field:Ann val foo: String, @get:Ann val bar: String, @param:Ann val quux: String)
+
+    annotation class VisibleForTesting
+
+    class Collaborator
+    class Example2 {
+        //If you have multiple annotations with the same target, you can avoid repeating the target by adding brackets after the target
+        // and putting all the annotations inside the brackets
+
+        @set:[Inject VisibleForTesting]
+        lateinit public var collaborator: Collaborator
+    }
+
+    /*
+    The full list of supported use-site targets is:
+— file
+— property (annotations with this target are not visible to Java)
+— field
+— get (property getter)
+— set (property setter)
+— receiver (receiver parameter of an extension function or property)
+— param (constructor parameter)
+— setparam (property setter parameter)
+     */
+
+    fun @receiver:Fancy String.myExtension() {
+    }
+
+    @CAnn(String::class, Int::class) class MyClass2
+
+    println(String::class)
+}
+
+annotation class CAnn(val arg1: KClass<*>, val arg2: KClass<out Any>)
+
+annotation class Suspendable
+
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION, AnnotationTarget.EXPRESSION, AnnotationTarget.VALUE_PARAMETER)
+@Retention(AnnotationRetention.RUNTIME)
+@MustBeDocumented
+annotation class Fancy
+
+annotation class Special(val why: String)
+
+fun test_exceptions() {
+    //throw MyException("Hi There!")
+    try {
+        throw RuntimeException("ERROR")
+    } catch(e: Exception) {
+        assertEquals(e.message, "ERROR")
+    } finally {
+        println("finally")
+    }
+
+    val a: Int = try {
+        Integer.parseInt("100s")
+    } catch(e: Exception) {
+        println("WARN: ${e.message}")
+        -1
+    }
+}
+
+fun test_null_safety() {
+    var a: String = "ss"
+    //a = null //compilation error
+    var b: String? = "abc"
+    b = null // ok
+    val l = a.length
+
+    // val l2 = b.length // nly safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type kotlin.String?
+    if (b != null) {
+        println(b.length)
+    }
+
+    // Safe Calls
+    assertNull(b?.length)
+    val len: Int? = b?.length
+    // ob?.department?.head?.name
+
+    val l3: Int = if (b != null) b.length else -1
+    val l4: Int = b?.length ?: -1
+    assertEquals(l3, l4)
+
+    assertFails {
+        val l5: Int = b?.length ?: throw IllegalStateException("error")
+    }
+    // The !! Operator
+    // this will return a non-null value of b or throw an NPE if b is null
+    assertFails { b!!.length }
+}
+
+fun test_operator_overloading() {
+    //Unary operations
+    /*
+    +a a.unaryPlus()
+    -a a.unaryMinus()
+    !a a.not()
+     */
+    /*
+    a++ a.inc() + see below
+    a-- a.dec() + see below
+    */
+
+    /*
+   // Binary operations
+    a + b a.plus(b)
+    a - b a.minus(b)
+    a * b a.times(b)
+    a / b a.div(b)
+    a % b a.mod(b)
+    a..b a.rangeTo(b)
+     */
+
+    /*
+    a in b b.contains(a)
+    a !in b !b.contains(a)
+     */
+
+    /*
+    a[i] a.get(i)
+a[i, j] a.get(i, j)
+a[i_1, ..., i_n] a.get(i_1, ..., i_n)
+a[i] = b a.set(i, b)
+a[i, j] = b a.set(i, j, b)
+a[i_1, ..., i_n] =
+b a.set(i_1, ..., i_n, b)
+     */
+
+    /*
+a(i) a.invoke(i)
+a(i, j) a.invoke(i, j)
+a(i_1, ...,
+i_n) a.invoke(i_1, ...,
+i_n)
+     */
+    /*
+    a += b a.plusAssign(b)
+a -= b a.minusAssign(b)
+a *= b a.timesAssign(b)
+a /= b a.divAssign(b)
+     */
+
+    var a = 1
+    a += 2
+
+    /*
+    a == b a?.equals(b) ?: b === null
+a != b !(a?.equals(b) ?: b ===
+null)
+     */
+
+    /*
+    a > b a.compareTo(b) > 0
+a < b a.compareTo(b) < 0
+a >=
+b a.compareTo(b) >=
+0
+a <=
+b a.compareTo(b) <= 0
+     */
 }
 
 fun test_equal() {
