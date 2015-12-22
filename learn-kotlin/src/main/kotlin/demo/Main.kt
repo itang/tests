@@ -49,7 +49,144 @@ fun main(args: Array<String>) {
     test_functions_lambdas()
 
     test_higher_order_functions_lamdbas()
+
+    test_destructuring_declarations()
+
+    test_ranges()
+
+    test_type_checks_and_casts()
+
+    test_this()
+
+    test_equal()
 }
+
+fun test_equal() {
+    //Referential equality is checked by the === operation (and its negated counterpart !== ). a === b evaluates to true if
+    //and only if a and b point to the same object
+
+    //Structural equality is checked by the == operation (and its negated counterpart != )
+    val a = "hello"
+    val b = "hello"
+    assertTrue { a == b }
+    assertTrue { a === b }
+    val c = String("hello".toByteArray())
+    assertTrue { a == c }
+    assertFalse { a === c }
+}
+
+fun test_this() {
+    val b = A()
+}
+
+class A {
+    //implicit label @A
+    inner class B {
+        fun Int.foo() {
+            val a: A = this@A
+            val b: B = this@B
+
+            val c: Int = this // foo()'s receiver, an Int
+            val c1: Int = this@foo // foo()'s receiver, an Int
+
+            /*
+            val funLit = @lambda {  String.() ->
+                val d = this // funLit's receiver
+                val d1 = this@lambda // funLit's receiver
+            }
+            */
+            val funLit2 = { s: String ->
+                val d1: Int = this
+            }
+        }
+    }
+}
+
+fun test_type_checks_and_casts() {
+    val obj = "hello"
+
+    //smart cast
+    if (obj is String) {
+        println(""""$obj".length: $obj.length""")
+    }
+
+    // unsafe cast operator
+
+    val s: String = obj as String
+
+    assertFails { s as Number }
+
+    val x: String? = obj as String?
+    assertEquals(x, "hello")
+
+    //"safe"(nullable) cast operator
+    assertNull(s as? Number)
+}
+
+fun test_ranges() {
+    /*
+    Range expressions are formed with rangeTo functions that have the operator form .. which is complemented by in and
+!in. Range is defined for any comparable type, but for integral primitive types it has an optimized implementation. Here are
+some examples of using ranges
+     */
+    val i = 5
+    if (i in 1..10) {
+        println("$i in 1..10")
+    }
+
+    for (i in 1..4) println(i)
+    for (i in (1..4).reversed()) println(i)
+    for (i in 4 downTo 1) println(i)
+
+    for (i in 1..4 step 2) println(i)
+    for (i in 4 downTo 1 step 2) println(2)
+}
+
+fun test_destructuring_declarations() {
+    val (name, age) = Person("itang", 100)
+    //as
+    val person = Person("itang", 100)
+    val name2 = person.component1()
+    val age2 = person.component2()
+    assertEquals(name, "itang")
+    assertEquals(name2, name)
+    assertEquals(age, 100)
+
+    // Note that the componentN() functions need to be marked with the operator keyword to allow using them in a
+    // destructuring declaration.
+
+    //
+    val persons = arrayListOf(Person("itang", 100), Person("tqibm", 50))
+    for ((name, age) in persons) {
+        println("$name:$age")
+    }
+
+    data class Result(val result: Int, val status: Status)
+
+    fun f(): Result {
+        return Result(1, Status.OK)
+    }
+    assertEquals(f(), Result(1, Status.OK))
+
+    //
+    val m = mapOf("itang" to 100, "tqimb" to 20)
+    for ((k, v) in m) {
+        println("$k: $v")
+    }
+
+    /*
+    operator fun <K, V> Map<K, V>.iterator(): Iterator<Map.Entry<K, V>> =
+       entrySet().iterator()
+    operator fun <K, V> Map.Entry<K, V>.component1() = getKey()
+    operator fun <K, V> Map.Entry<K, V>.component2() = getValue()
+     */
+}
+
+enum class Status {
+    OK, ERROR
+}
+
+data class Person(val name: String, val age: Int)
 
 fun test_higher_order_functions_lamdbas() {
     // A higher-order function is a function that takes functions as parameters, or returns a function
@@ -69,6 +206,189 @@ fun test_higher_order_functions_lamdbas() {
 
     fun toBeSynchronized() = sharedResource.operation()
     val result = lock(ReentrantLock(), ::toBeSynchronized)
+
+    val result2 = lock(ReentrantLock(), { sharedResource.operation() })
+
+    // In Kotlin, there is a convention that if the last parameter to a function is a function, then we can omit the parentheses
+    val result3 = lock(ReentrantLock()) {
+        sharedResource.operation()
+    }
+    //Lambda expression
+    // A lambda expression is always surrounded by curly braces.
+    // Its parameters (if any) are declared before -> (parameter types may be omitted),
+    // The body goes after -> (when present).
+
+    fun <T, R> List<T>.map2(transform: (T) -> R): List<R> {
+        val result = arrayListOf<R>()
+        for (item in this) {
+            result.add(transform(item))
+        }
+        return result
+    }
+
+    // A lambda expression or an anonymous function is a “function literal”,
+    val doubled = listOf(1, 2, 3).map2 { it -> it * 2 }
+    val doubled2 = listOf(1, 2, 3).map2 { it * 2 }
+    assertEquals(doubled, doubled2)
+
+    //Function types
+    fun <T> max(collection: Collection<T>, less: (T, T) -> Boolean): T? {
+        var max: T? = null
+        for (it in collection)
+            if (max == null || less(max, it))
+                max = it
+        return max
+    }
+
+    assertEquals(max(listOf(1, 2, 3), { x, y -> x < y }), 3)
+
+    val less: (x: Int, y: Int) -> Boolean = { x, y -> x < y }
+
+    assertEquals(max(listOf(1, 2, 3), less), 3)
+
+    val sum = { x: Int, y: Int -> x + y }
+    sum(1, 2)
+    println(sum.javaClass.superclass) // class kotlin.jvm.internal.Lambda
+
+    val ret = intArrayOf(1, 2, 3).filter { it > 2 }
+    println(ret.javaClass)
+    println(ret)
+
+    // Anonymous Functions
+    val f = fun(x: Int, y: Int): Int = x + y
+    println(f.javaClass.superclass)
+
+    val r2 = intArrayOf(1, 2, 3).filter (fun(item) = item > 0)
+    println(r2)
+
+    /*
+    One other difference between lambda expressions and anonymous functions is the behavior of non-local returns. A return
+statement without a label always returns from the function declared with the fun keyword. This means that a return inside
+a lambda expression will return from the enclosing function, whereas a return inside an anonymous function will return
+from the anonymous function itself.
+     */
+
+    //Closures
+    // A lambda expression or anonymous function (as well as a local function and an object expression) can access its closure,
+
+    var sum2 = 0
+    intArrayOf(1, 2, 3, 4, 5).filter { it > 0 }.forEach {
+        sum2 += it
+    }
+    println("sum: $sum2")
+
+    // Function Literals with Receiver
+    // Kotlin provides the ability to call a function literal with a specified receiver object.
+    // Inside the body of the function literal, you can call methods on that receiver object
+    // without any additional qualifiers. This is similar to extension functions, which allow
+    // you to access members of the receiver object inside the body of the function. One of the most important examples of their usage is Type
+    // safe Groovy-style builders.
+
+    // sum : Int.(other: Int) -> Int
+    val sum3 = fun Int.(other: Int): Int = this + other
+    assertEquals(100.sum3(200), 300)
+
+    class HTML {
+        fun body() {
+        }
+    }
+
+    fun html(init: HTML.() -> Unit): HTML {
+        val html = HTML()
+        html.init()
+        return html
+    }
+    html {
+        body()
+    }
+
+    // Inline Functions
+    lock(ReentrantLock(), fun() = println("xx"))
+
+    // The inline modifier affects both the function itself and the lambdas passed to it: all of those will be inlined into the call
+    // site.
+
+    /*
+    fun foo() {
+        ordinaryFunction {
+        return // ERROR: can not make `foo` return here
+        }
+        }
+     */
+    /*
+
+    fun foo() {
+        inlineFunction {
+            return // OK: the lambda is inlined
+        }
+    }
+    */
+    // But if the function the lambda is passed to is inlined, the return can be inlined as well, so it is allowed:
+    // Such returns (located in a lambda, but exiting the enclosing function) are called non-local returns
+    /*
+    Note that some inline functions may call the lambdas passed to them as parameters not directly from the function body, but
+from another execution context, such as a local object or a nested function. In such cases, non-local control flow is also not
+allowed in the lambdas. To indicate that, the lambda parameter needs to be marked with the crossinline modifier
+     */
+    /*
+        inline fun f(crossinline body: () -> Unit) {
+            val f = object: Runnable {
+                override fun run() = body()
+            }
+            // ...
+        }
+    */
+
+    // Reified type parameters
+    open class TreeNode {
+        var parent: TreeNode? = null
+    }
+
+    class MyTreeNode() : TreeNode()
+
+    fun <T> TreeNode.findParentOfType(clazz: Class<T>): T? {
+        var p = parent
+        while (p != null && !clazz.isInstance(p)) {
+            p = p?.parent
+        }
+        @Suppress("UNCHECKED_CAST")
+        return p as T
+    }
+
+    val myTree = TreeNode()
+    myTree.findParentOfType(MyTreeNode::class.java)
+
+    // myTree.findParentOfType<MyTreeNodeType>()
+
+
+    val myTree2 = TreeNode2()
+    myTree2.findParentOfType2<MyTreeNode>()
+
+    println(membersOf<TreeNode2>().joinToString("\n"))
+}
+
+open class TreeNode2 {
+    var parent: TreeNode2? = null
+}
+
+class MyTreeNode2() : TreeNode2()
+
+inline fun <reified T> membersOf() = T::class.members
+
+inline fun <reified T> TreeNode2.findParentOfType2(): T? {
+    var p = parent
+    while (p != null && p !is T) {
+        p = p?.parent
+    }
+    return p as T
+}
+
+inline fun <T> lock(lock: Lock, body: () -> T): T {
+    return body()
+}
+
+inline fun foo(inlined: () -> Unit, noinline notInlined: () -> Unit) {
+    // ...
 }
 
 fun test_functions_lambdas() {
