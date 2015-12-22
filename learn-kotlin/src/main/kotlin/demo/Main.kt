@@ -5,6 +5,10 @@ import demo.classes.User
 import java.util.*
 import java.text.SimpleDateFormat as DFormat
 import java.lang.String.format
+import java.util.concurrent.locks.Lock
+import java.util.concurrent.locks.ReadWriteLock
+import java.util.concurrent.locks.ReentrantLock
+import java.util.concurrent.locks.ReentrantReadWriteLock
 import javax.inject.Inject
 import kotlin.concurrent.thread
 import kotlin.properties.Delegates
@@ -41,7 +45,199 @@ fun main(args: Array<String>) {
     test_object_expressions_and_declarations()
 
     test_delegation()
+
+    test_functions_lambdas()
+
+    test_higher_order_functions_lamdbas()
 }
+
+fun test_higher_order_functions_lamdbas() {
+    // A higher-order function is a function that takes functions as parameters, or returns a function
+    fun <T> lock(lock: Lock, body: () -> T): T {
+        lock.lock()
+        try {
+            return body()
+        } finally {
+            lock.unlock()
+        }
+    }
+
+    var sharedResource = 1
+    fun Int.operation() {
+
+    }
+
+    fun toBeSynchronized() = sharedResource.operation()
+    val result = lock(ReentrantLock(), ::toBeSynchronized)
+}
+
+fun test_functions_lambdas() {
+    //functions in kotlin are declared using the fun keyword
+    fun double(x: Int): Int {
+        return x + x
+    }
+
+    assertEquals(double(100), 200)
+
+    //Infix notation
+    // Functions can also be called using infix notations when
+    // they are memmber function or extension functions
+    // they have a single parameter
+    // they are marked with the infix keyword
+    infix fun Int.d(x: Int): Int {
+        return x * this
+    }
+
+    // call extension function using infix notation
+    assertEquals(1 d 2, 2)
+    assertEquals(2 d 3, 6)
+
+    //
+    fun powerOf(number: Int, exponent: Int) {
+
+    }
+
+    // Default Arguments
+    read(arrayOf(1, 2, 3))
+
+    // Named Arguments
+    fun reformat(str: String, normalizeCase: Boolean = true, upperCaseFirstLetter: Boolean = true,
+                 devideByCamelHumps: Boolean = false,
+                 wordSeparator: Char = ' ') {
+
+    }
+    reformat("hello")
+
+    reformat("hello", true, true, false, '_')
+
+    reformat("hello",
+            normalizeCase = true)
+
+    // Unit-returning functions
+    // if a function does not return any useful value, its return type is Unit. Unit is a type with only one value - Unit.
+    // This value does not have to be returned explicityly.
+    fun printHello(name: String?): Unit {
+        if (name != null)
+            println("Hello $name")
+        else
+            println("Hi there!")
+        // `return Unit or return is optional
+    }
+
+    printHello("hello")
+
+    // the Unit return type declaration is also ooptional. The above code is equivalent to
+    fun printHello(name: String?) {
+
+    }
+
+    //Single-Expression functions
+    // when a function returns a single expression, the curly braces can be omitted and the body is specified after a = symbol
+    //
+    fun double(x: Int): Int = x * 2
+
+    //return type is optional when this can be inferred by the compiler
+    fun double2(x: Int) = x * 2
+
+    //Variable number of arguments(Varargs)
+    fun asList<T>(vararg ts: T): List<T> {
+        val result = ArrayList<T>()
+        for (t in ts) {
+            result.add(t)
+        }
+        return result
+    }
+
+    assertEquals(asList(1, 2, 3, 4), listOf(1, 2, 3, 4))
+
+
+    val a = arrayOf(1, 2, 3)
+    //spread operator
+    val list = asList(-1, 0, *a, 4)
+    assertEquals(list, listOf(-1, 0, 1, 2, 3, 4))
+
+    //Function Scope
+    //Local Functions
+    // Kotlin supports local functions, i.e. a function inside another function
+
+
+    fun dfs(graph: Graph) {
+        fun dfs(current: Vertex, visited: Set<Vertex>) {
+            //if(!visited.add(current)) return
+        }
+        dfs(Graph().vertices[0], HashSet())
+    }
+
+    //Local function can access local variables of outer functions(i.e. The Closure), so in the case above, the visibted can be a local
+    // variable
+    fun dfs2(graph: Graph) {
+        val visited: Set<Vertex> = HashSet()
+        fun dfs(current: Vertex) {
+            //if(!visited.add(current)) return
+        }
+        dfs(Graph().vertices[0])
+    }
+
+    //Local functions can even return from outer functions using qualified return expressions
+    fun reachable(from: Vertex, to: Vertex): Boolean {
+        val visited = HashSet<Vertex>()
+        fun dfs(current: Vertex) {
+            // here we return from the outer function:
+            //@NOTICE: why syntax error!
+            // if (current == to) return@reachable true
+            // And here -- from local function:
+            if (!visited.add(current)) return
+            //for (v in current.neighbors)
+            //  dfs(v)
+        }
+        dfs(from)
+        return false // if dfs() did not return true already
+    }
+    reachable(Graph().vertices[0], Graph().vertices[0])
+
+    // Member Functions
+    class Sample {
+        fun foo() {
+            println("Foo")
+        }
+    }
+    Sample().foo()
+
+    //Generic Functions
+    fun <T> singletonList(item: T): List<T> {
+        return listOf(item)
+    }
+
+    //inline Functions
+    //Extension Functions
+    //Higher-Order Functions and Lambdas
+
+    //Tail recursive functions
+    tailrec fun findFixPoint(x: Double = 1.0): Double
+            = if (x == Math.cos(x)) x else findFixPoint(Math.cos(x))
+
+    fun findFixPoint2(): Double {
+        var x = 1.0
+        while (true) {
+            val y = Math.cos(x)
+            if (x == y) return y
+            x = y
+        }
+    }
+}
+
+class Vertex
+
+class Graph {
+    val vertices: Array<Vertex> = arrayOf(Vertex(), Vertex())
+}
+
+
+//@NOTICE: can't nested ?????????
+fun read(b: Array<Byte>, off: Int = 0, len: Int = b.size) {
+
+}
+
 
 fun test_delegation() {
     val b = DBaseImpl(10)
