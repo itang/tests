@@ -1,9 +1,11 @@
 buildscript {
+    project.ext.kotlin_version = '1.0.0-beta-4583'
+
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.0-beta-3595'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -18,8 +20,10 @@ repositories {
 }
 
 dependencies {
-    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.0-beta-3595'
-    compile 'org.jetbrains.kotlin:kotlin-reflect:1.0.0-beta-3595'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+
     compile 'javax.inject:javax.inject:1'
 }
 

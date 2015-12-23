@@ -656,7 +656,7 @@ inline fun <reified T> TreeNode2.findParentOfType2(): T? {
     while (p != null && p !is T) {
         p = p?.parent
     }
-    return p as T
+    return p as? T
 }
 
 inline fun <T> lock(lock: Lock, body: () -> T): T {
