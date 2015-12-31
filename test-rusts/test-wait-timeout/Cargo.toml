@@ -1,0 +1,7 @@
+[package]
+authors = ["itang <live.tang@gmail.com>"]
+name = "test-wait-timeout"
+version = "0.1.0"
+
+[dependencies]
+wait-timeout = "0.1.0"
