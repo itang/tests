@@ -1,0 +1,6 @@
+[package]
+name = "rust-2016"
+version = "0.1.0"
+authors = ["itang <live.tang@gmail.com>"]
+
+[dependencies]
