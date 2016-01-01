@@ -1,7 +1,7 @@
 use std::thread;
 
 fn main() {
-    println!("Hello, world!");
+    println!("Hello, world! 2016");
 }
 
 #[test]
