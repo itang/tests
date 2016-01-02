@@ -1,5 +1,7 @@
 use std::thread;
 
+use std::cell::Cell;
+
 fn main() {
     println!("Hello, world! 2016");
 }
@@ -21,9 +23,7 @@ fn test_variable_binding() {
 
 #[test]
 fn test_functions() {
-    fn foo() {
-
-    }
+    fn foo() {}
     foo();
 
     fn print_number(x: i32) {
@@ -223,7 +223,6 @@ fn test_loop_while_for() {
         }
     }
 
-    //
     // for var in expression {
     //     code
     // }
@@ -286,9 +285,7 @@ fn test_ownership() {
     // println!("{:?}", v); // compile error: use moved value: `v`
     assert_eq!(v2, vec![1, 2, 3]);
 
-    fn take(_v: Vec<i32>) {
-
-    }
+    fn take(_v: Vec<i32>) {}
 
     take(v2);
     // println!("v[0] is: {}", v2[0]);
@@ -398,13 +395,11 @@ fn test_lifetimes() {
     // we can be implicit or explicit about the lifetime of the reference
 
     // implicit
-    fn foo(_x: &i32) {
-    }
+    fn foo(_x: &i32) {}
 
     // explicit
     // 'a reads ‘the lifetime a’
-    fn bar<'a>(_x: &'a i32) {
-    }
+    fn bar<'a>(_x: &'a i32) {}
 
     foo(&100);
     bar(&200);
@@ -425,7 +420,7 @@ fn test_lifetimes() {
     println!("{}", foo.x);
     println!("x is: {}", foo.x());
 
-    fn x_or_y<'a>(x: &'a str, y: &'a str) -> &'a str {
+    fn x_or_y<'a>(_x: &'a str, _y: &'a str) -> &'a str {
         ""
     }
 
@@ -458,11 +453,131 @@ fn test_lifetimes() {
     // and an output lifetime is a lifetime associated with the return value of a
     // function
 
-    fn frob<'a, 'b>(s: &'a str, t: &'b str) -> &'a str {
+    fn frob<'a, 'b>(_s: &'a str, _t: &'b str) -> &'a str {
         ""
     }
 
     frob("a", "b");
 
     ()
+}
+
+#[test]
+fn test_mutability() {
+    // When a binding is mutable,
+    // it means you’re allowed to change what the binding points to
+    let mut x = 5;
+    x = 6;
+    println!("{}", x);
+    assert_eq!(x, 6);
+
+    // If you want to change what the binding points to, you’ll need a mutable reference
+    let mut c = 5;
+    {
+        // y is an immutable binding to a mutable reference,
+        // which means that you can’t bind y to something else (y = &mut z),
+        // but you can mutate the thing that’s bound to y (*y = 5)
+        //
+        let y = &mut c;
+        *y = 10;
+    }
+    assert_eq!(10, c);
+
+    let mut d = 5;
+    {
+        let mut r: &mut i32 = &mut d;
+        *r = 10;
+
+        r = &mut c;
+    }
+    assert_eq!(d, 10);
+
+    let (mut a, b) = (5, 6);
+    assert_eq!(a, 5);
+
+    // Mutability is a property of either a borrow (&mut) or a binding (let mut)
+    // This means that, for example,
+    // you cannot have a struct with some fields mutable and some immutable
+    struct Point {
+        x: i32,
+        y: i32,
+    }
+
+    let mut p = Point { x: 5, y: 6 };
+    // The mutability of a struct is in its binding:
+    p.x = 10;
+
+    assert_eq!(p.x, 10);
+
+
+    struct Point2 {
+        x: i32,
+        y: Cell<i32>,
+    }
+    let p2 = Point2 {
+        x: 5,
+        y: Cell::new(10),
+    };
+
+    p2.y.set(7);
+    assert_eq!(p2.y.get(), 7);
+
+    let cell: Cell<i32> = Cell::new(100);
+    assert_eq!(cell.get(), 100);
+}
+
+#[test]
+fn test_structs() {
+    struct Point {
+        x: i32,
+        y: i32,
+    }
+
+    let origin = Point { x: 0, y: 0 };
+
+    assert_eq!(0, origin.x);
+
+    let mut point = Point { x: 10, y: 10 };
+    point.y = 200;
+    assert_eq!(200, point.y);
+
+    // Update syntax
+    struct Point3d {
+        x: i32,
+        y: i32,
+        z: i32,
+    }
+    let mut p3 = Point3d { x: 0, y: 1, z: 2 };
+
+    assert_eq!(p3.z, 2);
+
+    let p31 = Point3d { y: 100, ..p3 };
+    assert_eq!(p31.y, 100);
+    assert_eq!(p31.z, 2);
+
+    // Tuple struct
+    struct Color(i32, i32, i32);
+
+    let black = Color(0, 0, 0);
+    assert_eq!(black.0, 0);
+    assert_eq!(black.2, 0);
+
+    //There is one case when a tuple struct is very useful,
+    //though, and that’s a tuple struct with only one element.
+    //We call this the ‘newtype’ pattern, because it allows you to create a new type,
+    //distinct from that of its contained value and expressing its own semantic meaning:
+    //
+    struct Inches(i32);
+
+    let length = Inches(10);
+
+    let Inches(il) = length;
+    assert_eq!(il, 10);
+
+    // Unit-like structs
+    #[derive(Debug, PartialEq)]
+    struct Electron;
+
+    let x = Electron;
+    assert_eq!(x, Electron);
 }

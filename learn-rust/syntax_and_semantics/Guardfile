@@ -21,7 +21,12 @@
 guard :shell do
   watch(/src\/(.*).rs/) do |m|
     system "tail #{m[0]}"
-    system "cargo clean"
+    ## @see https://github.com/rust-lang-nursery/rustfmt/blob/master/atom.md
+    #system 'cargo fmt'
+    system 'rm src/main.rs.bk'
+
+    sleep(2) # happy with atom rusty
+
     system 'cargo test'
   end
 end
