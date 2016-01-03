@@ -20,6 +20,7 @@ fn main() {
     test_matchs();
     test_patterns();
     test_method_syntaxs();
+    test_vectors();
 }
 
 // #[test]
@@ -954,4 +955,46 @@ fn test_method_syntaxs() {
     let a = CircleBuilder::new().x(1.0).y(2.0).radius(2.0).finalize();
     println!("{:?}", a);
     println!("{}", a.area());
+}
+
+
+// #[test]
+fn test_vectors() {
+    // A ‘vector’ is a dynamic or ‘growable’ array,
+    // implemented as the standard library type Vec<T>.
+    // The T means that we can have vectors of any type (see the chapter on generics for more).
+    // Vectors always allocate their data on the heap. You can create them with the vec! macro
+    let v: Vec<i32> = vec![1, 2, 3, 4, 5, 6];
+    println!("{:?}", v);
+
+    let v1 = vec![0; 10];
+    println!("{:?}", v1);
+
+    // Accessing elements
+    // must index with the usize type
+    assert_eq!(3, v[2]);
+    assert_eq!(0, v1[2]);
+    let i: usize = 5;
+    assert_eq!(6, v[i]);
+
+    let i2: i32 = 2;
+    // assert_eq!(3, v[i2]); // the trait `core::ops::Index<i32>` is not implemented
+    // for the type `collections::vec::Vec<i32>
+
+    // Iterating
+    for i in &v {
+        println!("A reference to {}", i);
+    }
+
+    let mut v = vec![1, 2, 3];
+    for i in &mut v {
+        println!("A mutable reference to {}", i);
+    }
+
+    for i in v {
+        println!("Take ownership of the vector and its element {}", i);
+    }
+
+    //println!("{:?}", v); // use of moved value: `v`
+
 }
