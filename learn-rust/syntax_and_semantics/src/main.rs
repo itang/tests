@@ -19,6 +19,7 @@ fn main() {
     test_enums();
     test_matchs();
     test_patterns();
+    test_method_syntaxs();
 }
 
 // #[test]
@@ -832,4 +833,125 @@ fn test_patterns() {
         Foo {x: Some(ref name), y: 30} => println!("name: {}, age: 30", name),
         _ => println!("NO"),
     }
+}
+
+
+// #[test]
+fn test_method_syntaxs() {
+    // method call syntax’ via the impl keyword
+    #[derive(Debug)]
+    struct Circle {
+        x: f64,
+        y: f64,
+        radius: f64,
+    }
+
+    impl Circle {
+        // Methods take a special first parameter, of which there are three variants:
+        // self, &self, and &mut self.
+        fn area(&self) -> f64 {
+            std::f64::consts::PI * (self.radius * self.radius)
+        }
+
+        fn reference(&self) {
+            println!("taking self by reference!");
+        }
+
+        fn mutable_reference(&mut self) {
+            println!("taking self by mutable reference!");
+        }
+
+        fn takes_ownership(self) {
+            println!("taking ownership of self!");
+        }
+
+        fn grow(&self, increment: f64) -> Circle {
+            Circle {
+                x: self.x,
+                y: self.y,
+                radius: self.radius + increment,
+            }
+        }
+
+
+        fn new(x: f64, y: f64, radius: f64) -> Circle {
+            Circle {
+                x: x,
+                y: y,
+                radius: radius,
+            }
+        }
+    }
+
+    let mut c = Circle {
+        x: 0.0,
+        y: 0.0,
+        radius: 2.0,
+    };
+    println!("{}", c.area());
+
+    c.reference();
+
+    {
+        c.mutable_reference();
+    }
+
+    c.takes_ownership();
+
+    // println!("{:?}", c); // use of moved value: `c`
+    let cc = Circle {
+        x: 0.0,
+        y: 0.0,
+        radius: 2.0,
+    };
+    let d = cc.grow(2.0).area();
+    println!("{}", d);
+
+    // Associated functions
+    let dd = Circle::new(1.0, 1.0, 2.0);
+    println!("{:?}", dd);
+
+    // Builder Pattern
+    struct CircleBuilder {
+        x: f64,
+        y: f64,
+        radius: f64,
+    }
+
+    impl CircleBuilder {
+        fn new() -> CircleBuilder {
+            CircleBuilder {
+                x: 0.0,
+                y: 0.0,
+                radius: 1.0,
+            }
+        }
+
+        fn x(&mut self, coordinate: f64) -> &mut CircleBuilder {
+            self.x = coordinate;
+            self
+        }
+
+        fn y(&mut self, coordinate: f64) -> &mut CircleBuilder {
+            self.y = coordinate;
+            self
+        }
+
+        fn radius(&mut self, radius: f64) -> &mut CircleBuilder {
+            self.radius = radius;
+            self
+        }
+
+        fn finalize(&self) -> Circle {
+            Circle {
+                x: self.x,
+                y: self.y,
+                radius: self.radius,
+            }
+        }
+    }
+
+    let a = CircleBuilder::new().x(1.0).y(2.0).radius(2.0).finalize();
+    println!("{:?}", a);
+    println!("{}", a.area());
 }
