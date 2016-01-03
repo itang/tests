@@ -25,8 +25,8 @@ guard :shell do
     #system 'cargo fmt'
     system 'rm src/main.rs.bk'
 
-    sleep(2) # happy with atom rusty
+    sleep(3) # happy with atom rusty
 
-    system 'cargo test'
+    system 'cargo run'
   end
 end

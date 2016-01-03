@@ -4,9 +4,24 @@ use std::cell::Cell;
 
 fn main() {
     println!("Hello, world! 2016");
+
+    test_variable_binding();
+    test_functions();
+    primitive_types();
+    test_comments();
+    test_if();
+    test_loop_while_for();
+    test_ownership();
+    test_references_and_borrowing();
+    test_lifetimes();
+    test_mutability();
+    test_structs();
+    test_enums();
+    test_matchs();
+    test_patterns();
 }
 
-#[test]
+// #[test]
 fn test_variable_binding() {
     let x = 100; // x: i32
     assert_eq!(x, 100);
@@ -21,7 +36,7 @@ fn test_variable_binding() {
     assert!(b);
 }
 
-#[test]
+// #[test]
 fn test_functions() {
     fn foo() {}
     foo();
@@ -59,7 +74,7 @@ fn test_functions() {
     ()
 }
 
-#[test]
+// #[test]
 fn primitive_types() {
     // Booleans
     let x = true;
@@ -158,7 +173,7 @@ fn primitive_types() {
     assert_eq!(x(100), 100);
 }
 
-#[test]
+// #[test]
 fn test_comments() {
     // Line comments are anything after '//'  and extend to the end of the line.
 
@@ -180,7 +195,7 @@ fn test_comments() {
     assert_eq!(100, add_one(99));
 }
 
-#[test]
+// #[test]
 fn test_if() {
     let x = 5;
 
@@ -200,7 +215,7 @@ fn test_if() {
     assert_eq!(y, 10);
 }
 
-#[test]
+// #[test]
 fn test_loop_while_for() {
     let mut i = 0;
     loop {
@@ -260,7 +275,7 @@ fn test_loop_while_for() {
     }
 }
 
-#[test]
+// #[test]
 fn test_ownership() {
     // Variable bindings have a property in Rust: they 'have ownership' of what
     // they're bound to.
@@ -336,7 +351,7 @@ fn test_ownership() {
     assert_eq!(c[2], 3);
 }
 
-#[test]
+// #[test]
 fn test_references_and_borrowing() {
     // We call the &T type a ‘reference’,
     // and rather than owning the resource, it borrows ownership.
@@ -386,7 +401,7 @@ fn test_references_and_borrowing() {
     // you can only have one &mut at a time
 }
 
-#[test]
+// #[test]
 fn test_lifetimes() {
     // The ownership system in Rust does this through a concept called lifetimes,
     // which describe the scope that a reference is valid for.
@@ -462,7 +477,7 @@ fn test_lifetimes() {
     ()
 }
 
-#[test]
+// #[test]
 fn test_mutability() {
     // When a binding is mutable,
     // it means you’re allowed to change what the binding points to
@@ -526,7 +541,7 @@ fn test_mutability() {
     assert_eq!(cell.get(), 100);
 }
 
-#[test]
+// #[test]
 fn test_structs() {
     struct Point {
         x: i32,
@@ -562,10 +577,10 @@ fn test_structs() {
     assert_eq!(black.0, 0);
     assert_eq!(black.2, 0);
 
-    //There is one case when a tuple struct is very useful,
-    //though, and that’s a tuple struct with only one element.
-    //We call this the ‘newtype’ pattern, because it allows you to create a new type,
-    //distinct from that of its contained value and expressing its own semantic meaning:
+    // There is one case when a tuple struct is very useful,
+    // though, and that’s a tuple struct with only one element.
+    // We call this the ‘newtype’ pattern, because it allows you to create a new type,
+    // distinct from that of its contained value and expressing its own semantic meaning:
     //
     struct Inches(i32);
 
@@ -580,4 +595,241 @@ fn test_structs() {
 
     let x = Electron;
     assert_eq!(x, Electron);
+}
+
+// #[test]
+fn test_enums() {
+    //  an enum is sometimes called a ‘sum type’:
+    // the set of possible values of the enum is the sum of
+    // the sets of possible values for each variant
+    #[derive(Debug)]
+    enum Message {
+        Quit,
+        ChangeColor(i32, i32, i32),
+        Move {
+            x: i32,
+            y: i32,
+        },
+        Write(String),
+    }
+
+    // use the :: syntax to use the name of each variant
+    let x: Message = Message::Move { x: 3, y: 4 };
+    #[derive(Debug)]
+    enum BoardGameTurn {
+        Move {
+            squares: i32,
+        },
+        Pass,
+    }
+    let y: BoardGameTurn = BoardGameTurn::Move { squares: 1 };
+    println!("y: {:?}", y);
+
+    // Constructors as functions
+    let m = Message::Write("Hello, World".to_string());
+    println!("m:{:?}", m);
+
+    let v = vec!["Hello".to_string(), "World".to_string()];
+    let v1: Vec<Message> = v.into_iter().map(Message::Write).collect();
+    println!("v1: {:?}", v1);
+}
+
+// #[test]
+fn test_matchs() {
+    let x = 5;
+    let xname = match x {
+        1 => "one",
+        2 => "tow",
+        3 => "three",
+        4 => "four",
+        5 => "five",
+        _ => "someelse",
+    };
+    assert_eq!(xname, "five");
+
+    // matching on enums
+    enum Message {
+        Quit,
+        ChangeColor(i32, i32, i32),
+        Move {
+            x: i32,
+            y: i32,
+        },
+        Write(String),
+    }
+
+    fn quit() {
+        // ...
+    }
+    fn change_color(r: i32, g: i32, b: i32) {
+        // ...
+    }
+    fn move_cursor(x: i32, y: i32) {
+        // ...
+    }
+
+    fn process_message(msg: Message) {
+        match msg {
+            Message::Quit => quit(),
+            Message::ChangeColor(r, g, b) => change_color(r, g, b),
+            Message::Move{ x: x, y: y } => move_cursor(x, y),
+            Message::Write(s) => println!("{}", s),
+        };
+    }
+
+    process_message(Message::Write("Hello".to_string()));
+}
+
+
+// #[test]
+fn test_patterns() {
+    let x = 1;
+    let c = 'c';
+
+    match c {
+        x => println!("x: {} c: {}", x, c),
+    }
+
+    println!("x: {}", x);
+    assert_eq!(x, 1);
+
+    // Multiple patterns
+    match x {
+        1 | 2 => println!("one or two"),
+        3 => println!("three"),
+        _ => println!("anything"),
+    }
+
+    // Destructuring
+    struct Point {
+        x: i32,
+        y: i32,
+    }
+    let origin = Point { x: 0, y: 0 };
+    match origin {
+        Point {x, y} => println!("({}, {})", x, y),
+    }
+
+    match origin {
+        Point { x: x1, y: y1 } => println!("({},{})", x1, y1),
+    }
+
+    match origin {
+        Point { x, .. } => println!("x is {}", x),
+    }
+
+    // Ignoring bindings
+    let a: Result<&'static str, ()> = Ok("itang");
+    match a {
+        Ok(s) => println!("{}", s),
+        Err(_) => println!("error"),
+    }
+
+    fn coordinate() -> (i32, i32, i32) {
+        (1, 2, 3)
+    }
+
+    let (x, _, z) = coordinate();
+    assert_eq!(x + z, 4);
+
+    // use .. in a pattern to disregard multiple values.
+    enum OptionalTuple {
+        Value(i32, i32, i32),
+        Missing,
+    }
+
+    let x = OptionalTuple::Value(5, -2, 3);
+
+    match x {
+        OptionalTuple::Value(..) => println!("Got a tuple!"),
+        OptionalTuple::Missing => println!("No such luck."),
+    }
+
+    // ref and ref mut
+    // if you want to get a reference , use the ref keyword.
+    let x = 5;
+    match x {
+        ref r => println!("Got a reference to {}", r),
+    }
+
+    let mut x = 5;
+
+    match x {
+        ref mut mr => println!("Got a mutable reference to {}", mr),
+    }
+
+    // Ranges
+    let x = 5;
+    match x {
+        1...5 => println!("one through five"),
+        _ => println!("anything"),
+    }
+
+    let x = '💅';
+
+    match x {
+        'a'...'j' => println!("early letter"),
+        'k'...'z' => println!("late letter"),
+        _ => println!("something else"),
+    }
+
+    // Bindings
+    let x = 1;
+    match x {
+        e @ 1 ... 5 => println!("got a range element {}", e),
+        _ => println!("anything"),
+    }
+
+    #[derive(Debug)]
+    struct Person {
+        name: Option<String>,
+    }
+
+    let name = "Steve".to_string();
+    let mut x: Option<Person> = Some(Person { name: Some(name) });
+    match x {
+        Some(Person { name: ref a @ Some(_), .. }) => println!("{:?}", a),
+        _ => {}
+    }
+    let x = 5;
+
+    match x {
+        e @ 1 ... 5 | e @ 8 ... 10 => println!("got a range element {}", e),
+        _ => println!("anything"),
+    }
+
+    enum OptionalInt {
+        Value(i32),
+        Missing,
+    }
+
+    let x = OptionalInt::Value(5);
+
+    match x {
+        OptionalInt::Value(i) if i > 5 => println!("Got an int bigger than five!"),
+        OptionalInt::Value(..) => println!("Got an int!"),
+        OptionalInt::Missing => println!("No such luck."),
+    }
+
+    let x = 4;
+    let y = false;
+
+    match x {
+        4 | 5 if y => println!("yes"),
+        _ => println!("no"),
+    }
+
+    struct Foo {
+        x: Option<String>,
+        y: i32,
+    }
+
+    let foo = Foo {
+        x: Some("itang".to_string()),
+        y: 30,
+    };
+    match foo {
+        Foo {x: Some(ref name), y: 30} => println!("name: {}, age: 30", name),
+        _ => println!("NO"),
+    }
 }
