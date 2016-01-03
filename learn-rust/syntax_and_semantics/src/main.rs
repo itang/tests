@@ -1,6 +1,8 @@
 use std::thread;
 
 use std::cell::Cell;
+use std::fmt::Debug;
+use std::fmt::Display;
 
 fn main() {
     println!("Hello, world! 2016");
@@ -21,6 +23,8 @@ fn main() {
     test_patterns();
     test_method_syntaxs();
     test_vectors();
+    test_strings();
+    test_generics();
 }
 
 // #[test]
@@ -995,6 +999,127 @@ fn test_vectors() {
         println!("Take ownership of the vector and its element {}", i);
     }
 
-    //println!("{:?}", v); // use of moved value: `v`
+    // println!("{:?}", v); // use of moved value: `v`
+}
 
+// #[test]
+fn test_strings() {
+    // A ‘string’ is a sequence of Unicode scalar values encoded as a stream of UTF-8 bytes.
+    // All strings are guaranteed to be a valid encoding of UTF-8 sequences.
+    // Additionally, unlike some systems languages,
+    // strings are not null-terminated and can contain null bytes
+
+    let greeting = "Hello there."; // greeting: &'static str
+    println!("greeting: {}", greeting);
+    // This string is statically allocated,
+    // meaning that it’s saved inside our compiled program,
+    // and exists for the entire duration it runs.
+    //  The greeting binding is a reference to this statically allocated string.
+    // String slices have a fixed size, and cannot be mutated
+
+    // A String, on the other hand, is a heap-allocated string. This string is growable,
+    // and is also guaranteed to be UTF-8.
+    // Strings are commonly created by converting from a string slice using the to_string method.
+    let mut s = "hello".to_string();
+    println!("{}", s);
+
+    s.push_str(", world.");
+    println!("{}", s);
+
+    // Strings will coerce into &str with an &:
+
+    fn takes_slice(slice: &str) {
+        println!("Got: {}", slice);
+    }
+
+    takes_slice(&s);
+
+    // Viewing a String as a &str is cheap,
+    // but converting the &str to a String involves allocating memory
+    let hachiko = "忠犬ハチ公";
+
+    for b in hachiko.as_bytes() {
+        print!("{}, ", b);
+    }
+
+    println!("");
+
+    for c in hachiko.chars() {
+        print!("{}, ", c);
+    }
+
+    println!("");
+
+    // Slicing
+    let dog = "hackiko";
+    let hachi: &str = &dog[0..5];
+    println!("{}", hachi);
+
+    // Concatenation
+    // If you have a String, you can concatenate a &str to the end of it:
+    let hello = "Hello ".to_string();
+    let world = "world!";
+    let hello_world = hello + world;
+    println!("{}", hello_world);
+
+    // But if you have two Strings, you need an &:
+    let hello = "Hello ".to_string();
+    let world = "world!".to_string();
+
+    let hello_world = hello + &world;
+    println!("{}", hello_world);
+
+    // This is because &String can automatically coerce to a &str.
+    // This is a feature called ‘Deref coercions’
+}
+
+// #[test]
+fn test_generics() {
+    // parametric polymorphism
+    //
+
+    let x: Option<i32> = Some(5);
+    assert_eq!(x.unwrap(), 5);
+
+    enum MyResult<A, Z> {
+        MyOk(A),
+        MyErr(Z),
+    }
+
+    let a: MyResult<i32, String> = MyResult::MyOk(100);
+    match a {
+        MyResult::MyOk(i) => println!("OK:{}", i),
+        MyResult::MyErr(s) => println!("Err:{}", s),
+    }
+
+    fn takes_anything<T: Debug>(x: T) {
+        println!("{:?}", x);
+    }
+
+    fn takes_2<T: Debug, Z: Display>(t: T, z: Z) {
+        println!("{}:{:?}", z, t);
+    }
+
+    takes_anything(100);
+    takes_2(100, "hello");
+
+    #[derive(Debug)]
+    struct Point<T> {
+        x: T,
+        y: T,
+    }
+
+    impl<T> Point<T> {
+        fn swap(&mut self) {
+            std::mem::swap(&mut self.x, &mut self.y);
+        }
+    }
+
+    let int_origin = Point { x: 100, y: 200 };
+    let mut float_origin = Point { x: 10.0, y: 20.0 };
+    println!("{:?}", int_origin);
+    println!("{:?}", float_origin);
+
+    float_origin.swap();
+    println!("{:?}", float_origin);
 }
