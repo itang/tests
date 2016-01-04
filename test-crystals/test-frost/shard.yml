@@ -1,0 +1,10 @@
+name: myapp
+version: 0.1.0
+
+dependencies:
+  frost:
+    github: ysbaddaden/frost
+
+development_dependencies:
+  minitest:
+    github: ysbaddaden/minitest.cr
