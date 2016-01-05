@@ -1,0 +1,6 @@
+[package]
+name = "test-large-tuples"
+version = "0.1.0"
+authors = ["itang <live.tang@gmail.com>"]
+
+[dependencies]
