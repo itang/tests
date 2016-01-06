@@ -1,0 +1,7 @@
+[package]
+authors = ["itang <live.tang@gmail.com>"]
+name = "test-frank_jwt"
+version = "0.1.0"
+
+[dependencies]
+frank_jwt = "2.1.0"
