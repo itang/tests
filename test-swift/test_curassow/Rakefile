@@ -12,7 +12,7 @@ end
 
 desc "run"
 task :run => :build do
-  sh "#{bin} --workers 2 --bind 127.0.0.1:9000"
+  sh "#{bin} --workers 4 --bind 127.0.0.1:9000"
 end
 
 desc "guard"
