@@ -397,5 +397,10 @@ let assert = chai.assert;
 
     console.log(grid1.calculateDistanceFromOrigin({x: 10, y: 10}));
     console.log(grid2.calculateDistanceFromOrigin({x: 10, y: 10}));
+    assert.equal(Grid.origin.x, 0);
 
+    var GridMarker: typeof Grid = Grid;
+    assert.equal(GridMarker.origin.y, 0);
+    var grid3 = new GridMarker(10);
+    console.log(grid3.calculateDistanceFromOrigin({x: 10, y: 10}));
 })();
