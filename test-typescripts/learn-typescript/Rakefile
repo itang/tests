@@ -1,0 +1,10 @@
+task :default do
+  sh 'rake -T'
+end
+
+desc 'format source'
+task :fmt do
+  Dir['*.ts'].each do |x|
+    sh "tsfmt #{x} -r"
+  end
+end

@@ -4,75 +4,75 @@ declare function require(name: string);
  * @see http://chaijs.com/api/assert/
  */
 interface Assert {
-     // Function interface
-     // describe a function type with an interface
-     (expression: boolean): void;
-     (expression: boolean, message: string): void;
+    // Function interface
+    // describe a function type with an interface
+    (expression: boolean): void;
+    (expression: boolean, message: string): void;
 
-     equal(a: any, b: any): void;
-     equal(a: any, b: any, message: string): void;
+    equal(a: any, b: any): void;
+    equal(a: any, b: any, message: string): void;
 
-     notEqual(a: any, b: any): void;
-     notEqual(a: any, b: any, message: string): void;
+    notEqual(a: any, b: any): void;
+    notEqual(a: any, b: any, message: string): void;
 
-     typeOf(obj: any, type: string): void;
-     typeOf(obj: any, type: string, message: String): void;
-     notTypeOf(obj: any, type: string): void;
-     notTypeOf(obj: any, type: string, message: String): void;
+    typeOf(obj: any, type: string): void;
+    typeOf(obj: any, type: string, message: String): void;
+    notTypeOf(obj: any, type: string): void;
+    notTypeOf(obj: any, type: string, message: String): void;
 
-     lengthOf(a: string | Array<any>, b: number): void;
-     lengthOf(a: string | Array<any>, b: number, message: string): void;
+    lengthOf(a: string | Array<any>, b: number): void;
+    lengthOf(a: string | Array<any>, b: number, message: string): void;
 
-     property(obj: any, prop: string): void;
-     property(obj: any, prop: string, message: string): void;
+    property(obj: any, prop: string): void;
+    property(obj: any, prop: string, message: string): void;
 
-     isTrue(value: any): void;
-     isTrue(value: any, message: string): void;
+    isTrue(value: any): void;
+    isTrue(value: any, message: string): void;
 
-     isNotTrue(value: any): void;
-     isNotTrue(value: any, message: string): void;
+    isNotTrue(value: any): void;
+    isNotTrue(value: any, message: string): void;
 
-     isNull(value: any): void;
-     isNull(value: any, message: string): void;
+    isNull(value: any): void;
+    isNull(value: any, message: string): void;
 
-     isUndefined(value: any): void;
-     isUndefined(value: any, message: string): void;
+    isUndefined(value: any): void;
+    isUndefined(value: any, message: string): void;
 
-     isFunction(value: any): void;
-     isFunction(value: any, message: string): void;
-     isNotFunction(value: any): void;
-     isNotFunction(value: any, message: string): void;
+    isFunction(value: any): void;
+    isFunction(value: any, message: string): void;
+    isNotFunction(value: any): void;
+    isNotFunction(value: any, message: string): void;
 
-     isObject(value: any): void;
-     isObject(value: any, message: string): void;
-     isNotObject(value: any): void;
-     isNotObject(value: any, message: string): void;
+    isObject(value: any): void;
+    isObject(value: any, message: string): void;
+    isNotObject(value: any): void;
+    isNotObject(value: any, message: string): void;
 
-     isArray(value: any): void;
-     isArray(value: any, message: string): void;
-     isNotArray(value: any): void;
-     isNotArray(value: any, message: string): void;
+    isArray(value: any): void;
+    isArray(value: any, message: string): void;
+    isNotArray(value: any): void;
+    isNotArray(value: any, message: string): void;
 
-     isString(value: any): void;
-     isString(value: any, message: string): void;
-     isNotString(value: any): void;
-     isNotString(value: any, message: string): void;
+    isString(value: any): void;
+    isString(value: any, message: string): void;
+    isNotString(value: any): void;
+    isNotString(value: any, message: string): void;
 
-     isNumber(value: any): void;
-     isNumber(value: any, message: string): void;
-     isNotNumber(value: any): void;
-     isNotNumber(value: any, message: string): void;
+    isNumber(value: any): void;
+    isNumber(value: any, message: string): void;
+    isNotNumber(value: any): void;
+    isNotNumber(value: any, message: string): void;
 
-     isBoolean(value: any): void;
-     isBoolean(value: any, message: string): void;
-     isNotBoolean(value: any): void;
-     isNotBoolean(value: any, message: string): void;
+    isBoolean(value: any): void;
+    isBoolean(value: any, message: string): void;
+    isNotBoolean(value: any): void;
+    isNotBoolean(value: any, message: string): void;
 
-     throws(fun: Function): void;
-     throws(fun: Function, message: string): void;
+    throws(fun: Function): void;
+    throws(fun: Function, message: string): void;
 
-     sameMembers(a1: Array<any>, a2: Array<any>): void;
-     sameMembers(a1: Array<any>, a2: Array<any>, message: string): void;
+    sameMembers(a1: Array<any>, a2: Array<any>): void;
+    sameMembers(a1: Array<any>, a2: Array<any>, message: string): void;
 }
 
 interface Chai {
@@ -83,7 +83,7 @@ interface Chai {
 let chai: Chai = require("chai");
 let assert = chai.assert;
 
-(function test_chai(){
+(function test_chai() {
     console.log("hello");
     assert(true);
     assert(true, "true");
@@ -96,23 +96,23 @@ let assert = chai.assert;
     assert.typeOf(name, "string");
 
     assert.lengthOf(name, 5);
-    assert.lengthOf([1,2,3], 3);
-    let tea = {"flavors": [1,2,3,4,5]};
+    assert.lengthOf([1, 2, 3], 3);
+    let tea = { "flavors": [1, 2, 3, 4, 5] };
     assert.lengthOf(tea.flavors, 5);
 
-    assert.isFunction(function(){});
+    assert.isFunction(function() { });
     assert.isObject({});
     assert.isNotFunction({});
-    assert.isNotObject(function(){});
+    assert.isNotObject(function() { });
 
-    assert.throws(function(){
+    assert.throws(function() {
         throw "Error";
     });
 })();
 
-(function test_basic_types(){
+(function test_basic_types() {
     //Boolean
-    (function Boolean(){
+    (function Boolean() {
         var isDone: boolean = true;
         assert.isBoolean(isDone);
         assert.isTrue(isDone);
@@ -123,38 +123,38 @@ let assert = chai.assert;
     })();
 
     //Number
-    (function test_number(){
+    (function test_number() {
         // all numbers in TypeScript are floating point values. These floating point numbers get the type 'number'.
         var height: number = 100;
         assert.equal(height, 100);
     })();
 
-    (function test_string(){
+    (function test_string() {
         var name: string = "bob";
         name = 'smith';
     })();
 
-    (function test_array(){
+    (function test_array() {
         var list: number[] = [1, 2, 3];
         assert.isArray(list);
         var list2 = [1, 2, 3];
         assert.isArray(list2);
-        assert.notEqual(list2, [1,2,3]);
-        assert.sameMembers(list2, [1,2,3]);
+        assert.notEqual(list2, [1, 2, 3]);
+        assert.sameMembers(list2, [1, 2, 3]);
     })();
 
-    (function test_enum(){
-        enum Color {Red, Green, Blue};
+    (function test_enum() {
+        enum Color { Red, Green, Blue };
         var c: Color = Color.Green;
         assert.equal(c, Color.Green);
         assert.equal(Color[2], "Blue");
 
-        enum Color2 {Red = 1, Green, Blue};
+        enum Color2 { Red = 1, Green, Blue };
         var colorName: string = Color2[2];
         assert.equal(colorName, "Green");
     })();
 
-    (function test_any(){
+    (function test_any() {
         var notSure: any = 4;
         assert.equal(notSure, 4);
 
@@ -162,16 +162,16 @@ let assert = chai.assert;
         notSure = false; // okay, definitely a boolean
         assert.isNotTrue(notSure);
 
-        var list:any[] = [1, true, "free"];
+        var list: any[] = [1, true, "free"];
 
         list[1] = 100;
         assert.isArray(list);
         assert.equal(list[1], 100);
     })();
 
-    (function test_void(){
+    (function test_void() {
         var f = function(): void {
-          console.log("test");
+            console.log("test");
         };
         var a = f();
         assert.isUndefined(a);
@@ -179,12 +179,12 @@ let assert = chai.assert;
 })();
 
 
-(function Interfaces(){
-    function printLabel(labelledObj: {label: string}) {
+(function Interfaces() {
+    function printLabel(labelledObj: { label: string }) {
         console.log(labelledObj.label);
     }
 
-    var myObj = {size: 10, label: "Size 10 Object"};
+    var myObj = { size: 10, label: "Size 10 Object" };
     printLabel(myObj);
 
     interface LabelledValue {
@@ -201,18 +201,18 @@ let assert = chai.assert;
         width?: number;
     }
 
-    function createSquare(config: SquareConfig): {color: string, area: number} {
-        var newSquare = {color: "white", area: 100};
-        if (config.color){
+    function createSquare(config: SquareConfig): { color: string, area: number } {
+        var newSquare = { color: "white", area: 100 };
+        if (config.color) {
             newSquare.color = config.color;
         }
-        if(config.width){
+        if (config.width) {
             newSquare.area = config.width;
         }
         return newSquare;
     }
 
-    var mySquare = createSquare({color: 'black'});
+    var mySquare = createSquare({ color: 'black' });
     console.log(mySquare);
 
     // Function interface
@@ -247,7 +247,7 @@ let assert = chai.assert;
         setTime(d: Date);
     }
 
-    class Clock implements ClockInterface  {
+    class Clock implements ClockInterface {
         currentTime: Date;
         setTime(d: Date) {
             this.currentTime = d;
@@ -284,7 +284,7 @@ let assert = chai.assert;
     interface Counter {
         (start: number): string;
         interval: number;
-        reset():void;
+        reset(): void;
     }
     /*class CounterImpl implements Counter {
          (start:number): string {
@@ -304,10 +304,10 @@ let assert = chai.assert;
 })();
 
 // Classes.
-(function test_classes(){
+(function test_classes() {
     class Greeter {
         greeting: string;
-        constructor(message: string)  {
+        constructor(message: string) {
             this.greeting = message;
         }
         greet() {
@@ -325,22 +325,22 @@ let assert = chai.assert;
             this.name = theName;
         }
         // Public by default
-        move(meters: number = 0){
+        move(meters: number = 0) {
             console.log(this.name + " moved " + meters + "m.");
         }
     }
 
     class Snake extends Animal {
-        constructor(name: string) { super(name);}
-        move(meters = 5){
+        constructor(name: string) { super(name); }
+        move(meters = 5) {
             console.log("Slithering...");
             super.move(meters);
         }
     }
 
     class Horse extends Animal {
-        constructor(name: string) { super(name);}
-        move(meters = 45){
+        constructor(name: string) { super(name); }
+        move(meters = 45) {
             console.log("Galloping...");
             super.move(meters);
         }
@@ -354,7 +354,7 @@ let assert = chai.assert;
 
     // The keywords 'public' and 'private' also give you a shorthand for creating and initializing members of your class, by creating parameter properties
     class Animal2 {
-        constructor(private name: string) {}
+        constructor(private name: string) { }
         move(meters: number) {
             console.log(this.name + " moved " + meters + "m.");
         }
@@ -368,39 +368,87 @@ let assert = chai.assert;
             return this._fullName;
         }
         set fullName(newName: string) {
-            if(passcode && passcode == "secret passcode") {
+            if (passcode && passcode == "secret passcode") {
                 this._fullName = newName;
-            }else{
+            } else {
                 alert("Error: Unauthorized update of employee!");
             }
         }
     }
     var employee = new Employee();
     employee.fullName = "Bob Smith";
-    if(employee.fullName){
+    if (employee.fullName) {
         console.log(employee.fullName);
     }
 
     // Static Properties
     class Grid {
-        static origin = {x: 0, y: 0};
-        calculateDistanceFromOrigin(point: {x: number; y: number;}) {
+        static origin = { x: 0, y: 0 };
+        calculateDistanceFromOrigin(point: { x: number; y: number; }) {
             var xDist = (point.x - Grid.origin.x);
             var yDist = (point.y - Grid.origin.y);
             return Math.sqrt(xDist * xDist + yDist * yDist) / this.scale;
         }
-        constructor (public scale: number) { }
+        constructor(public scale: number) { }
     }
 
     var grid1 = new Grid(1.0);  // 1x scale
     var grid2 = new Grid(5.0);  // 5x scale
 
-    console.log(grid1.calculateDistanceFromOrigin({x: 10, y: 10}));
-    console.log(grid2.calculateDistanceFromOrigin({x: 10, y: 10}));
+    console.log(grid1.calculateDistanceFromOrigin({ x: 10, y: 10 }));
+    console.log(grid2.calculateDistanceFromOrigin({ x: 10, y: 10 }));
     assert.equal(Grid.origin.x, 0);
 
     var GridMarker: typeof Grid = Grid;
     assert.equal(GridMarker.origin.y, 0);
     var grid3 = new GridMarker(10);
-    console.log(grid3.calculateDistanceFromOrigin({x: 10, y: 10}));
+    console.log(grid3.calculateDistanceFromOrigin({ x: 10, y: 10 }));
+
+    // Using a class as an interface
+    class Point {
+        x: number;
+        y: number;
+    }
+    interface Point3D extends Point {
+        z: number;
+    }
+
+    var point3d: Point3D = { x: 1, y: 2, z: 3 };
+    assert.equal(point3d.y, 2);
+})();
+
+module Validation {
+    export interface StringValidator {
+        isAcceptable(s: string): boolean;
+    }
+
+    var lettersRegexp = /^[A-Za-z]+$/;
+    var numberRegexp = /^[0-9]+$/;
+
+    export class LettersOnlyValidator implements StringValidator {
+        isAcceptable(s: string) {
+            return lettersRegexp.test(s);
+        }
+    }
+
+    export class ZipCodeValidator implements StringValidator {
+        isAcceptable(s: string) {
+            return s.length === 5 && numberRegexp.test(s);
+        }
+    }
+}
+//Modules
+(function test_modules() {
+    // Some samples to try
+    var strings = ['Hello', '98052', '101'];
+    // Validators to use
+    var validators: { [s: string]: Validation.StringValidator; } = {};
+    validators['ZIP code'] = new Validation.ZipCodeValidator();
+    validators['Letters only'] = new Validation.LettersOnlyValidator();
+    // Show whether each string passed each validator
+    strings.forEach(s => {
+        for (var name in validators) {
+            console.log('"' + s + '" ' + (validators[name].isAcceptable(s) ? ' matches ' : ' does not match ') + name);
+        }
+    });
 })();
