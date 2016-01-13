@@ -22,7 +22,7 @@ guard :shell do
   watch(/(.*).ts/) do |m|
     file = m[0]
     #system "tail #{file}"
-    ret = system "tsc #{file}"
+    ret = system "tsc #{file} --target ES5"
     if ret
         js = file.sub(".ts", ".js")
         ret = system "node #{js}"
