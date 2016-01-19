@@ -2,11 +2,11 @@ version: 1.0
 shards:
   frost:
     github: ysbaddaden/frost
-    version: 0.1.0
+    version: 0.2.0
 
   minitest:
     github: ysbaddaden/minitest.cr
-    version: 0.2.0
+    version: 0.3.0
 
   pg:
     github: will/crystal-pg
