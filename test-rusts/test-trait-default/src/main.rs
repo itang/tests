@@ -7,8 +7,8 @@ struct SomeOptions {
 }
 
 impl SomeOptions {
-    fn default() -> SomeOptions {
-        Default::default()
+    fn default_custom() -> SomeOptions {
+        SomeOptions { foo: 100, ..Default::default() }
     }
 }
 
@@ -18,4 +18,7 @@ fn main() {
 
     let o2 = SomeOptions::default();
     println!("o2: {:?}", o2);
+
+    let o3 = SomeOptions::default_custom();
+    println!("o3: {:?}", o3);
 }
