@@ -1,10 +1,10 @@
 version: 1.0
 shards:
-  beryl:
-    github: luislavena/beryl
-    commit: 74565af26fabb4dca0a7b3019933a4525eda6cc2
-
   kemal:
     github: kemalcr/kemal
-    commit: c6e9e7a827604a283962cc96c7f90fe1990b9f9c
+    commit: e223940e5e05b63ddebfda3c4bff63f1c7f4ba82
+
+  radix:
+    github: f/radix
+    version: HEAD
 

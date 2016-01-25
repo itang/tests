@@ -2,7 +2,7 @@ version: 1.0
 shards:
   frost:
     github: ysbaddaden/frost
-    version: 0.2.0
+    version: 0.2.1
 
   minitest:
     github: ysbaddaden/minitest.cr
@@ -14,5 +14,5 @@ shards:
 
   pool:
     github: ysbaddaden/pool
-    version: 0.2.0
+    version: 0.2.1
 

@@ -1,0 +1,15 @@
+task :default do
+    sh 'rake -T'
+end
+
+namespace :run do
+    desc 'gradle run'
+    task :gradle do
+        sh 'gradle run'
+    end
+
+    desc 'fatjar && java -jar'
+    task :fatjar do
+        sh 'gradle fatCapsule;cd build/libs; java -jar test-capsule-capsule.jar'
+    end
+end
