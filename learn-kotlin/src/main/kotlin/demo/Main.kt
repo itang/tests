@@ -2273,7 +2273,22 @@ fun <A, B> tryIt(a: A?, consumer: (A) -> B): B? {
     }
 }
 
+fun <A, B> A.letTry(consumer: (A) -> B): B? {
+    return this?.let {
+        try {
+            consumer(it)
+        } catch(e: Exception) {
+            println("WARN: ${e.message}")
+            return null
+        }
+    }
+}
+
 fun test1() {
+    assertNull(null.letTry { Integer.parseInt(it) })
+
+    assertEquals(100, "100".letTry { Integer.parseInt(it) })
+
     fun getValue(): String? = "1000d"
 
     fun parseInt(s: String?): Int? {
