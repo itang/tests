@@ -1180,6 +1180,20 @@ fun test_more() {
     visibility_modifiers()
 }
 
+inline fun <A> Boolean?.ifelse(te: () -> A, ee: () -> A): A? {
+    return this?.let {
+        if (it) {
+            te()
+        } else {
+            ee()
+        }
+    }
+}
+
+inline fun <A> Boolean?.iftrue(te: () -> A): A? {
+    return this.ifelse(te, { -> null })
+}
+
 fun test_basic_types() {
     fun numbers() {
         val d: Double = 1000.0
@@ -1250,6 +1264,10 @@ fun test_basic_types() {
         if (a != null && a) {
             println("true")
         }
+
+        a.iftrue { assertTrue(true) }
+        false.ifelse ({ throw RuntimeException("") }, { true })
+
         val b = false
         println(b.toString())
 
