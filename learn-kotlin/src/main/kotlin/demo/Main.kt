@@ -1527,7 +1527,7 @@ fun test_control_flow() {
         DEBUG("sum: $sum")
 
         // Return at Labels
-        val ints = arrayOf(1, 2, 3, 5, 6, 100)
+        val ints = arrayOf(1, 2, 3, 5, 6, 3)
         fun foo(): Int {
             var i = 0
             ints.forEach {
@@ -1550,12 +1550,12 @@ fun test_control_flow() {
         fun foo3(): Int {
             var i = 0
             ints.forEach {
-                if (it > 5) return@forEach
+                if (it > 5) return@forEach // like break current iterate
                 i += it
             }
             return i
         }
-        assertEquals(foo3(), 1 + 2 + 3 + 5)
+        assertEquals(foo3(), 1 + 2 + 3 + 5 + 3)
 
         //Alternatively, we can replace the lambda expression with an anonymous function. A return statement in an anomymous
         //function will return from the anonymous function itself.
@@ -1563,12 +1563,12 @@ fun test_control_flow() {
         fun foo4(): Int {
             var i = 0
             ints.forEach(fun(it: Int) {
-                if (it > 5) return
+                if (it > 5) return  // just return current function
                 i += it
             })
             return i
         }
-        assertEquals(foo4(), 1 + 2 + 3 + 5)
+        assertEquals(foo4(), 1 + 2 + 3 + 5 + 3)
     }
     test_return_jump()
 }
