@@ -1,0 +1,13 @@
+task :default => :run_test
+
+task :run_test => %w[run test]
+
+desc 'run'
+task :run do
+    sh 'cargo run'
+end
+
+desc 'test'
+task :test do
+    sh 'cargo test'
+end
