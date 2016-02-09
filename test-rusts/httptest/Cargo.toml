@@ -1,0 +1,10 @@
+[package]
+authors = ["itang <live.tang@gmail.com>"]
+name = "httptest"
+version = "0.1.0"
+
+[dependencies]
+hyper = "0.7.2"
+iron = "0.2.6"
+router = "0.1.0"
+rustc-serialize = "0.3.17"
