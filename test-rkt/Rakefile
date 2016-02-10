@@ -1,0 +1,15 @@
+task :default do
+  sh 'rake -T'
+end
+
+task :all do
+  sh 'bash build.sh'
+  sh 'bash build-aci.sh'
+
+  fork do
+    sh 'bash run.sh'
+  end
+
+  sleep(5)
+  sh 'bash test.sh'
+end
