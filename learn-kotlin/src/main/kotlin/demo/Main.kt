@@ -1,6 +1,5 @@
 package demo
 
-
 import demo.classes.User
 import java.util.*
 import java.text.SimpleDateFormat as DFormat
@@ -12,8 +11,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
 import javax.inject.Inject
 import kotlin.concurrent.thread
 import kotlin.properties.Delegates
-import kotlin.properties.getValue
-import kotlin.properties.setValue
+import kotlin.properties.ReadWriteProperty;
 import kotlin.reflect.KClass
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.KProperty
@@ -736,7 +734,7 @@ fun test_functions_lambdas() {
     fun double2(x: Int) = x * 2
 
     //Variable number of arguments(Varargs)
-    fun asList<T>(vararg ts: T): List<T> {
+    fun <T> asList(vararg ts: T): List<T> {
         val result = ArrayList<T>()
         for (t in ts) {
             result.add(t)
