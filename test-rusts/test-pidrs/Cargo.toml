@@ -1,0 +1,7 @@
+[package]
+authors = ["itang <live.tang@gmail.com>"]
+name = "test-pidrs"
+version = "0.1.0"
+
+[dependencies]
+libc = "0.2.7"
