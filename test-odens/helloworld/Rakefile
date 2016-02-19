@@ -1,0 +1,20 @@
+task :default do
+  sh 'rake -T'
+end
+
+desc 'bulid'
+task :build do
+  sh 'oden build'
+end
+
+desc 'run'
+task :run do
+  sh 'oden run src/main.oden'
+end
+
+namespace :oden do
+  desc 'oden version'
+  task :version do
+    sh 'oden -V'
+  end
+end
