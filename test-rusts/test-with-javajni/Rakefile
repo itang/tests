@@ -1,0 +1,13 @@
+task :default do
+  sh 'rake -T'
+end
+
+task :run do
+  sh 'cargo build'
+  sh 'javac Adder.java'
+  sh 'java Adder'
+end
+
+task :clean do
+  sh 'rm *.class;cargo clean'
+end

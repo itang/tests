@@ -1,0 +1,11 @@
+[package]
+authors = ["itang <live.tang@gmail.com>"]
+name = "highperf-adder"
+version = "0.1.0"
+
+[dependencies]
+libc = "0.2.7"
+
+[lib]
+crate-type = ["dylib"]
+name = "hpa"
