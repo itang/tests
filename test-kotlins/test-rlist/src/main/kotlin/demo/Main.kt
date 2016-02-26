@@ -24,16 +24,16 @@ object Nodes {
     }
 
     fun <T> reverse(node: Node<T>?): Node<T>? {
-        var newRoot: Node<T>? = null
-        var root = node
-        while (root != null) {
-            var next = root.next // 记住当前节点的下一个节点
-            root.next = newRoot // 当前节点的next指向上一个值
-            newRoot = root // 新的root移到当前节点
-            root = next  // 当前节点替换为其下一个节点，构成迭代语义
+        var prev: Node<T>? = null
+        var curr = node
+        while (curr != null) {
+            var next = curr.next // 记住当前节点的下一个节点
+            curr.next = prev // 当前节点的next指向上一个值
+            prev = curr // 新的root移到当前节点
+            curr = next  // 当前节点替换为其下一个节点，构成迭代语义
         }//最后一个节点之后，跳出循环（next为空）
 
-        return newRoot
+        return prev
     }
 }
 
