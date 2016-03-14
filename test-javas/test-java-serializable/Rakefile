@@ -1,0 +1,5 @@
+task :run do
+  sh 'mkdir -p bin'
+  sh 'javac -d bin src/A.java'
+  sh 'java -cp bin:. A'
+end
