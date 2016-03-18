@@ -1,0 +1,59 @@
+buildscript {
+    project.ext.kotlin_version = '1.0.1'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+plugins {
+  id "us.kirchmeier.capsule" version "1.0.2"
+}
+
+apply plugin: "kotlin"
+apply plugin: 'kotlin'
+apply plugin: 'application'
+
+repositories {
+    maven {
+        url "http://www.haoshuju.net:8078/"
+    }
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.apache.spark:spark-core_2.11:1.6.0"
+    //compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    //compile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+}
+
+sourceSets {
+    main.kotlin.srcDirs += 'src/main/kotlin'
+    main.java.srcDirs += 'src/main/java'
+    main.java.srcDirs += 'src/main/kotlin'
+}
+
+mainClassName = 'demo.MainKt'
+defaultTasks 'run'
+
+task fatCapsule(type: FatCapsule) {
+    applicationClass project.mainClassName
+}
+
+task fatRun(type: Exec, dependsOn: 'fatCapsule') {
+    workingDir "."
+
+    commandLine "java", "-jar", "build/libs/${project.name}-capsule.jar"
+
+    //store the output instead of printing to the console:
+    //standardOutput = new ByteArrayOutputStream()
+
+    //extension method stopTomcat.output() can be used to obtain the output:
+    //ext.output = {
+    //    return standardOutput.toString()
+    //}
+}
+
