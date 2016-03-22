@@ -721,14 +721,14 @@ fun test_functions_lambdas() {
     printHello("hello")
 
     // the Unit return type declaration is also ooptional. The above code is equivalent to
-    fun printHello(name: String?) {
+    fun printHello2(name: String?) {
 
     }
 
     //Single-Expression functions
     // when a function returns a single expression, the curly braces can be omitted and the body is specified after a = symbol
     //
-    fun double(x: Int): Int = x * 2
+    fun todouble(x: Int): Int = x * 2
 
     //return type is optional when this can be inferred by the compiler
     fun double2(x: Int) = x * 2
