@@ -8,3 +8,5 @@ end
 get "/" do
   "Hello World!"
 end
+
+Kemal.run
