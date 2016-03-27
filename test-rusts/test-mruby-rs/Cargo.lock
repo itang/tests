@@ -1,0 +1,72 @@
+[root]
+name = "test-mruby-rs"
+version = "0.1.0"
+dependencies = [
+ "mrusty 0.3.1 (registry+git://crates.mirrors.ustc.edu.cn/index)",
+]
+
+[[package]]
+name = "filetime"
+version = "0.1.10"
+source = "registry+git://crates.mirrors.ustc.edu.cn/index"
+dependencies = [
+ "libc 0.2.8 (registry+git://crates.mirrors.ustc.edu.cn/index)",
+]
+
+[[package]]
+name = "gcc"
+version = "0.3.26"
+source = "registry+git://crates.mirrors.ustc.edu.cn/index"
+
+[[package]]
+name = "kernel32-sys"
+version = "0.2.1"
+source = "registry+git://crates.mirrors.ustc.edu.cn/index"
+dependencies = [
+ "winapi 0.2.6 (registry+git://crates.mirrors.ustc.edu.cn/index)",
+ "winapi-build 0.1.1 (registry+git://crates.mirrors.ustc.edu.cn/index)",
+]
+
+[[package]]
+name = "libc"
+version = "0.2.8"
+source = "registry+git://crates.mirrors.ustc.edu.cn/index"
+
+[[package]]
+name = "mrusty"
+version = "0.3.1"
+source = "registry+git://crates.mirrors.ustc.edu.cn/index"
+dependencies = [
+ "gcc 0.3.26 (registry+git://crates.mirrors.ustc.edu.cn/index)",
+ "tar 0.4.4 (registry+git://crates.mirrors.ustc.edu.cn/index)",
+ "walkdir 0.1.5 (registry+git://crates.mirrors.ustc.edu.cn/index)",
+]
+
+[[package]]
+name = "tar"
+version = "0.4.4"
+source = "registry+git://crates.mirrors.ustc.edu.cn/index"
+dependencies = [
+ "filetime 0.1.10 (registry+git://crates.mirrors.ustc.edu.cn/index)",
+ "libc 0.2.8 (registry+git://crates.mirrors.ustc.edu.cn/index)",
+]
+
+[[package]]
+name = "walkdir"
+version = "0.1.5"
+source = "registry+git://crates.mirrors.ustc.edu.cn/index"
+dependencies = [
+ "kernel32-sys 0.2.1 (registry+git://crates.mirrors.ustc.edu.cn/index)",
+ "winapi 0.2.6 (registry+git://crates.mirrors.ustc.edu.cn/index)",
+]
+
+[[package]]
+name = "winapi"
+version = "0.2.6"
+source = "registry+git://crates.mirrors.ustc.edu.cn/index"
+
+[[package]]
+name = "winapi-build"
+version = "0.1.1"
+source = "registry+git://crates.mirrors.ustc.edu.cn/index"
+

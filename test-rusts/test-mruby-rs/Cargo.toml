@@ -1,0 +1,7 @@
+[package]
+authors = ["itang <live.tang@gmail.com>"]
+name = "test-mruby-rs"
+version = "0.1.0"
+
+[dependencies]
+mrusty = "0.3.1"
