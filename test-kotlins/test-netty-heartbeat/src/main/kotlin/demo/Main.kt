@@ -9,9 +9,15 @@ import io.netty.channel.socket.nio.NioServerSocketChannel
 import io.netty.handler.logging.LogLevel
 import io.netty.handler.logging.LoggingHandler
 
+object Config {
+    val PORT_KEY = "PORT"
 
-object Constants {
-    val PORT = 8000
+    val port: Int
+        get() = getFromEnvOrProp(PORT_KEY)?.toInt() ?: 8000
+
+    private fun getFromEnvOrProp(key: String): String? {
+        return System.getenv(key) ?: System.getenv(key)
+    }
 }
 
 fun main(args: Array<String>) {
@@ -27,7 +33,7 @@ fun main(args: Array<String>) {
                 .childHandler(HeartbeatHandlerInitializer())
 
         // Start the server.
-        val f: ChannelFuture = b.bind(Constants.PORT).sync()
+        val f: ChannelFuture = b.bind(Config.port).sync()
 
         // Wait until the server socket is closed.
         f.channel().closeFuture().sync()
