@@ -1,0 +1,23 @@
+task :default do
+  sh 'rake -T'
+end
+
+desc 'libsum.so'
+file "libsum.so" do
+  sh 'go build -buildmode=c-shared -o libsum.so libsum.go'
+end
+
+desc 'build pony'
+file "test-ffi" => %w[libsum.so] do
+  sh 'ponyc .'
+end
+
+desc 'run'
+task "run" => "test-ffi" do
+  sh './test-ffi'
+end
+
+desc "clean"
+task :clean do
+  sh 'rm libsum.so test-ffi'
+end
