@@ -1,0 +1,55 @@
+task :default do
+  sh 'rake -T'
+end
+
+namespace :docker do
+  desc 'check docker install'
+  task :check do
+    sh 'docker run hello-world'
+  end
+
+  desc 'ubuntu bash'
+  task :bash do
+    sh 'docker run -it ubuntu bash'
+  end
+
+  desc 'whalesay-cowsay'
+  task "whalesay-cowsay" do
+    sh 'docker run --name "cowsay-boo" docker/whalesay cowsay boo'
+  end
+
+  desc 'build image'
+  task "build-image" do
+    sh "cd build_your_own_image; docker build -t docker-whale ."
+  end
+
+  desc 'docker tag'
+  task 'tag' do
+    sh 'docker tag 6c4ea316727e itang/docker-whale:latest'
+  end
+
+  desc 'images'
+  task :images do
+    sh 'docker images'
+  end
+
+  desc 'login'
+  task :login do
+    sh 'docker login --username=itang --email=live.tang@gmail.com'
+  end
+
+  desc 'push'
+  task :push do
+    sh 'docker push itang/docker-whale'
+  end
+
+  desc 'rm images'
+  task :rmi do
+    sh 'docker rmi itang/docker-whale docker-whale'
+  end
+
+  desc 'run itang/docker-whale'
+  task "run-itang-docker-whale" do
+    sh 'docker run itang/docker-whale'
+  end
+end
