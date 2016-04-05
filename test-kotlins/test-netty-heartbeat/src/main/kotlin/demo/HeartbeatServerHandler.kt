@@ -8,11 +8,16 @@ import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.timeout.IdleState
 import io.netty.handler.timeout.IdleStateEvent
 import io.netty.util.CharsetUtil
+import java.util.concurrent.ConcurrentHashMap
 
 fun ByteBuf.asString(): String {
     val bs = ByteArray(this.readableBytes())
     this.readBytes(bs)
     return String(bs)
+}
+
+object Global {
+    val map = ConcurrentHashMap<ChannelHandlerContext, ChannelHandlerContext> ()//mutableMapOf<ChannelHandlerContext, ChannelHandlerContext> ()
 }
 
 class HeartbeatServerHandler : ChannelHandlerAdapter() {
@@ -22,25 +27,35 @@ class HeartbeatServerHandler : ChannelHandlerAdapter() {
     companion object {
         private val HEARTBEAT_SEQUENCE: ByteBuf = Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Heartbeat", CharsetUtil.UTF_8));  // 1
         private val HELLO_REPLY_SEQUENCE: ByteBuf = Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("World", CharsetUtil.UTF_8));
+        private val JOIN_MESSAGE: ByteBuf = Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Client Join", CharsetUtil.UTF_8));  // 1
     }
 
     override fun channelRegistered(ctx: ChannelHandlerContext?) {
-        println(">> channelRegistered:${ctx?.channel()?.remoteAddress()}")
+        println(">> channelRegistered:${ctx?.channel()?.remoteAddress()}: ${ctx}")
+
+        Global.map.values.forEach { it.writeAndFlush(JOIN_MESSAGE.duplicate()) }
+
+        Global.map.put(ctx!!, ctx)
+
         super.channelRegistered(ctx)
     }
 
     override fun channelUnregistered(ctx: ChannelHandlerContext?) {
-        println(">> channelUnregistered:${ctx?.channel()?.remoteAddress()}")
+        println(">> channelUnregistered:${ctx?.channel()?.remoteAddress()}: ${ctx}")
+
+        Global.map.remove(ctx!!)
+
         super.channelUnregistered(ctx)
     }
 
     override fun exceptionCaught(ctx: ChannelHandlerContext?, cause: Throwable?) {
-        println(">> channelUnregistered:${ctx?.channel()?.remoteAddress()}: ${cause?.message}")
+        println(">> channelUnregistered:${ctx?.channel()?.remoteAddress()}: ${cause?.message}: ${ctx}")
         super.exceptionCaught(ctx, cause)
     }
 
     // 流式读.
     override fun channelRead(ctx: ChannelHandlerContext?, msg: Any?) {
+        println(">> channelRead:${ctx?.channel()?.remoteAddress()}: ${ctx}")
         if (msg is ByteBuf) {
             val d = msg.duplicate()
             val s: String = msg.asString().trim()
@@ -64,6 +79,7 @@ class HeartbeatServerHandler : ChannelHandlerAdapter() {
     }
 
     override fun userEventTriggered(ctx: ChannelHandlerContext, event: Any) {
+        println(">> userEventTriggered:${ctx?.channel()?.remoteAddress()}: ${ctx}")
         // 当前管道的空闲状态事件?
         if (event is IdleStateEvent) {
             var type = "";
