@@ -73,3 +73,13 @@ task run_client2(type:JavaExec) {
     main = 'demo.Client2Kt'
     classpath = sourceSets.main.runtimeClasspath
 }
+
+task run_client3(type:JavaExec) {
+    main = 'demo.Client3Kt'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task run_client4(type:JavaExec) {
+    main = 'demo.ClientAsyncKt'
+    classpath = sourceSets.main.runtimeClasspath
+}

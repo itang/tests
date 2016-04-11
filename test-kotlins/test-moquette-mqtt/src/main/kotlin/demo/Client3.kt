@@ -3,13 +3,13 @@ package demo
 import org.fusesource.mqtt.client.*
 import java.net.URISyntaxException
 
-private class Client2 {
+private class Client3 {
     object static {
         val CONNECTION_STRING = "tcp://localhost:1883"
         val CLEAN_START = false;
         val KEEP_ALIVE: Short = 30;// 低耗网络，但是又需要及时获取数据，心跳30s
         //创建相关的MQTT 的主题列表
-        val topics = arrayOf(Topic("mqtt/test", QoS.AT_LEAST_ONCE))
+        val topics = arrayOf(Topic("mqtt/disconnect", QoS.AT_LEAST_ONCE))
 
 
         val RECONNECTION_ATTEMPT_MAX: Long = 6;
@@ -29,7 +29,7 @@ private class Client2 {
             //Use to set the client Id of the session. This is what an MQTT server uses to identify a session where setCleanSession(false);
             // is being used. The id must be 23 characters or less.
             // Defaults to auto generated id (based on your socket address, port and timestamp)
-            setClientId("2")
+            setClientId("3")
 
             //设置重新连接的次数
             setReconnectAttemptsMax(static.RECONNECTION_ATTEMPT_MAX)
@@ -42,18 +42,6 @@ private class Client2 {
 
             //设置缓冲的大小
             setSendBufferSize(static.SEND_BUFFER_SIZE)
-
-            // If set the server will publish the client's Will message to the specified topics if the client has an unexpected disconnection.
-            setWillTopic("mqtt/disconnect")
-
-            // The Will message to send. Defaults to a zero length message.
-            setWillMessage("clientId-2")
-
-            // Sets the quality of service to use for the Will message. Defaults to QoS.AT_MOST_ONCE.
-            setWillQos(QoS.AT_LEAST_ONCE)
-
-            // Set to "3.1.1" to use MQTT version 3.1.1. Otherwise defaults to the 3.1 protocol version.
-            //setVersion("3.1.1")
         }
     }
 
@@ -77,7 +65,7 @@ private class Client2 {
                 val payload: ByteArray = message.payload
 
                 // process the message then:
-                System.out.println("MQTTClient Message  Topic: ${message.topic} Content: ${String(payload)}")
+                System.out.println("MQTTClient Message  Topic: ${message.getTopic()} Content: ${String(payload)}")
 
                 //签收消息的回执
                 message.ack()
@@ -98,5 +86,5 @@ private class Client2 {
 }
 
 fun main(args: Array<String>) {
-    Client2().start()
+    Client3().start()
 }

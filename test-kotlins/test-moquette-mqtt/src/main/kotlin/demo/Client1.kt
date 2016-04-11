@@ -5,10 +5,10 @@ import org.fusesource.mqtt.client.QoS
 import java.net.URISyntaxException
 
 
-class Client1 {
+private class Client1 {
     object static {
         val CONNECTION_STRING = "tcp://localhost:1883";
-        val CLEAN_START = true;
+        val CLEAN_START = false;
         val KEEP_ALIVE: Short = 30;// 低耗网络，但是又需要及时获取数据，心跳30s
 
         val RECONNECTION_ATTEMPT_MAX: Long = 6;
@@ -17,22 +17,41 @@ class Client1 {
         val SEND_BUFFER_SIZE = 2 * 1024 * 1024;//发送最大缓冲为2M
     }
 
+    private fun getMQTT(): MQTT {
+        return MQTT().apply {
+            //设置服务端的ip
+            setHost(static.CONNECTION_STRING)
+
+            //连接前清空会话信息
+            // Set to false if you want the MQTT server to persist topic subscriptions and ack positions across client sessions.
+            // Defaults to true.
+            setCleanSession(static.CLEAN_START)
+
+            //Use to set the client Id of the session. This is what an MQTT server uses to identify a session where setCleanSession(false);
+            // is being used. The id must be 23 characters or less.
+            // Defaults to auto generated id (based on your socket address, port and timestamp)
+            setClientId("1")
+
+            //设置重新连接的次数
+            //The maximum number of reconnect attempts before an error is reported back to the client after a server connection had previously been established.
+            // Set to -1 to use unlimited attempts. Defaults to -1.
+            setReconnectAttemptsMax(static.RECONNECTION_ATTEMPT_MAX)
+
+            //设置重连的间隔时间
+            // How long to wait in ms before the first reconnect attempt. Defaults to 10.
+            setReconnectDelay(static.RECONNECTION_DELAY)
+
+            //设置心跳时间
+            setKeepAlive(static.KEEP_ALIVE)
+
+            //设置缓冲的大小
+            setSendBufferSize(static.SEND_BUFFER_SIZE)
+        }
+    }
+
     fun start() {
         val mqtt = MQTT()
         try {
-            //设置服务端的ip
-            mqtt.setHost(static.CONNECTION_STRING)
-            //连接前清空会话信息
-            mqtt.setCleanSession(static.CLEAN_START)
-            //设置重新连接的次数
-            mqtt.setReconnectAttemptsMax(static.RECONNECTION_ATTEMPT_MAX)
-            //设置重连的间隔时间
-            mqtt.setReconnectDelay(static.RECONNECTION_DELAY)
-            //设置心跳时间
-            mqtt.setKeepAlive(static.KEEP_ALIVE)
-            //设置缓冲的大小
-            mqtt.setSendBufferSize(static.SEND_BUFFER_SIZE)
-
             //创建连接 ,使用阻塞式
             val connection = mqtt.blockingConnection()
             //开始连接
@@ -46,10 +65,10 @@ class Client1 {
                     //订阅的主题
                     val topic = "mqtt/test";
                     //主题的内容
-                    val message = "hello " + count + " mqtt!";
+                    val message = "hello $count mqtt!";
                     connection.publish(topic, message.toByteArray(), QoS.AT_LEAST_ONCE, false);
-                    //System.out.println("MQTTServer Message  Topic=" + topic + "  Content :" + message);
-                    //Thread.sleep(100);
+                    System.out.println("MQTTServer Message Topic=$topic Content :$message");
+                    Thread.sleep(800);
                 }
 
                 val end = System.currentTimeMillis()
@@ -63,6 +82,8 @@ class Client1 {
             e.printStackTrace();
         }
     }
+
+
 }
 
 fun main(args: Array<String>) {
