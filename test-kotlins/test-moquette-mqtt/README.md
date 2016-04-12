@@ -1,5 +1,17 @@
 # test moquette mqtt
 
+## prepare
+
+### local install mqtt-drpc
+
+```
+$ git clone https://github.com/SkPhilipp/mqtt-drpc.git
+
+$ cd mqtt-drpc
+
+$ mvn clean install
+```
+
 ## usage
 
 run server
@@ -33,6 +45,8 @@ $ gradle run_client4
 ```
 
 ## references
+
+- https://github.com/andsel/moquette
 
 - https://github.com/fusesource/mqtt-client
 

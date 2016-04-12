@@ -9,7 +9,7 @@ buildscript {
 }
 
 plugins {
-  id "us.kirchmeier.capsule" version "1.0.2"
+    id "us.kirchmeier.capsule" version "1.0.2"
 }
 
 apply plugin: "kotlin"
@@ -20,6 +20,8 @@ repositories {
         url "http://dl.bintray.com/andsel/maven/"
     }
     mavenCentral()
+
+    mavenLocal()
 
     maven {
         url "http://www.haoshuju.net:8078/"
@@ -34,6 +36,7 @@ dependencies {
     compile 'org.slf4j:slf4j-api:1.7.21'
     compile 'ch.qos.logback:logback-classic:1.1.7'
 
+    compile "com.hileco:mqtt-drpc:1.0.1-SNAPSHOT"
     //compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     //compile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 }
@@ -64,22 +67,32 @@ task fatRun(type: Exec, dependsOn: 'fatCapsule') {
     //}
 }
 
-task run_client1(type:JavaExec) {
+task run_client1(type: JavaExec) {
     main = 'demo.Client1Kt'
     classpath = sourceSets.main.runtimeClasspath
 }
 
-task run_client2(type:JavaExec) {
+task run_client2(type: JavaExec) {
     main = 'demo.Client2Kt'
     classpath = sourceSets.main.runtimeClasspath
 }
 
-task run_client3(type:JavaExec) {
+task run_client3(type: JavaExec) {
     main = 'demo.Client3Kt'
     classpath = sourceSets.main.runtimeClasspath
 }
 
-task run_client4(type:JavaExec) {
+task run_client4(type: JavaExec) {
     main = 'demo.ClientAsyncKt'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task run_rpc_server(type: JavaExec) {
+    main = 'demo.service.CalculatorServiceServerKt'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task run_rpc_client(type: JavaExec) {
+    main = 'demo.service.CalculatorServiceClientKt'
     classpath = sourceSets.main.runtimeClasspath
 }

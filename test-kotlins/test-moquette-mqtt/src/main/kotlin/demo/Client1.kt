@@ -68,7 +68,7 @@ private class Client1 {
                     val message = "hello $count mqtt!";
                     connection.publish(topic, message.toByteArray(), QoS.AT_LEAST_ONCE, false);
                     System.out.println("MQTTServer Message Topic=$topic Content :$message");
-                    Thread.sleep(800);
+                    //Thread.sleep(10);
                 }
 
                 val end = System.currentTimeMillis()
