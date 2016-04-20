@@ -4,7 +4,7 @@ import org.fusesource.mqtt.client.*
 import java.net.URISyntaxException
 
 private class Client2 {
-    object static {
+   companion  object static {
         val CONNECTION_STRING = "tcp://localhost:1883"
         val CLEAN_START = false;
         val KEEP_ALIVE: Short = 30;// 低耗网络，但是又需要及时获取数据，心跳30s
@@ -21,10 +21,10 @@ private class Client2 {
     private fun getMQTT(): MQTT {
         return MQTT().apply {
             //设置mqtt broker的ip和端口
-            setHost(static.CONNECTION_STRING)
+            setHost(CONNECTION_STRING)
 
             //连接前清空会话信息
-            setCleanSession(static.CLEAN_START)
+            setCleanSession(CLEAN_START)
 
             //Use to set the client Id of the session. This is what an MQTT server uses to identify a session where setCleanSession(false);
             // is being used. The id must be 23 characters or less.
@@ -32,16 +32,16 @@ private class Client2 {
             setClientId("2")
 
             //设置重新连接的次数
-            setReconnectAttemptsMax(static.RECONNECTION_ATTEMPT_MAX)
+            setReconnectAttemptsMax(RECONNECTION_ATTEMPT_MAX)
 
             //设置重连的间隔时间
-            setReconnectDelay(static.RECONNECTION_DELAY)
+            setReconnectDelay(RECONNECTION_DELAY)
 
             //设置心跳时间
-            setKeepAlive(static.KEEP_ALIVE)
+            setKeepAlive(KEEP_ALIVE)
 
             //设置缓冲的大小
-            setSendBufferSize(static.SEND_BUFFER_SIZE)
+            setSendBufferSize(SEND_BUFFER_SIZE)
 
             // If set the server will publish the client's Will message to the specified topics if the client has an unexpected disconnection.
             setWillTopic("mqtt/disconnect")
@@ -77,7 +77,7 @@ private class Client2 {
                 val payload: ByteArray = message.payload
 
                 // process the message then:
-                System.out.println("MQTTClient Message  Topic: ${message.topic} Content: ${String(payload)}")
+                println("MQTTClient Message  Topic: ${message.topic} Content: ${String(payload)}")
 
                 //签收消息的回执
                 message.ack()

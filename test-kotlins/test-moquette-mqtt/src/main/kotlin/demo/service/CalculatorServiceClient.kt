@@ -5,7 +5,7 @@ import com.hileco.drpc.mqtt.MqttDrpcClientBuilder
 
 private class CalculatorServiceClient {
     fun start() {
-        val client: MqttDrpcClient = MqttDrpcClientBuilder().build("tcp://localhost:1883")
+        val client: MqttDrpcClient = MqttDrpcClientBuilder().withQualityOfServiceLevel(1).build("tcp://localhost:1883")
         client.connect()
 
         println("try invoke remote-calculator")

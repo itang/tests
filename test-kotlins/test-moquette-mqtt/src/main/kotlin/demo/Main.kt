@@ -11,7 +11,7 @@ class MainServer {
         val moquetteStoreFile = "moquette_store.mapdb"
     }
 
-    val server : Server = Server();
+    val server : Server = Server()
 
     init {
         server.startServer()

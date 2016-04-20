@@ -6,7 +6,7 @@ import java.net.URISyntaxException
 
 
 private class Client1 {
-    object static {
+    companion object static {
         val CONNECTION_STRING = "tcp://localhost:1883";
         val CLEAN_START = false;
         val KEEP_ALIVE: Short = 30;// 低耗网络，但是又需要及时获取数据，心跳30s
@@ -20,12 +20,12 @@ private class Client1 {
     private fun getMQTT(): MQTT {
         return MQTT().apply {
             //设置服务端的ip
-            setHost(static.CONNECTION_STRING)
+            setHost(CONNECTION_STRING)
 
             //连接前清空会话信息
             // Set to false if you want the MQTT server to persist topic subscriptions and ack positions across client sessions.
             // Defaults to true.
-            setCleanSession(static.CLEAN_START)
+            setCleanSession(CLEAN_START)
 
             //Use to set the client Id of the session. This is what an MQTT server uses to identify a session where setCleanSession(false);
             // is being used. The id must be 23 characters or less.
@@ -35,17 +35,17 @@ private class Client1 {
             //设置重新连接的次数
             //The maximum number of reconnect attempts before an error is reported back to the client after a server connection had previously been established.
             // Set to -1 to use unlimited attempts. Defaults to -1.
-            setReconnectAttemptsMax(static.RECONNECTION_ATTEMPT_MAX)
+            setReconnectAttemptsMax(RECONNECTION_ATTEMPT_MAX)
 
             //设置重连的间隔时间
             // How long to wait in ms before the first reconnect attempt. Defaults to 10.
-            setReconnectDelay(static.RECONNECTION_DELAY)
+            setReconnectDelay(RECONNECTION_DELAY)
 
             //设置心跳时间
-            setKeepAlive(static.KEEP_ALIVE)
+            setKeepAlive(KEEP_ALIVE)
 
             //设置缓冲的大小
-            setSendBufferSize(static.SEND_BUFFER_SIZE)
+            setSendBufferSize(SEND_BUFFER_SIZE)
         }
     }
 
