@@ -1,0 +1,9 @@
+[package]
+authors = ["itang <live.tang@gmail.com>"]
+name = "mqttc-rust"
+version = "0.1.0"
+
+[dependencies]
+mqtt3 = "0.1.2"
+mqttc = "0.1.2"
+netopt = "0.1.2"
