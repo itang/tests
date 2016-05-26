@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+  nginx:
+    image: nginx:1.9.15
+    ports:
+     - "8080:80"
+    volumes:
+     - /home/itang/test/test-nginx/html:/usr/share/nginx/html:ro 
+     - /home/itang/test/test-nginx/conf.d:/etc/nginx/conf.d:ro
+    links:
+     - web
+  web:
+    build: .
+    ports:
+     - "5000:5000"
+    volumes:
+     - .:/code
+    depends_on:
+     - redis
+  redis:
+    image: redis
+
