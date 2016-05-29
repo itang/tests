@@ -17,7 +17,25 @@ import org.apache.activemq.command.ActiveMQTopic
 import java.time.Duration
 
 
+fun Int.seconds() = Duration.ofSeconds(toLong())
+
+val String.topic: ActiveMQTopic
+    get() = ActiveMQTopic(this)
+
+val String.queue: ActiveMQQueue
+    get() = ActiveMQQueue(this)
+
 object Main {
+    val virtualTopicName = "VirtualTopic.TEST"
+
+    val virtualTopicConsumerNameB: String = "Consumer.B.VirtualTopic.TEST"
+
+    val virtualTopicConsumerNameA: String = "Consumer.A.VirtualTopic.TEST"
+
+    @JvmStatic fun main(args: Array<String>) {
+        start()
+    }
+
     fun start() {
         try {
             val session: Session = {
@@ -36,11 +54,11 @@ object Main {
     }
 
     private fun testConsumers(session: Session) {
-        val queue = ActiveMQQueue(virtualTopicConsumerNameA)
+        val queue = virtualTopicConsumerNameA.queue
         val consumer1: MessageConsumer = session.createConsumer(queue)
         val consumer2 = session.createConsumer(queue)
 
-        val consumer3 = session.createConsumer(ActiveMQQueue(virtualTopicConsumerNameB))
+        val consumer3 = session.createConsumer(virtualTopicConsumerNameB.queue)
 
         val aint1 = AtomicInteger(0)
 
@@ -68,7 +86,7 @@ object Main {
     }
 
     private fun testProducer(session: Session) {
-        val producer = session.createProducer(ActiveMQTopic(virtualTopicName))
+        val producer = session.createProducer(virtualTopicName.topic)
         for (i in 0..10000) {
             val message = session.createTextMessage("$i message")
             producer.send(message)
@@ -77,16 +95,8 @@ object Main {
         }
     }
 
-    val virtualTopicName = "VirtualTopic.TEST"
-
-    val virtualTopicConsumerNameB: String = "Consumer.B.VirtualTopic.TEST"
-
-    val virtualTopicConsumerNameA: String = "Consumer.A.VirtualTopic.TEST"
 }
 
-fun Int.seconds() = Duration.ofSeconds(this.toLong())
 
-fun main(args: Array<String>) {
-    Main.start()
-}
+
 
