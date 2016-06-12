@@ -1,0 +1,4 @@
+[repositories]
+local
+repox-maven: http://repox.gtan.com:8078/
+repox-ivy: http://repox.gtan.com:8078/, [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext]
