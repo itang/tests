@@ -21,6 +21,10 @@ func simple_values() {
   let explicitDouble: Double = 70
   print(implicitInteger, implicitDouble, explicitDouble)
 
+
+  let explicitFloat: Float = 5
+  print(explicitFloat)
+
   let label = "The width is "
   let width = 94
   //let widthLabel = label + " " + width
@@ -37,6 +41,9 @@ func simple_values() {
   var shoppingList = ["catfish", "water", "tuplips", "blue paint"]
   shoppingList[1] = "bottle of water"
   print(shoppingList)
+
+  //print(shoppingList[4])
+
 
   var occupations = [
     "Malconlm" : "Captain",
@@ -58,6 +65,12 @@ func simple_values() {
   var emptyArray2 : [String]
   emptyArray2 = []
   print(emptyArray2)
+
+  var emptyDictionary2 : [String: String]
+  emptyDictionary2 = [:]
+  print(emptyDictionary2)
+  emptyDictionary2["name"] = "itang"
+  print(emptyDictionary2["name"])
 }
 
 func control_flow() {
@@ -143,14 +156,18 @@ func control_flow() {
   print(firstForLoop)
 
   var secondForLoop = 0
-  for var i = 0; i < 4; ++i {
+  for i in 0..<4{
     secondForLoop += i
   }
   print(secondForLoop)
+
+  for i in 0..<4 {
+    print("i: \(i)")
+  }
 }
 
 func functions_closures() {
-  func greet(name: String, day: String) -> String {
+  func greet(_ name: String, day: String) -> String {
     return "Hello \(name), taday is \(day)"
   }
 
@@ -174,11 +191,11 @@ func functions_closures() {
     return (min, max, sum)
   }
 
-  let stat = calculateStatistics([1,3,2,100,50])
+  let stat = calculateStatistics(scores: [1,3,2,100,50])
   print(stat, stat.sum)
   print(stat.2)
 
-  func sumOf(numbers: Int...) -> Int {
+  func sumOf(_ numbers: Int...) -> Int {
     var sum = 0
     for number in numbers {
       sum += number
@@ -211,7 +228,7 @@ func functions_closures() {
   print(f(100))
 
   // A function can take another function as one of its arguments.
-  func hasAnyMatches(list: [Int], condition: (Int) -> Bool) -> Bool {
+  func hasAnyMatches(_ list: [Int], condition: (Int) -> Bool) -> Bool {
     for item in list {
       if condition(item) {
         return true
@@ -242,8 +259,16 @@ func functions_closures() {
   print(mappedNumbers2)
   print(numbers.map{ it in 3 * it })
 
-  let sortedNumbers = numbers.sort { $0 > $1 }
+  let sortedNumbers = numbers.sorted { $0 > $1 }
   print(sortedNumbers)
+
+  func foo(action: () -> ()) {
+    return  action()
+  }
+
+  foo {
+    print("****************************")
+  }
 }
 
 func objects_classes() {
@@ -434,7 +459,7 @@ func enumerations_and_structures() {
   let success = ServerResponse.Result("6:00 am", "8:09 pm")
   let failure = ServerResponse.Error("Out of cheese.")
 
-  func print_result(resp: ServerResponse) {
+  func print_result(_ resp: ServerResponse) {
     switch resp {
       case let .Result(sunrise, sunset):
          print("Sunrise is at \(sunrise) and sunset is at \(sunset).")
@@ -463,7 +488,7 @@ extension Int: ExampleProtocol {
   }
 
   func times(block: (Int) -> Void) -> Void {
-    for var i = 0; i < self; ++i {
+    for i in 0..<self {
       block(i)
     }
   }
@@ -512,8 +537,53 @@ func protocols_and_extensions() {
   5.times { print($0) }
 }
 
+func error_handle() {
+    enum PrinterError: ErrorProtocol {
+        case outOfPager
+        case noToner
+        case onFire
+    }
+
+    func send(job: Int, toPrinter printerName: String) throws -> String {
+        if printerName == "Never Has Toner" {
+            throw PrinterError.noToner
+        }
+        return "Job sent"
+    }
+
+    do {
+        let printerResponse = try send(job: 1440, toPrinter: "Gutenberg")
+        print(printerResponse)
+    } catch PrinterError.onFire {
+        print("I'll just put this over here, with the rest of the fire")
+    } catch let printerError as PrinterError{
+        print("Printer error: \(printerError).")
+    } catch {
+        print(error)
+    }
+
+    let printerFailure = try? send(job: 1885, toPrinter: "Never Has Toner")
+    print("printerFailure: \(printerFailure)")
+
+    var fridgeIsOpen = false
+    let fridgeContent = ["milk", "eggs", "leftovers"]
+
+    func fridgeContains(_ food: String) -> Bool {
+        fridgeIsOpen = true
+        defer {
+            fridgeIsOpen = false
+        }
+
+        let result = fridgeContent.contains(food)
+        return result
+    }
+
+    let _ = fridgeContains("banana")
+    print(fridgeIsOpen)
+}
+
 func generics() {
-  func repeatItem<Item>(item: Item, numberOfTimes: Int) -> [Item] {
+  func repeatItem<Item>(_ item: Item, numberOfTimes: Int) -> [Item] {
     var result = [Item]()
     for _ in 0..<numberOfTimes {
       result.append(item)
@@ -536,8 +606,8 @@ func generics() {
   print(possibleInteger)
 
 
-  func anyCommonElements<T: SequenceType, U: SequenceType where T.Generator.Element: Equatable,
-    T.Generator.Element == U.Generator.Element> (lhs: T, _ rhs: U) -> Bool {
+  func anyCommonElements<T: Sequence, U: Sequence where T.Iterator.Element: Equatable,
+    T.Iterator.Element == U.Iterator.Element> (_ lhs: T, _ rhs: U) -> Bool {
     for lhsItem in lhs {
       for rhsItem in rhs {
         if lhsItem == rhsItem {
@@ -558,4 +628,5 @@ functions_closures()
 objects_classes()
 enumerations_and_structures()
 protocols_and_extensions()
+error_handle()
 generics()
