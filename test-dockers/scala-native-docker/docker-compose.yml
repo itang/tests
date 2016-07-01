@@ -1,0 +1,8 @@
+#version: '2'
+
+scala_native:
+    build: .
+    volumes:
+      - ./scala-native:/scala-native
+      - /home/itang/.ivy2:/root/.ivy2
+    #tty: true
