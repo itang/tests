@@ -5,9 +5,11 @@ use mqttc::*;
 use netopt::*;
 use std::time::Duration;
 
+
 fn main() {
     let netopt = NetworkOptions::new();
     let mut opts = ClientOptions::new();
+
 
     opts.set_reconnect(ReconnectMethod::ReconnectAfter(Duration::from_secs(1)));
     let mut client = opts.connect("127.0.0.1:1883", netopt).expect("Can't connect to server");
