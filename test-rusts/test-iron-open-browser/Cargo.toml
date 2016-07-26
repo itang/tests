@@ -1,0 +1,7 @@
+[package]
+authors = ["itang <live.tang@gmail.com>"]
+name = "test-deftype"
+version = "0.1.0"
+
+[dependencies]
+iron = "0.4.0"
