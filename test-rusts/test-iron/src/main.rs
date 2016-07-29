@@ -5,12 +5,20 @@ use std::env;
 use iron::prelude::*;
 use iron::status;
 
+fn ok(content: &str) -> iron::IronResult<Response> {
+    Ok(Response::with((status::Ok, content)))
+}
+
+fn hello_handler(_: &mut Request) -> iron::IronResult<Response> {
+    ok("Hello, World!")
+}
+
 fn main() {
     let _h = _hostname(); // TODO: String => &'a str
     let port = _port();
     println!("INFO: hostname:{}, port: {}", _h, port);
 
-    Iron::new(|_: &mut Request| Ok(Response::with((status::Ok, "Hello world!"))))
+    Iron::new(hello_handler)
         .http(("localhost", port))
         .unwrap();
 }
