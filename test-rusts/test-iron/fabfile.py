@@ -1,22 +1,25 @@
+import time
 from fabric.api import *
 from multiprocessing import Process
-import time
 
-def run():
+
+def run_server():
     print('run server...')
     local("cargo run --release")
 
 
-def bench():
+def wrk():
     print('start bench...')
-    local("wrk http://localhost:8080 -c100 -d30 -t2")
+    local("wrk http://localhost:8080 -c100 -d10 -t4")
 
 
-def all():
-    p = Process(target=run)
-    p.start()
+def bench():
+    server = Process(target=run_server)
+    server.start()
 
     time.sleep(2)
-    bench()
 
-    # p.close()
+    wrk()
+
+    server.terminate()
+    server.join()  # TBC: exit correct??
