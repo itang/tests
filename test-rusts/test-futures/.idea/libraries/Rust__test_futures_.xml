@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Rust &lt;test-futures&gt;">
+    <CLASSES>
+      <root url="file://$USER_HOME$/sources/rust/src/libstd" />
+      <root url="file://$USER_HOME$/sources/rust/src/libcore" />
+      <root url="file://$USER_HOME$/sources/rust/src/libcollections" />
+      <root url="file://$USER_HOME$/sources/rust/src/liballoc" />
+      <root url="file://$USER_HOME$/sources/rust/src/librustc_unicode" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
