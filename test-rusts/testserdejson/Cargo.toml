@@ -1,0 +1,9 @@
+[package]
+name = "testserdejson"
+version = "0.1.0"
+authors = ["itang <live.tang@gmail.com>"]
+
+[dependencies]
+serde = "0.8"
+serde_json = "0.8"
+serde_macros = "0.8"
