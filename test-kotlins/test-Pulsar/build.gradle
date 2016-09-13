@@ -1,0 +1,50 @@
+buildscript {
+    ext {
+        kotlinVersion = '1.0.3'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    maven {
+        url "http://www.haoshuju.net:8078/"
+    }
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    //compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+
+    compile 'com.yahoo.pulsar:pulsar-client:1.14'
+
+    testCompile "junit:junit:4.12"
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
+}
+
+mainClassName = 'demo.Consumer'
+defaultTasks 'run'
+
+task producer(type: JavaExec) {
+    main = 'demo.Producer'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task consumer(type: JavaExec) {
+    main = 'demo.Consumer'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+
