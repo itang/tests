@@ -58,7 +58,7 @@ func simple_values() {
   print(emptyArray)
   print("emptyArray length :\(emptyArray.count)")
 
-  let emptyDictionary = [String:Float]()
+  let emptyDictionary = [String: Float]()
   print(emptyDictionary)
   print("emptyDictionary length: \(emptyDictionary.count)")
 
@@ -174,6 +174,12 @@ func functions_closures() {
   let ret = greet("Bob", day: "Tuesday")
   print(ret)
 
+  func greet1(_ person: String, on day: String) -> String {
+    return "Hello \(person), today is \(day)."
+  }
+  let ret1 = greet1("John", on: "Wednesday")
+  print(ret1)
+
   func calculateStatistics(scores: [Int]) -> (min: Int, max: Int, sum: Int) {
     var min = scores[0]
     var max = scores[0]
@@ -195,7 +201,7 @@ func functions_closures() {
   print(stat, stat.sum)
   print(stat.2)
 
-  func sumOf(_ numbers: Int...) -> Int {
+  func sumOf(numbers: Int...) -> Int {
     var sum = 0
     for number in numbers {
       sum += number
@@ -204,7 +210,7 @@ func functions_closures() {
   }
 
   print(sumOf())
-  print(sumOf(42,213,111))
+  print(sumOf(numbers: 42,213,111))
 
   //nested
   func returnFifteen() -> Int {
@@ -224,8 +230,8 @@ func functions_closures() {
     }
     return addOne
   }
-  let f = makeIncrement()
-  print(f(100))
+  let increment = makeIncrement()
+  print(increment(100))
 
   // A function can take another function as one of its arguments.
   func hasAnyMatches(_ list: [Int], condition: (Int) -> Bool) -> Bool {
@@ -263,7 +269,7 @@ func functions_closures() {
   print(sortedNumbers)
 
   func foo(action: () -> ()) {
-    return  action()
+    return action()
   }
 
   foo {
@@ -538,7 +544,7 @@ func protocols_and_extensions() {
 }
 
 func error_handle() {
-    enum PrinterError: ErrorProtocol {
+    enum PrinterError: Error {
         case outOfPager
         case noToner
         case onFire
@@ -561,6 +567,9 @@ func error_handle() {
     } catch {
         print(error)
     }
+
+    let printerSuccess = try? send(job: 1884, toPrinter: "Mergenthaler")
+    print("printerSuccess: \(printerSuccess)")
 
     let printerFailure = try? send(job: 1885, toPrinter: "Never Has Toner")
     print("printerFailure: \(printerFailure)")
@@ -594,9 +603,9 @@ func generics() {
   let items = repeatItem("knock", numberOfTimes: 4)
   print(items)
 
-  enum OptionalValue<Wrapper> {
+  enum OptionalValue<Wrapped> {
     case None
-    case Some(Wrapper)
+    case Some(Wrapped)
   }
 
   var possibleInteger: OptionalValue<Int> = .None
@@ -606,8 +615,9 @@ func generics() {
   print(possibleInteger)
 
 
-  func anyCommonElements<T: Sequence, U: Sequence where T.Iterator.Element: Equatable,
-    T.Iterator.Element == U.Iterator.Element> (_ lhs: T, _ rhs: U) -> Bool {
+  func anyCommonElements<T: Sequence, U: Sequence> (_ lhs: T, _ rhs: U) -> Bool
+    where T.Iterator.Element: Equatable,
+          T.Iterator.Element == U.Iterator.Element {
     for lhsItem in lhs {
       for rhsItem in rhs {
         if lhsItem == rhsItem {
