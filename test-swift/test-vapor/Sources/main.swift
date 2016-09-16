@@ -1,9 +1,9 @@
 import Vapor
 
-let app = Application()
+let app = Droplet()
 
-app.get("/") { req in
+app.get("/") { _ in
     return "Hello"
 }
 
-app.start(port: 3000)
+app.run()

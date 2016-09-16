@@ -1,20 +1,19 @@
-task :default => :run
+task default: :run
 
-file ".build/debug/test-vapor" => Dir["Sources/**/*.swift"] do
+file '.build/debug/test-vapor' => Dir['Sources/**/*.swift'] do
   sh 'swift build'
 end
 
-desc "build"
-task :build => ".build/debug/test-vapor" do
+desc 'build'
+task build: '.build/debug/test-vapor' do
 end
 
-desc "run"
-task :run => :build do
-  sh '.build/debug/test-vapor'
+desc 'run'
+task run: :build do
+  sh '.build/debug/test-vapor --config:servers.http.port=3000'
 end
 
-desc "guard"
+desc 'guard'
 task :guard do
   sh 'guard'
 end
-
