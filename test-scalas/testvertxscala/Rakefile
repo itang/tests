@@ -1,0 +1,15 @@
+namespace :dev do
+  desc 'Generate Scalastyle config'
+  task :scalastyle_config do
+    sh 'sbt scalastyleGenerateConfig'
+  end
+end
+
+namespace :source do
+  namespace :check do
+    desc 'check scala style'
+    task :scalastyle do
+      sh 'sbt scalastyle'
+    end
+  end
+end
