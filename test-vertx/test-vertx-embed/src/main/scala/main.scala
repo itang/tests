@@ -1,5 +1,4 @@
 import io.vertx.core.{ VertxOptions, Vertx }
-import scatang._
 
 object Main {
 
@@ -15,5 +14,3 @@ object Main {
     server.listen(3000)
   }
 }
-
-

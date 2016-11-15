@@ -1,0 +1,8 @@
+[package]
+authors = ["itang <live.tang@gmail.com>"]
+name = "rename-it"
+version = "0.1.0"
+
+[dependencies]
+clap = "2.18.0"
+glob = "0.2.11"

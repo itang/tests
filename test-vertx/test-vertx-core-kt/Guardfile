@@ -1,0 +1,7 @@
+## gem install guard-shell
+guard :shell do
+  watch(/src\/(.*).kt/) do |m|
+    puts m[0] + " has changed."
+    system "gradle --daemon run"
+  end
+end
