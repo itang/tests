@@ -3,12 +3,19 @@ package demo
 import io.vertx.core.*
 import io.vertx.core.Future.future
 import io.vertx.core.buffer.Buffer
+import io.vertx.core.eventbus.DeliveryOptions
+import io.vertx.core.eventbus.Message
+import io.vertx.core.eventbus.MessageConsumer
 //import io.vertx.core.VertxOptions
 import io.vertx.core.http.HttpServer
 import java.time.Duration
 import java.util.concurrent.atomic.AtomicLong
 import khttp.get
 import io.vertx.core.json.JsonObject
+import java.text.SimpleDateFormat
+import java.util.*
+import io.vertx.core.net.NetServerOptions
+import java.nio.charset.Charset
 
 
 object GlobalState {
@@ -65,6 +72,54 @@ context.isMultiThreadedWorkerContext: ${context.isMultiThreadedWorkerContext}
     }
 }
 
+class EventBusConsumberTestVecticle : AbstractVerticle() {
+    override fun start() {
+        val eventBus = vertx.eventBus()
+        val consumer: MessageConsumer<String> = eventBus.consumer("news.uk.sport")
+        consumer.handler { message ->
+            println("I have received  a message1: ${message.body()}")
+        }
+        consumer.completionHandler { rs ->
+            if (rs.succeeded()) {
+                System.out.println("The handler registration has reached all nodes")
+            } else {
+                System.out.println("Registration failed!")
+            }
+        }
+        eventBus.consumer("news.uk.sport") { message: Message<String> ->
+            System.out.println("I have received a message2: " + message.body())
+            if (message.headers().contains("date")) {
+                println(">> ${message.headers().getAll("date")}")
+                message.reply("date is ${message.headers()["date"]}")
+            }
+        }//consumer2
+
+        eventBus.consumer("news.uk.ent") { message: Message<String> ->
+            System.out.println("I have received a message3: " + message.body())
+            message.reply("回复1")
+        }//consumer3
+    }
+}
+
+class EventBusPublisherTestVecticle : AbstractVerticle() {
+    override fun start() {
+        val eventBus = vertx.eventBus()
+        val publisher = eventBus.publisher<String>("news.uk.sport")
+        vertx.setPeriodic(2000) { id ->
+            publisher.send("football game 1")
+
+            val options = DeliveryOptions().addHeader("date", SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()))
+            eventBus.publish("news.uk.sport", "Yay! Someone kicked a ball", options)
+
+            eventBus.send("news.uk.ent", "Yay! Someone kicked a ball", { ar: AsyncResult<Message<String>> ->
+                if (ar.succeeded()) {
+                    println("Received reply: " + ar.result().body())
+                }
+            })
+        }
+    }
+}
+
 fun <T : Number> T.loop(action: (Long) -> Unit) {
     var i = 0L
     val max = this.toLong()
@@ -104,6 +159,47 @@ class FutureAllVerticle : AbstractVerticle() {
     }
 }
 
+class BufferTestVecticle : AbstractVerticle() {
+    override fun start() {
+        val buffer = Buffer.buffer()
+        buffer.setInt(0, 100)
+        buffer.setString(4, "hello")
+        buffer.setLong(10, 200)
+        println("buffer length: ${buffer.length()}")
+        println("buffer[0]: ${buffer.getInt(0)}")
+        println("buffer[1]: ${buffer.getString(4, 9)}")
+    }
+}
+
+class TcpServerTestVecticle : AbstractVerticle() {
+    override fun start() {
+        val options = NetServerOptions().setPort(4321)
+        val netServer = vertx.createNetServer(options)
+        netServer.connectHandler { socket ->
+            socket.handler { buffer ->
+                val bytes = buffer.bytes
+                val body = String(bytes, Charsets.UTF_8)
+                println("received from ${socket.remoteAddress()}: ${body}")
+
+                if (body?.trim() == "exit") {
+                    socket.write("bye!")
+                    socket.close()
+                } else {
+                    socket.write(body)
+                }
+            }
+            socket.closeHandler { v ->
+                println("socket is closed")
+            }
+        }
+        netServer.listen { ar ->
+            if (ar.succeeded()) {
+                println("net server started!!")
+            }
+        }
+    }
+}
+
 fun main(args: Array<String>) {
     val vertx = Vertx.vertx(/*VertxOptions().setEventLoopPoolSize(4).setWorkerPoolSize(4)*/)
 
@@ -119,6 +215,14 @@ fun main(args: Array<String>) {
     vertx.deployVerticle("demo.WorkerVerticle", deployOpts)
 
     vertx.deployVerticle("demo.FutureAllVerticle")
+
+    vertx.deployVerticle("demo.EventBusConsumberTestVecticle")
+
+    vertx.deployVerticle("demo.EventBusPublisherTestVecticle")
+
+    vertx.deployVerticle("demo.BufferTestVecticle")
+
+    vertx.deployVerticle(TcpServerTestVecticle())
 
     vertx.setPeriodic(Duration.ofSeconds(10).toMillis()) { id ->
         println("count ${GlobalState.count.andIncrement}")
