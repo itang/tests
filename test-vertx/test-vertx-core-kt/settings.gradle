@@ -16,4 +16,4 @@ include 'api'
 include 'services:webservice'
 */
 
-rootProject.name = 'test-vertx-core'
+rootProject.name = 'test-vertx-core-kt'
