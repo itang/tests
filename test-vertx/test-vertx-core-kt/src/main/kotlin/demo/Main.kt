@@ -241,6 +241,8 @@ class TcpClientTestVerticle : AbstractVerticle() {
 
 fun main(args: Array<String>) {
     val vertx = Vertx.vertx(/*VertxOptions().setEventLoopPoolSize(4).setWorkerPoolSize(4)*/)
+    val sd = vertx.sharedData()
+
 
     //
     vertx.deployVerticle("demo.HelloVerticle") // standard verticles
@@ -296,7 +298,21 @@ fun main(args: Array<String>) {
             println(Thread.currentThread())
             //Thread.sleep(1000 * 20)//warning
             val count = req.getParam("count") ?: req.getHeader("count")
-            req.response().end("Hello, World $count")
+            if (count == null) {
+                sd.getCounter("counter") { ar ->
+                    if (ar.succeeded()) {
+                        ar.result().getAndIncrement { a ->
+                            if (a.succeeded()) {
+                                req.response().end("Hello, World ${a.result()}")
+                            }
+                        }
+                    } else {
+                    }
+                }
+            } else {
+                req.response().end("Hello, World $count")
+            }
+
         }
     }.listen(GlobalConfig.PORT, httpServerFuture.completer())
 
