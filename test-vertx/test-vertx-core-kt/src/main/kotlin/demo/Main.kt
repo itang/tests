@@ -12,6 +12,9 @@ import java.time.Duration
 import java.util.concurrent.atomic.AtomicLong
 import khttp.get
 import io.vertx.core.json.JsonObject
+import io.vertx.core.net.NetClient
+import io.vertx.core.net.NetClientOptions
+import io.vertx.core.net.NetServer
 import java.text.SimpleDateFormat
 import java.util.*
 import io.vertx.core.net.NetServerOptions
@@ -172,9 +175,11 @@ class BufferTestVecticle : AbstractVerticle() {
 }
 
 class TcpServerTestVecticle : AbstractVerticle() {
+    private lateinit var netServer: NetServer
+
     override fun start() {
         val options = NetServerOptions().setPort(4321)
-        val netServer = vertx.createNetServer(options)
+        netServer = vertx.createNetServer(options)
         netServer.connectHandler { socket ->
             socket.handler { buffer ->
                 val bytes = buffer.bytes
@@ -195,6 +200,39 @@ class TcpServerTestVecticle : AbstractVerticle() {
         netServer.listen { ar ->
             if (ar.succeeded()) {
                 println("net server started!!")
+            }
+        }
+    }
+
+    override fun stop() {
+        netServer.close { ar ->
+            if (ar.succeeded()) {
+                println("net server stop.")
+            }
+        }
+    }
+}
+
+class TcpClientTestVerticle : AbstractVerticle() {
+    override fun start() {
+        val options = NetClientOptions()
+                .setConnectTimeout(Duration.ofSeconds(10).toMillis().toInt())
+                .setReconnectAttempts(10)
+                .setReconnectInterval(500)
+                .setLogActivity(true)
+        val client = vertx.createNetClient(options)
+        client.connect(4321, "localhost") { res ->
+            if (res.succeeded()) {
+                val socket = res.result()!!
+
+                socket.handler { buffer ->
+                    val content = String(buffer.bytes)
+                    println("receive from server: $content")
+                }
+
+                vertx.setTimer(1000) { id ->
+                    socket.write("hello ${Date()}")
+                }
             }
         }
     }
@@ -223,6 +261,8 @@ fun main(args: Array<String>) {
     vertx.deployVerticle("demo.BufferTestVecticle")
 
     vertx.deployVerticle(TcpServerTestVecticle())
+
+    vertx.deployVerticle(TcpClientTestVerticle())
 
     vertx.setPeriodic(Duration.ofSeconds(10).toMillis()) { id ->
         println("count ${GlobalState.count.andIncrement}")
