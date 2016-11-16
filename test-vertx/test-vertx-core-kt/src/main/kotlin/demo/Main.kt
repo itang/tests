@@ -300,8 +300,7 @@ fun main(args: Array<String>) {
         }
     }.listen(GlobalConfig.PORT, httpServerFuture.completer())
 
-    CompositeFuture.all(listOf(httpServerFuture)).setHandler {
-        ar ->
+    CompositeFuture.all(listOf(httpServerFuture)).setHandler { ar ->
         if (ar.succeeded()) {
             println("http server start success.")
             vertx.setPeriodic(Duration.ofSeconds(15).toMillis()) { id ->
