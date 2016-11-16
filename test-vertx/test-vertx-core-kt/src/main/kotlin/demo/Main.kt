@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import io.vertx.core.net.NetServerOptions
 import java.nio.charset.Charset
+import io.vertx.core.http.HttpClientOptions
 
 
 object GlobalState {
@@ -269,14 +270,38 @@ fun main(args: Array<String>) {
     }
 
     val httpServerFuture = future<HttpServer>()
-    vertx.createHttpServer().requestHandler { ctx ->
-        println(Thread.currentThread())
-        //Thread.sleep(1000 * 20)//warning
-        val count = ctx.getParam("count")
-        ctx.response().end("Hello, World $count")
+    vertx.createHttpServer().requestHandler { req ->
+        if (req.getParam("chunked")?.toBoolean() == true) {
+            vertx.executeBlocking({ f: Future<Void> ->
+                req.response().isChunked = true
+                for (i in 0..10) {
+                    req.response().write(i.toString())
+                    Thread.sleep(100)
+                }
+                req.response().end()
+                f.complete()
+            }, { ar -> println(ar.succeeded()) })
+        } else if (req.getParam("chunked2")?.toBoolean() == true) {
+            req.response().isChunked = true
+            var i = 0
+            vertx.setPeriodic(1000) { id ->
+                req.response().write(i.toString())
+                i++
+                if (i > 10) {
+                    vertx.cancelTimer(id)
+                    req.response().end()
+                }
+            }
+        } else {
+            println(Thread.currentThread())
+            //Thread.sleep(1000 * 20)//warning
+            val count = req.getParam("count") ?: req.getHeader("count")
+            req.response().end("Hello, World $count")
+        }
     }.listen(GlobalConfig.PORT, httpServerFuture.completer())
 
-    CompositeFuture.all(listOf(httpServerFuture)).setHandler { ar ->
+    CompositeFuture.all(listOf(httpServerFuture)).setHandler {
+        ar ->
         if (ar.succeeded()) {
             println("http server start success.")
             vertx.setPeriodic(Duration.ofSeconds(15).toMillis()) { id ->
@@ -285,13 +310,21 @@ fun main(args: Array<String>) {
                     f.complete(ret)
                 }, { res -> println(res.result()) })
             }
+
+            val options = HttpClientOptions().setDefaultHost("localhost").setDefaultPort(GlobalConfig.PORT)
+            val client = vertx.createHttpClient(options)
+            val request = client.get("/") { response ->
+                System.out.println("Received response with status code ${response.statusCode()}")
+                response.bodyHandler { buf ->
+                    println("body: ${String(buf.bytes)}")
+                }
+            }.putHeader("count", GlobalState.count.andIncrement.toString()).end()
         } else {
             println("http server start failed!")
         }
     }
 
-
-    //test Future compose
+//test Future compose
     val testFile = "build/test"
     val fs = vertx.fileSystem()
     val startFuture = future<Void>()
@@ -303,16 +336,19 @@ fun main(args: Array<String>) {
     }
 
     fs.createFile(testFile, fut1.completer())
-    fut1.compose { v ->
+    fut1.compose {
+        v ->
         val fut2 = Future.future<Void>()
         fs.writeFile(testFile, Buffer.buffer().appendString("hello,world ${java.time.LocalDateTime.now()}"), fut2.completer())
         fut2
-    }.compose({ v ->
+    }.compose({
+        v ->
         val fut3 = Future.future<Void>()
         fs.move(testFile, "build/test0", fut3.completer())
     }, startFuture)
 
-    startFuture.setHandler { ar ->
+    startFuture.setHandler {
+        ar ->
         if (ar.succeeded()) {
             println("一系列操作成功")
         } else {
