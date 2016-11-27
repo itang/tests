@@ -1,0 +1,4 @@
+duration:1.0;mem stats:false;sys mem stats:false
+module;test;tags;iterations;elapsed
+RustlerBench	local add		1	18794552
+RustlerBench	native add		1	5783930
