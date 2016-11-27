@@ -7,5 +7,5 @@ defmodule Test.Fib do
     end
 
     # When your NIF is loaded, it will override this function.
-    def add(_a, _b), do: throw :nif_not_loaded
+    def fib(_a), do: throw :nif_not_loaded
 end

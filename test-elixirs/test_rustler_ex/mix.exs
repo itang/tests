@@ -26,6 +26,7 @@ defmodule TestRustlerEx.Mixfile do
   defp deps do
     [#{:rustler, "~> 0.5.0"},
      {:rustler, github: "hansihe/rustler", sparse: "rustler_mix"},
+     {:benchfella, "~> 0.3.0"}
     ]
   end
 

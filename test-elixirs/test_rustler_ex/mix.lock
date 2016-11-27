@@ -1,1 +1,2 @@
-%{"rustler": {:git, "https://github.com/hansihe/rustler.git", "31a00c4e900d3ddf3550bce29c1e85bb9895a747", [sparse: "rustler_mix"]}}
+%{"benchfella": {:hex, :benchfella, "0.3.3", "bbde48b5fe1ef556baa7ad933008e214e050e81ddb0916350715f5759fb35c0c", [:mix], []},
+  "rustler": {:git, "https://github.com/hansihe/rustler.git", "31a00c4e900d3ddf3550bce29c1e85bb9895a747", [sparse: "rustler_mix"]}}

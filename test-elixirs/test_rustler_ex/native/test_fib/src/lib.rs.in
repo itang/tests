@@ -2,13 +2,21 @@ use rustler::{ NifEnv, NifTerm, NifResult, NifEncoder };
 
 rustler_export_nifs!(
     "Elixir.Test.Fib",
-    [("add", 2, add)],
+    [("fib", 1, fib)],
     None
 );
 
-fn add<'a>(env: &'a NifEnv, args: &Vec<NifTerm>) -> NifResult<NifTerm<'a>> {
-    println!("Rust execute!!");
+fn fib<'a>(env: &'a NifEnv, args: &Vec<NifTerm>) -> NifResult<NifTerm<'a>> {
+    //println!("Rust execute!!");
     let num1: i64 = try!(args[0].decode());
-    let num2: i64 = try!(args[1].decode());
-    Ok((num1 + num2).encode(env))
+    let result: i64 = _fib(num1);
+    Ok((result).encode(env))
+}
+
+fn _fib(i: i64) -> i64 {
+   if(i< 2){
+      i
+   }else{
+     _fib(i-2) + _fib(i-1)
+   }
 }
