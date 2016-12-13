@@ -1,0 +1,2 @@
+%{"ok": {:hex, :ok, "1.1.0", "7dfa20fd1c176edfbf7b5ea1bd95cbd904d70b4cf5eddd86d029bb3cedb27163", [:mix], []},
+  "poison": {:hex, :poison, "3.0.0", "625ebd64d33ae2e65201c2c14d6c85c27cc8b68f2d0dd37828fde9c6920dd131", [:mix], []}}
