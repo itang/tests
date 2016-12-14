@@ -6,20 +6,21 @@ defmodule MyApp.CLI do
   end
 
   def fentan(items, reduce_total) do
-      items = items |>Enum.map(fn {id, price, amount} -> {id, fixed(price), amount } end)
+      items = items |> Enum.map(fn {id, price, amount} -> {id, to_cent_round(price), amount} end)
       total = items |> Enum.map(fn {_, price, amount} -> price * amount end) |> Enum.sum
 
-       _test(items, [], fixed(total), fixed(reduce_total), 0)
+       _fentan(items, to_cent_round(total), to_cent_round(reduce_total), 0, [])
   end
 
-  defp _test([{id,_,_}], ret,  total, reduce_total, acc), do: [{id, reduce_total - acc} | ret]
-  defp _test([{id, price, amount} | more], ret, total, reduce_total, acc) do
+  defp _fentan([{id, _, _}], total, reduce_total, acc, ret), do: [{id, reduce_total - acc} | ret]
+  defp _fentan([{id, price, amount} | tail], total, reduce_total, acc, ret) do
       s = price * amount
       r = s / total
-      v = fixed(r * reduce_total)
-      _test(more, [{id, v} | ret], total, reduce_total, acc + v)
+      v = to_cent_round(r * reduce_total)
+
+      _fentan(tail, total, reduce_total, acc + v, [{id, v} | ret])
   end
 
-  defp fixed(v), do: (v * 100.0) |> Float.round |> round
+  defp to_cent_round(v), do: (v * 100.0) |> Float.round |> round
 
 end
