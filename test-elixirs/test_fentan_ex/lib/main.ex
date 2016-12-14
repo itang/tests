@@ -12,7 +12,7 @@ defmodule MyApp.CLI do
        _fentan(items, to_cent_round(total), to_cent_round(reduce_total), 0, [])
   end
 
-  defp _fentan([{id, _, _}], total, reduce_total, acc, ret), do: [{id, reduce_total - acc} | ret]
+  defp _fentan([{id, _, _}], _total, reduce_total, acc, ret), do: [{id, reduce_total - acc} | ret]
   defp _fentan([{id, price, amount} | tail], total, reduce_total, acc, ret) do
       s = price * amount
       r = s / total
