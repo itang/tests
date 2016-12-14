@@ -2,6 +2,7 @@ defmodule MyApp.CLI do
 
   def main(_args) do
        [{1, 10.0, 3}, {2, 10.0, 1}] |> fentan(5.1) |> IO.inspect
+       [{1, 10.0, 3}, {2, 10.0, 4}, {3, 10.0, 2}] |> fentan(5.0) |> IO.inspect
        [{1, 10.0, 1}, {2, 10.0, 1}, {3, 10.0, 1}] |> fentan(1.0) |> IO.inspect
   end
 
