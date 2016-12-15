@@ -16,7 +16,7 @@ defmodule TestFentanEx.Mixfile do
   end
 
   defp deps do
-    []
+    [{:credo, "~> 0.5", only: [:dev, :test]}]
   end
 
   def escript do
