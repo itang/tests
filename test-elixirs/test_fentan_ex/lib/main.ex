@@ -73,17 +73,14 @@ defmodule MyApp.CLI do
 
   defp _fentan2([{id, _, _}], _total, reduce_total, ret), do: [{id, reduce_total} | ret]
   defp _fentan2([{id, price, amount} | tail], total, reduce_total, ret) do
-    #IO.puts "total: #{total}, reduce_total: #{reduce_total}"
     s = price * amount
     r = s / total
     v = to_round(r * reduce_total)
 
-    #IO.puts "s:#{s}, r:#{r}, v:#{v}, total - s: #{total - s}, reduce_total - v: #{reduce_total - v}"
-
     _fentan2(tail, total - s , reduce_total - v, [{id, v} | ret])
   end
 
-  defp to_cent_round(v), do: v |> (fn x -> x * 100.0 end).() |> Float.round |> round
+  defp to_cent_round(v), do: round(v * 100.0) # v |> (fn x -> x * 100.0 end).() |> Float.round |> round
 
   defp to_round(v), do: round(v)
 
