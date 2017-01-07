@@ -58,7 +58,6 @@ interface GoodsRepository {
             return "update goods set lock_amount = lock_amount + $amount where id = #{id} and lock_amount + #{amount} <= amount"
         }
     }
-
     @UpdateProvider(type = AddLockAmountSqlBuilder::class, method = "sql")
     fun addLockAmount(@Param("id") id: String, @Param("amount") amount: Int): Int
 }
@@ -67,6 +66,7 @@ interface GoodsRepository {
 // service
 interface GoodsService {
     fun existsGoodsById(id: String): Boolean
+
     fun getGoodsById(id: String): Goods?
 
     fun modifyGoodsAmount(id: String, newAmount: Int)
