@@ -1,0 +1,8 @@
+version: '2'
+services:
+  eta:
+    image: "psibi/eta"
+    volumes:
+     - ./workspace:/workspace
+    tty: true
+    stdin_open: true
