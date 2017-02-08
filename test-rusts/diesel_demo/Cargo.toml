@@ -1,0 +1,9 @@
+[package]
+name = "diesel_demo"
+version = "0.1.0"
+authors = ["itang <live.tang@gmail.com>"]
+
+[dependencies]
+diesel = { version = "0.10.0", features = ["postgres"] }
+diesel_codegen = { version = "0.10.0", features = ["postgres"] }
+dotenv = "0.8.0"
