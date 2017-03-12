@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+  redis:
+    image: "redis:alpine"
+    ports:
+      - 6379:6379
+
+  app_db:
+    image: mysql:5.6
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    volumes:
+      - /tmp/mysql:/var/lib/mysql
