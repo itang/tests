@@ -1,0 +1,10 @@
+.gradle/
+
+bin/
+build/
+node_modules
+node/
+*.log
+
+tmp/
+.idea/
