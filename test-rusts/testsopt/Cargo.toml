@@ -1,0 +1,8 @@
+[package]
+authors = ["itang <live.tang@gmail.com>"]
+name = "testsopt"
+version = "0.1.0"
+
+[dependencies]
+structopt = "0.0.3"
+structopt-derive = "0.0.3"
