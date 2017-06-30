@@ -1,0 +1,8 @@
+[package]
+authors = ["itang <live.tang@gmail.com>"]
+name = "testrm"
+version = "0.1.0"
+
+[dependencies]
+rocket = { git = "https://github.com/SergioBenitez/Rocket.git" }
+rocket_codegen = { git = "https://github.com/SergioBenitez/Rocket.git" } 
