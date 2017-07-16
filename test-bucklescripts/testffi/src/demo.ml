@@ -183,3 +183,96 @@ external io_config :
 let config = io_config ~cwd:"." () 
 
 (* Fixed Arguments with arbitrary JSON literal (@since 1.7.0) *)
+external on_exit_slice5 :
+  int 
+  -> (_ [@bs.as 3])
+  -> (_ [@bs.as {json|true|json}])
+  -> (_ [@bs.as {json|false|json}])
+  -> (_ [@bs.as {json|"你好"|json}])
+  -> (_ [@bs.as {json|["你好", 1,2,3]|json}])
+   -> (_ [@bs.as {json| [{ "arr" : ["你好",1,2,3], "encoding" : "utf8"}] |json}])
+    -> (_ [@bs.as {json| [{ "arr" : ["你好",1,2,3], "encoding" : "utf8"}] |json}])
+-> (_ [@bs.as "xxx"])
+    -> ([`a|`b|`c] [@bs.int])
+    -> (_ [@bs.as "yyy"])
+    -> ([`a|`b|`c] [@bs.string])
+    -> int array
+    -> unit
+    =
+    "xx" [@@bs.send.pipe: t] [@@bs.splice]
+
+ let _ = (create_date ()) |> on_exit_slice5 __LINE__ `a `b [|1;2;3;4;5|]
+
+
+ (* 
+ Binding to NodeJS special variable: bs.node
+ *)
+ let dirname : string option = [%bs.node __dirname]
+ let filename : string option = [%bs.node __filename]
+ let _module : Node.node_module option = [%bs.node _module]
+ let require : Node.node_require option = [%bs.node require]
+
+ (* 
+ Binding to callback (High-order function)
+
+ High order functions are functions where the callback can be another function. For
+ exaple, suppose JS has a map function as below
+ *)
+ (* Here ('a → 'b → 'c [@bs]) will always be of arity 2 *)
+ external map : 'a array -> 'b array -> ('a -> 'b -> 'c [@bs]) -> 'c array = "" [@@bs.val]
+
+ (*
+ Note the [@bs] annotation already solved the problem completely, but it has a drawback that it requires users to write [@bs] both in definition site and call site. 
+ *)
+ external map2 : 'a array -> ('a -> 'b [@bs]) -> 'b array = "" [@@bs.send];;
+
+ map2 [|1;2;3|] (fun [@bs] x -> x + 1);;
+
+ (*
+ introduce another implicit annotation [@bs.uncurry]  so that the compiler will automatically wrap
+ the curried callback (from OCaml side) to JS uncurried callback. In this way, the [@bs.uncurry] annotation is defined only once.
+ *)
+
+ external map3 : 'a array -> ('a -> 'b [@bs.uncurry]) -> 'b array = "" [@@bs.send];;
+ map3 [|1;2;3|] (fun x -> x + 1);;
+
+ let app f x = f x [@bs];;
+ let app2 f x = f x;;
+
+type x
+external set_onload : x -> (x -> int -> unit [@bs.this]) -> unit = "onload" [@@bs.set];;
+external resp : x -> int = "response" [@@bs.get];;
+external createx : unit -> x = "Date" [@@bs.new];;
+
+set_onload (createx ()) begin fun [@bs.this] o v ->
+   Js.log(resp o + v)
+end;;
+
+(* Binding to JS objects *)
+external demo : < height : int; width : int > Js.t = "" [@@bs.module];;
+
+(* 
+Complex object type
+*)
+class type _rect = object 
+  method height : int 
+  method width : int 
+  method draw : unit -> unit
+end [@bs];;
+
+type rect = _rect Js.t;;
+
+type rect2 = < height : int; width : int ; draw : unit -> unit [@bs.meth]  > Js.t;;
+
+(*
+ How to consume JS property and methods
+  as we said: ## is used in both object method dispath and field access.
+*)
+(*
+f##property;;
+f##property #= v
+f##js_method args0 args1 args2
+*)
+
+(* Create JS objects using bs.obj *)
+let u = [%bs.obj { x = { y =  { z = 3}}}];;

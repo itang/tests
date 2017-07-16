@@ -6,6 +6,7 @@ var U          = require("y");
 var Z          = require("z");
 var Fs         = require("fs");
 var Path       = require("path");
+var Curry      = require("bs-platform/lib/js/curry.js");
 var Pervasives = require("bs-platform/lib/js/pervasives.js");
 
 console.log("Hello, BuckleScript");
@@ -76,12 +77,75 @@ var config = {
   cwd: "."
 };
 
-exports.f2       = f2;
-exports.date     = date;
-exports.f        = f;
-exports.g        = g;
-exports.test     = test;
-exports.v        = v;
-exports.register = register;
-exports.config   = config;
+new Date().xx(204, 3, true, false, ("你好"), (["你好", 1,2,3]), ( [{ "arr" : ["你好",1,2,3], "encoding" : "utf8"}] ), ( [{ "arr" : ["你好",1,2,3], "encoding" : "utf8"}] ), "xxx", 0, "yyy", "b", 1, 2, 3, 4, 5);
+
+var dirname = typeof (__dirname) === "undefined" ? undefined : (__dirname);
+
+var filename = typeof (__filename) === "undefined" ? undefined : (__filename);
+
+var _module = typeof (module) === "undefined" ? undefined : (module);
+
+var $$require = typeof (require) === "undefined" ? undefined : (require);
+
+/* int array */[
+    1,
+    2,
+    3
+  ].map2((function (x) {
+        return x + 1 | 0;
+      }));
+
+/* int array */[
+    1,
+    2,
+    3
+  ].map3((function (x) {
+        return x + 1 | 0;
+      }));
+
+function app(f, x) {
+  return f(x);
+}
+
+function app2(f, x) {
+  return Curry._1(f, x);
+}
+
+new Date().onload = (function (v) {
+    var o = this ;
+    console.log(o.response + v | 0);
+    return /* () */0;
+  });
+
+var u = {
+  x: {
+    y: {
+      z: 3
+    }
+  }
+};
+
+var dirname$1 = dirname === undefined ? /* None */0 : [dirname];
+
+var filename$1 = filename === undefined ? /* None */0 : [filename];
+
+var _module$1 = _module === undefined ? /* None */0 : [_module];
+
+var $$require$1 = $$require === undefined ? /* None */0 : [$$require];
+
+exports.f2        = f2;
+exports.date      = date;
+exports.f         = f;
+exports.g         = g;
+exports.test      = test;
+exports.v         = v;
+exports.register  = register;
+exports.config    = config;
+exports.dirname   = dirname$1;
+exports.filename  = filename$1;
+exports._module   = _module$1;
+exports.$$require = $$require$1;
+exports.app       = app;
+exports.app2      = app2;
+exports.u         = u;
 /*  Not a pure module */
