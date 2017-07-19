@@ -1,0 +1,116 @@
+key = "value"
+string = "hello"
+number = 42
+float = 3.14
+#dateTime = 1979-05-27T07:32:00-08:00
+#scientificNotation = 1e+12
+#"key can be quoted" = true # Both " and ' are fine
+basicString = "are surrounded by quotation marks. \"I'm quotable\". Name\tJos"
+
+#multiLineString = """
+#are surrounded by three quotation marks
+#on each side and allow newlines."""
+#literalString = 'are surrounded by single quotes. Escaping are not allowed.'
+#int1 = +42
+int2 = 0
+int3 = -21
+integerRange = 64
+#int4 = 5_349_221
+f1 = 3.1415
+bool1 = true
+bool2 = false
+boolMustBeLowercase = true
+date1 = 1979-05-27T07:32:00Z # follows the RFC 3339 spec
+#date2 = 1979-05-27T07:32:00
+#date3 = 1979-05-27
+array1 = [ 1, 2, 3 ]
+array2 = [ "Commas", "are", "delimiters" ]
+array3 = [ "Don't mixed", "different", "types" ]
+#array4 = [ [ 1.2, 2.4 ], ["all", 'strings', """are the same""", '''type'''] ]
+array5 = [
+  "Whitespace", "is", "ignored"
+]
+
+#########
+# Table #
+#########
+
+[table]
+
+[table-1]
+key1 = "some string"
+key2 = 123
+
+[table-2]
+key1 = "another string"
+key2 = 345
+
+# Dots are prohibited in bare keys because dots are used to signify nested tables.
+# Naming rules for each dot separated part are the same as for keys.
+[dog."tater.man"]
+type = "pug"
+
+[a.b.c]
+
+[a]
+d = 2
+
+
+################
+# Inline table #
+################
+#inlineTables = { areEnclosedWith = "{ and }", mustBeInline = true}
+#point = { x = 1, y = 2}
+
+###################
+# Array of Tables #
+###################
+
+# An array of tables can be expressed by using a table name in double brackets.
+# Each table with the same double bracketed name will be an item in the array.
+# The tables are inserted in the order encountered.
+[[products]]
+name = "array of table"
+sku = 3223
+emptyTableAreAllowed = true
+
+[[products]]
+
+[[products]]
+name = "Nail"
+sku = 284758393
+color = "gray"
+
+# You can create nested arrays of tables as well. Each double-bracketed
+# sub-table will belong to the nearest table element above it.
+
+[[fruit]]
+  name = "apple"
+
+  [fruit.Geometry]
+    shape = "round"
+    note = "I am an fruit's property"
+
+  [[fruit.color]]
+    name = "red"
+    note = "I am an array's item in apple"
+
+  [[fruit.color]]
+    name = "green"
+    note = "I am in the same array than red"
+
+[[fruit]]
+  name = "banana"
+
+  [[fruit.color]]
+    name = "yellow"
+    note = "I am an array's item too but banana's one"
+
+
+
+[package]
+name = "testrls"
+version = "0.1.0"
+authors = ["itang <live.tang@gmail.com>"]
+
+[dependencies]
