@@ -1,0 +1,16 @@
+opam-version: "2.0"
+name: "test"
+version: "1.0.0"
+maintainer: "itang <live.tang@gmail.com>"
+authors: ["itang <live.tang@gmail.com>"]
+homepage: ""
+bug-reports: ""
+dev-repo: ""
+license: ["ISC"]
+tags: []
+build: [["jbuilder" "build" "-p" name "-j" jobs]]
+build-test: [["jbuilder" "runtest" "-p" name "-j" jobs]]
+depends: [
+  "jbuilder" {build}
+  "reason" {>= "2.0.0"} {build}
+]
