@@ -1,0 +1,6 @@
+{
+    "name": "bucklescript-micro-example",
+    "sources": [
+        "src/"
+    ]
+}

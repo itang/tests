@@ -1,0 +1,17 @@
+{
+  "name": "testmicro_bs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "micro": "^8.0.2"
+  },
+  "devDependencies": {
+    "bs-platform": "^1.8.2"
+  },
+  "scripts": {
+    "build": "bsb",
+    "watch": "bsb -w",
+    "start": "node lib/js/src/index.js"
+  }
+}
