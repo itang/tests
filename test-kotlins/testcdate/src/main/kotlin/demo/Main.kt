@@ -6,6 +6,12 @@ fun main(args: Array<String>) {
 
     val dsList = listOf(
             listOf(
+                    "2017-09-02"
+            ),
+            listOf(
+                    "2017-09-04"
+            ),
+            listOf(
                     "2017-09-01",
                     "2017-09-04",
                     "2017-09-05"
@@ -70,13 +76,14 @@ fun getMaxNumberOfConsecutiveDateRange(ds: List<String>, td: List<String>): List
     val all = (dsi + tdi).distinct().sorted()
 
     if (dsi.size <= 1) {
-        return dsi
+        return dsi.filter { it !in tdi }
     }
 
     val rangeList = mutableListOf<List<String>>()
     var currRange = mutableListOf<String>()
     var i = 0
     while (i < all.size - 1) {
+       // println(currRange)
         val c = all[i]
         val n = all[i + 1]
 
