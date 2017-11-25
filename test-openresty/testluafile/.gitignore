@@ -1,0 +1,13 @@
+*.pyc
+
+logs/
+
+tmp/
+target/
+
+.idea/
+
+.vscode
+
+*temp
+logs/
