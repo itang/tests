@@ -1,4 +1,4 @@
-    # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 from fabric.api import *
 
@@ -10,21 +10,22 @@ def help():
 
 def run():
     """run"""
-    local('epm run')
+    local('etlas run')
 
 
 def uberjar_mode():
     """uberjar mode"""
-    local('epm clean')
-    local('epm configure --enable-uberjar-mode')
+    local('etlas clean')
+    local('etlas configure --enable-uberjar-mode')
+
 
 def jar_mode():
     """jar mode"""
-    local('epm clean')
-    local('epm configure --disable-uberjar-mode')
+    local('etlas clean')
+    local('etlas configure --disable-uberjar-mode')
 
 
 def clean():
     """clean"""
-    local('epm clean')
-    local('epm install --dependencies-only')
+    local('etlas clean')
+    local('etlas install --dependencies-only')
