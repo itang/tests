@@ -1,10 +1,3 @@
-[root]
-name = "test-iron"
-version = "0.0.1"
-dependencies = [
- "iron 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
 [[package]]
 name = "conduit-mime-types"
 version = "0.7.3"
@@ -179,6 +172,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "hpack 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "log 0.3.6 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "test-iron"
+version = "0.0.1"
+dependencies = [
+ "iron 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]

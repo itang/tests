@@ -1,10 +1,3 @@
-[root]
-name = "test-rayon"
-version = "0.1.0"
-dependencies = [
- "rayon 0.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
 [[package]]
 name = "advapi32-sys"
 version = "0.1.2"
@@ -67,6 +60,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "test-rayon"
+version = "0.1.0"
+dependencies = [
+ "rayon 0.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "winapi"
 version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -76,3 +76,13 @@ name = "winapi-build"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
+[metadata]
+"checksum advapi32-sys 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)" = "307c92332867e586720c0222ee9d890bbe8431711efed8a1b06bc5b40fc66bd7"
+"checksum deque 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)" = "88f5d9da4dc0d80b65a9597914fdbc6c0ab0227b4c60f6dd8621578542382465"
+"checksum kernel32-sys 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)" = "b5b5e7edf375e6d26243bde172f1d5ed1446f4a766fc9b7006e1fd27258243f1"
+"checksum libc 0.2.4 (registry+https://github.com/rust-lang/crates.io-index)" = "10569e57695cc2c91ca4214357907649c9e242dc822c9ae623d0e0b0d68aa4d9"
+"checksum num_cpus 0.2.10 (registry+https://github.com/rust-lang/crates.io-index)" = "d8662bc744a09992bce099d65444efec4138089edf4f1f3661df0006652a6557"
+"checksum rand 0.3.12 (registry+https://github.com/rust-lang/crates.io-index)" = "5eee40bdf3d293e1648490ab47e5471d9ab3e455e6b0bd48e558c454be4a015e"
+"checksum rayon 0.0.1 (registry+https://github.com/rust-lang/crates.io-index)" = "97e34cae83479ca7794f73988d4424fb5ed16d00c6456692bb6fd90f9d9d6833"
+"checksum winapi 0.2.5 (registry+https://github.com/rust-lang/crates.io-index)" = "dc3583688b861fcd83c2823d37cf2cd2446c233dd7ba3f97884d1a7302817537"
+"checksum winapi-build 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)" = "2d315eee3b34aca4797b2da6b13ed88266e6d612562a0c46390af8299fc699bc"
