@@ -1,11 +1,3 @@
-[root]
-name = "test_fib"
-version = "0.1.0"
-dependencies = [
- "rustler 0.12.0 (git+https://github.com/hansihe/Rustler)",
- "rustler_codegen 0.12.0 (git+https://github.com/hansihe/Rustler)",
-]
-
 [[package]]
 name = "bitflags"
 version = "0.7.0"
@@ -131,6 +123,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "kernel32-sys 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "winapi 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "test_fib"
+version = "0.1.0"
+dependencies = [
+ "rustler 0.12.0 (git+https://github.com/hansihe/Rustler)",
+ "rustler_codegen 0.12.0 (git+https://github.com/hansihe/Rustler)",
 ]
 
 [[package]]
