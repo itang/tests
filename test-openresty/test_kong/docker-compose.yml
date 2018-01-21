@@ -5,6 +5,7 @@ services:
     #restart: always
     image: cassandra:3
     ports:
+      - "9160:9160"
       - "9042:9042"
     #volumes:
     #  - /var/run/docker.sock:/var/run/docker.sock
