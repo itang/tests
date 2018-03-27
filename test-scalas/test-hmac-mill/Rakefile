@@ -1,0 +1,19 @@
+task default: :usage
+
+task :usage do
+    sh 'rake -T'
+end
+
+namespace :dev do
+  desc 'gen idea project'
+  task :idea do
+    sh 'mill mill.scalalib.GenIdeaModule/idea'
+  end
+end
+
+namespace :run do
+  desc 'run dev mode'
+  task :dev do
+    sh 'tally mill foo.run'
+  end
+end
