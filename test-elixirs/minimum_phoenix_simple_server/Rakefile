@@ -1,0 +1,17 @@
+task default: :usage
+
+task :usage do
+  sh 'rake -T'
+end
+
+task :run do
+  sh 'PORT=4000 MIX_ENV=prod mix do compile, phx.server'
+end
+
+task :run_standalone do
+  sh 'MIX_ENV=prod PORT=4000 elixir --detached -S mix do compile, phx.server'
+end
+
+task :deps do
+  sh 'mix deps.get'
+end
