@@ -1,0 +1,33 @@
+plugins {
+    id "net.ltgt.apt" version "0.18" // <1>
+}
+
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    //maven {
+    //    url "http://www.haoshuju.net:8078/"
+    //}
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    compile 'io.reactivex.rxjava2:rxjava:2.1.14'
+
+    annotationProcessor "io.micronaut:micronaut-inject-java:1.0.0" // <2>
+    compile "io.micronaut:micronaut-inject:1.0.0"
+    compile 'io.micronaut:micronaut-runtime:1.0.0'
+
+    testCompile "junit:junit:4.12"
+}
+
+mainClassName = 'demo.Main'
+defaultTasks 'run'
+
