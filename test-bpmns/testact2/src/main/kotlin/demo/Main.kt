@@ -1,15 +1,12 @@
 package demo
 
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.activiti.engine.ProcessEngines
-import java.util.concurrent.TimeUnit
 
 fun main(args: Array<String>) {
     try {
         //创建流程引擎
         val engine = ProcessEngines.getDefaultProcessEngine()
+
         //得到流程存储服务组件
         val repositoryService = engine.repositoryService
 
@@ -36,14 +33,13 @@ fun main(args: Array<String>) {
         val task2 = taskService.createTaskQuery().singleResult()!!
         println("task2.name ${task2.name}")
 
-
         //完成第二个任务
         taskService.complete(task2.id)
 
         val moreTask = taskService.createTaskQuery().singleResult()
         println("more task: $moreTask")
-        System.exit(0)
         //退出
+        System.exit(0)
     } catch (e: Exception) {
         e.printStackTrace()
     }
