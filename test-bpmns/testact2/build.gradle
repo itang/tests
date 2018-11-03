@@ -1,0 +1,80 @@
+buildscript {
+    ext {
+        kotlinVersion = '1.3.0'
+        coroutineVersion = '1.0.0'
+    }
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+
+    jcenter()
+
+    maven {
+        url "http://maven.aliyun.com/nexus/content/groups/public"
+    }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    //compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
+
+    compile 'mysql:mysql-connector-java:8.0.13'
+    compile 'ch.qos.logback:logback-classic:1.3.0-alpha4'
+    compile 'org.mybatis:mybatis:3.4.6'
+    compile 'org.springframework:spring-beans:5.1.2.RELEASE'
+    //compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'org.activiti:activiti-spring:6.0.0'
+    compile 'org.activiti:activiti-engine:6.0.0'
+    compile 'org.activiti:activiti-bpmn-converter:6.0.0'
+    compile 'org.activiti:activiti-bpmn-layout:6.0.0'
+    compile 'org.activiti:activiti-process-validation:6.0.0'
+    compile 'org.activiti:activiti-bpmn-model:6.0.0'
+    compile 'org.activiti:activiti-json-converter:6.0.0'
+    compile 'org.activiti:activiti-image-generator:6.0.0'
+    compile 'org.activiti:activiti-root:6.0.0'
+
+    compile 'org.slf4j:slf4j-api:1.7.25'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.7'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.9.7'
+    compile 'de.odysseus.juel:juel-api:2.2.7'
+    compile 'de.odysseus.juel:juel-impl:2.2.7'
+    compile 'org.apache.commons:commons-lang3:3.8.1'
+    compile 'joda-time:joda-time:2.10.1'
+
+    testCompile "junit:junit:4.12"
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
+}
+
+mainClassName = 'demo.MainKt'
+defaultTasks 'run'
+
+kotlin {
+    //experimental {
+    //    coroutines 'enable'
+    //}
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
