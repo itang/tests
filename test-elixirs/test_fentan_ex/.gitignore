@@ -21,3 +21,5 @@ erl_crash.dump
 /test_fentan_ex
 
 *.pyc
+
+.elixir_ls/
