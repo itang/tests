@@ -1,0 +1,36 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    ['armeria',
+     //'armeria-grpc',
+     //'armeria-jetty',
+    //'armeria-kafka',
+     'armeria-logback'
+    // 'armeria-retrofit2',
+    // 'armeria-thrift',
+    // 'armeria-tomcat',
+    // 'armeria-zipkin',
+     //'armeria-zookeeper'
+     ].each {
+        compile "com.linecorp.armeria:${it}:0.75.0"
+    }
+
+    // Logging
+    runtime 'ch.qos.logback:logback-classic:1.2.3'
+    runtime 'org.slf4j:log4j-over-slf4j:1.7.25'
+}
+
+// Require Java 8 to build the project.
+tasks.withType(JavaCompile) {
+    sourceCompatibility '1.8'
+    targetCompatibility '1.8'
+}
+
+mainClassName = 'demo.Main'
+defaultTasks 'run'
+
