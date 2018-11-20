@@ -1,0 +1,9 @@
+[package]
+name = "teste2"
+version = "0.1.0"
+authors = ["itang <live.tang@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+uuid = { version = "0.7.1", features = ["v4"] }
+futures = "0.1.25"
