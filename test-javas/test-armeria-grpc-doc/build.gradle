@@ -1,0 +1,95 @@
+apply plugin: 'java'
+apply plugin: 'application'
+//https://github.com/google/protobuf-gradle-plugin
+apply plugin: 'com.google.protobuf'
+apply plugin: 'idea'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.7'
+    }
+}
+
+protobuf {
+    //By default the plugin will search for the protoc executable in the system search path. We recommend you to take the advantage of pre-compiled protoc that we have published on Maven Central
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.6.1"
+    }
+    plugins {
+        // For a codegen plugin named as "foo", protoc will by default use protoc-gen-foo from system search path. You can also specify a downloadable artifact or a local path for it in the plugins block, in the same syntax as in the protoc block above. This will not apply the plugins. You need to configure the tasks in the generateProtoTasks block introduced below to apply the plugins defined here
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.16.1'
+        }
+    }
+    generateProtoTasks {
+        //for display description
+        all().each { task ->
+            task.generateDescriptorSet = true
+            task.descriptorSetOptions.includeSourceInfo = true
+            task.descriptorSetOptions.includeImports = true
+            task.descriptorSetOptions.path =
+                    "${buildDir}/resources/main/META-INF/armeria/grpc/service-name.dsc"
+        }
+
+        all()*.plugins {
+            grpc {
+            }
+        }
+    }
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+//https://docs.gradle.org/current/dsl/org.gradle.plugins.ide.idea.model.IdeaModule.html?_ga=2.144696693.1582147956.1543212665-1340729219.1543212665
+idea {
+    module {
+        //if for some reason you want to add an extra sourceDirs
+        //sourceDirs += file('build/generated/source/proto/main/grpc')
+        // sourceDirs += file('build/generated/source/proto/main/java')
+
+        generatedSourceDirs += file('build/generated/source/proto/main/java')
+        generatedSourceDirs += file('build/generated/source/proto/main/grpc')
+    }
+}
+
+dependencies {
+    //compile 'io.reactivex.rxjava2:rxjava:2.1.14'
+
+    // Adjust the list as you need.
+    ['armeria',
+     'armeria-grpc',
+     'armeria-kafka',
+     'armeria-logback',
+     'armeria-retrofit2',
+     'armeria-rxjava',
+     'armeria-saml',
+     'armeria-thrift',
+     'armeria-zipkin',
+     'armeria-zookeeper'].each {
+        compile "com.linecorp.armeria:${it}:0.76.0"
+    }
+
+    // Logging
+    runtime 'ch.qos.logback:logback-classic:1.2.3'
+    runtime 'org.slf4j:log4j-over-slf4j:1.7.25'
+
+    testCompile "junit:junit:4.12"
+}
+
+mainClassName = 'demo.GrpcServer'
+defaultTasks 'run'
+
+
+task runGrpcClient(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = project.hasProperty("mainClass") ? project.getProperty("mainClass") : "demo.GrpcClient"
+}
