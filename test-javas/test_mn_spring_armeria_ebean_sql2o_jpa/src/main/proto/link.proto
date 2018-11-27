@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package collector;
+
+option java_package = "com.deftype.collector";
+
+service LinkService {
+    rpc AddLink (AddLinkRequest) returns (AddLinkReply);
+
+    rpc FindLinks (FindLinksRequest) returns (FindLinksReply);
+}
+
+message Link {
+    string id = 1;
+    string link = 2;
+}
+
+message AddLinkRequest {
+    string link = 1;
+}
+
+message AddLinkReply {
+    string id = 1;
+}
+
+message FindLinksRequest {
+    string searchLink = 1;
+}
+
+message FindLinksReply {
+    repeated Link link = 1;
+}

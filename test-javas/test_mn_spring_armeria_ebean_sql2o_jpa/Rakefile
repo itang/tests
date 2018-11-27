@@ -1,0 +1,30 @@
+task default: :usage
+
+task :usage do
+    sh 'rake -T'
+end
+
+
+namespace :docker do
+  desc 'create'
+  task :create do
+    sh 'docker run -ti --name testdb-mysql -e MYSQL_ROOT_PASSWORD=123456 -p 3306:3306 mysql mysqld --default-authentication-plugin=mysql_native_password'
+  end
+
+  task :repl do
+    sh 'mysql -u root -p123456 -h 127.0.0.1'
+  end
+end
+
+namespace :dev do
+  desc 'init data'
+  task :init_data do
+    sh 'mysql -u root -p123456 -h 127.0.0.1 testDB < db/mysql/1.sql'
+  end
+
+  desc 'run'
+  task :run do
+    sh 'gradle run'
+  end
+end
+

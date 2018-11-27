@@ -1,0 +1,20 @@
+micronaut:
+    application:
+        name: testjpa
+server:
+    port: 8080
+datasources:
+    default:
+        jdbcUrl: "jdbc:mysql://localhost:3306/testDB"
+        username: root
+        password: 123456
+        driverClassName: com.mysql.cj.jdbc.Driver
+jpa:
+    default:
+        packages-to-scan:
+        - 'testjpa.entity'
+        properties:
+            hibernate:
+                hbm2ddl:
+                    auto: update
+                show_sql: true
