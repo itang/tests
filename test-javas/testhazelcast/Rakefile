@@ -1,0 +1,15 @@
+task :run do
+  desc 'run'
+  sh './gradlew run'
+end
+
+task :dev do
+  desc 'dev'
+  sh 'watchexec -r "./gradlew run -no-daemon"'
+end
+
+task :clean do
+  desc 'clean'
+  sh './gradlew clean'
+end
+
