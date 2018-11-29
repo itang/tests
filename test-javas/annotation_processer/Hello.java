@@ -1,0 +1,4 @@
+@demo.AutoDTO
+interface Hello {
+
+}
