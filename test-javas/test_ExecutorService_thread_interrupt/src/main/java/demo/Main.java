@@ -6,6 +6,7 @@ import java.util.concurrent.Executors;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
+        test();
         Thread t = new Thread() {
             @Override
             public void run() {
@@ -32,11 +33,12 @@ public class Main {
         Thread.sleep(10000);
     }
 
-    void test() throws InterruptedException {
+    static void test() throws InterruptedException {
         ExecutorService es = Executors.newFixedThreadPool(10);
         for (int i = 0; i < 100; i++) {
-            //NOTICE: block on running task >= max thread number
+            //提交不会阻塞， 因为无界的LinkedBlockingQueue
             es.submit(() -> {
+                //NOTICE: block on running task >= max thread number(max pool size =core threads=nThreads)
                 try {
                     Thread.sleep(10000);
                     System.out.println(new Date() + " " + Thread.currentThread());
@@ -45,6 +47,7 @@ public class Main {
 
                 }
             });
+            System.out.println("submit " + i);
         }
 
         System.out.println("here1");
