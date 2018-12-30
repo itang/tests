@@ -1,0 +1,29 @@
+task default: :usage
+
+task :usage do
+    sh 'rake -T'
+end
+
+namespace :run do
+  desc 'run dev mode'
+  task :dev do
+    puts "run dev..."
+  end
+end
+
+
+desc 'build'
+task :build do
+  sh 'lein uberjar'
+  sh '$GRAALVM_HOME/bin/native-image --no-server -H:+ReportUnsupportedElementsAtRuntime  --static -jar target/uberjar/testnative_clj-0.1.0-SNAPSHOT-standalone.jar'
+end
+
+desc 'run on jvm'
+task :run_jvm do
+  sh %Q(echo "{:a [5 4]}" | tally java -XX:TieredStopAtLevel=1 -jar target/uberjar/testnative_clj-0.1.0-SNAPSHOT-standalone.jar  :a 1)
+end
+
+desc 'run native'
+task :run_native do
+  sh 'echo "{:a [5 4]}" | tally ./testnative_clj-0.1.0-SNAPSHOT-standalone  :a 1'
+end
