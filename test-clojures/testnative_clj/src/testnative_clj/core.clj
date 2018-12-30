@@ -5,7 +5,7 @@
 (defn -main
   "I don't do a whole lot ... yet."
   [& path]
-  (println "Hello, World!")
+  (println "Hello, Clojure + native-image!")
   (-> (read *in*)
       (get-in (mapv read-string path))
       pprint))

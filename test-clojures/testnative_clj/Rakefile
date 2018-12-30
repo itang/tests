@@ -4,18 +4,24 @@ task :usage do
     sh 'rake -T'
 end
 
-namespace :run do
-  desc 'run dev mode'
-  task :dev do
-    puts "run dev..."
-  end
+desc 'dist'
+task :dist do
+  sh 'lein uberjar'
 end
 
-
 desc 'build'
-task :build do
-  sh 'lein uberjar'
+task :build => :dist do
   sh '$GRAALVM_HOME/bin/native-image --no-server -H:+ReportUnsupportedElementsAtRuntime  --static -jar target/uberjar/testnative_clj-0.1.0-SNAPSHOT-standalone.jar'
+end
+
+desc 'build_with plugin'
+task :build_with_plugin do
+  sh 'lein native-image'
+end
+
+desc 'run my-app'
+task :run_my_app do
+  sh %Q(echo "{:a [100 200 300]}" | target/default+uberjar/my-app :a 2)
 end
 
 desc 'run on jvm'
