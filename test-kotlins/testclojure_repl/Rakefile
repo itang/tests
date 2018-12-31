@@ -1,0 +1,23 @@
+task :default do
+  sh 'rake -T'
+end
+
+desc 'run'
+task :run do
+  sh './gradlew run'
+end
+
+desc 'dev'
+task :dev do
+  sh 'watchexec -r "./gradlew run -no-daemon"'
+end
+
+desc 'clean'
+task :clean do
+  sh './gradlew clean'
+end
+
+desc 'repl'
+task :repl do
+  sh 'lein repl :connect localhost:9090'
+end
