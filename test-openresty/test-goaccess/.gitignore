@@ -1,0 +1,9 @@
+*.pyc
+
+logs/
+
+tmp/
+target/
+
+.idea/
+
