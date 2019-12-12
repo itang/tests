@@ -1,0 +1,15 @@
+bin/
+project/project/
+target/
+lib/
+.cache
+.classpath
+.project
+.settings
+
+.svn
+
+.idea/
+*.iml
+.metals
+
