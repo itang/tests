@@ -1,0 +1,11 @@
+task default: :usage
+
+task :usage do
+  sh 'rake -T'
+end
+
+desc 'run dev mode'
+task :run do
+  puts 'run ...'
+  `deno --reload --allow-net main.ts`
+end
