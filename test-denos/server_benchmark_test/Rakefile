@@ -1,0 +1,15 @@
+task default: :usage
+
+task :usage do
+  sh 'rake -T'
+end
+
+desc 'benchmark'
+task :benchmark do
+  sh 'wrk http://127.0.0.1:8000/ -c 100 -d 30 -t 4'
+end
+
+desc 'run'
+task :run do
+  sh 'deno run --allow-net server.ts'
+end
