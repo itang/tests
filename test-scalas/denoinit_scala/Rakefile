@@ -1,0 +1,42 @@
+task default: :usage
+
+task :usage do
+  sh 'rake -T'
+end
+
+namespace :gen do
+  desc 'gen idea project'
+  task :idea do
+    sh 'rake clean'
+    sh 'rake clean_idea'
+    sh 'mill mill.scalalib.GenIdea/idea'
+  end
+end
+
+desc 'run dev mode'
+task :run do
+  sh 'tally mill foo.run'
+end
+
+desc 'dist'
+task :dist do
+  sh 'mill foo.assembly'
+  sh 'cd out;$GRAALVM_HOME/bin/native-image --no-server -cp foo/assembly/dest/out.jar -H:Name=denoinit_scala -H:+ReportUnsupportedElementsAtRuntime foo.Example'
+  #sh 'cd out;upx denoinit_scala'
+end
+
+desc 'install'
+task :install => :dist do
+  sh 'mv out/denoinit_scala ~/.local/bin/denoinit_scala'
+end
+
+desc 'clean'
+task :clean do
+  sh 'rm -rf out/'
+end
+
+desc 'clean_idea'
+task :clean_idea do
+  sh 'rm -rf .idea .idea_modules'
+end
+
