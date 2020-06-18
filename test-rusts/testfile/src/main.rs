@@ -8,7 +8,10 @@ use anyhow::{Context, Result};
 // Box<dyn Error> to mean “any kind of error.”
 //fn main() -> Result<(), Box<dyn Error>> {
 fn main() -> Result<()> {
-    let path = Path::new(&env::var("HOME")?).join(".zshrc");
+    let path = {
+        let home = env::var("HOME")?;
+        Path::new(&home).join(".zshrc")
+    };
     //let path = env::var("HOME")? + "/.zshrc";
     let mut content = String::new();
     File::open(&path)
