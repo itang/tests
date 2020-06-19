@@ -1,0 +1,18 @@
+{
+  "name": "generator-testyo",
+  "version": "1.0.0",
+  "description": "test yo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "link": "npm link"
+  },
+  "files": [
+    "generators"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "yeoman-generator": "^4.10.1"
+  }
+}
