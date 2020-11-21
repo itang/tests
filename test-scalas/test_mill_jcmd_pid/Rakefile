@@ -1,0 +1,42 @@
+task default: :usage
+
+task :usage do
+  sh 'rake -T'
+end
+
+namespace :gen do
+  desc 'gen idea project'
+  task :idea do
+    sh 'rake clean'
+    sh 'rake clean_idea'
+    sh 'mill mill.scalalib.GenIdea/idea'
+  end
+end
+
+desc 'run dev mode'
+task :run do
+  sh 'tally mill foo.run'
+end
+
+desc 'dist'
+task :dist do
+  sh 'mill foo.assembly'
+  sh 'cd out;$GRAALVM_HOME/bin/native-image --no-server -cp foo/assembly/dest/out.jar -H:Name=test_mill -H:+ReportUnsupportedElementsAtRuntime -H:+RemoveSaturatedTypeFlows foo.Example'
+  #sh 'cd out;upx test_mill'
+end
+
+desc 'clean'
+task :clean do
+  sh 'rm -rf out/'
+end
+
+desc 'clean_idea'
+task :clean_idea do
+  sh 'rm -rf .idea .idea_modules'
+end
+
+desc 'test'
+task :test do
+  JAVA_OPTS = '-Xms1024m -Xmx1024m -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -Xloggc:logs/gc.log -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=32 -XX:GCLogFileSize=64m'
+  sh %Q[mill foo.assembly;JAVA_OPTS="-Xms100m" java #{JAVA_OPTS} -jar out/foo/assembly/dest/out.jar]
+end
