@@ -1,0 +1,19 @@
+package test;
+
+service User {
+  rpc login(LoginRequest) returns (APIResponse);
+  rpc logout(Empty) returns (APIResponse);
+}
+
+message LoginRequest {
+  required string username = 1;
+  required string password = 2;
+}
+message APIResponse{
+  required int32 responseCode = 2;
+  optional string responsemessage = 1;
+}
+
+message Empty{
+
+}
