@@ -1,0 +1,1 @@
+{"name":"sbt","version":"1.4.1","bspVersion":"2.0.0-M5","languages":["scala"],"argv":["/home/itang/dev-env/jdk1.8.0_251/jre/bin/java","-Xms100m","-Xmx100m","-classpath","/home/itang/.asdf/installs/sbt/1.4.1/bin/sbt-launch.jar","xsbt.boot.Boot","-bsp"]}

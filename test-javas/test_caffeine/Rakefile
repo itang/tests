@@ -1,0 +1,16 @@
+
+task default: :usage
+
+task :usage do
+  sh "rake -T"
+end
+
+desc "run"
+task :run do
+  system("sbt run")
+end
+
+desc "dev"
+task :dev do
+  system("sbt \"~reStart\"")
+end
