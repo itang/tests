@@ -1,0 +1,10 @@
+.idea
+target
+
+.bsp
+.metals
+.vscode
+null/
+
+project/target
+*.iml
