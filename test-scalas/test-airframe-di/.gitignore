@@ -1,0 +1,8 @@
+.bsp
+.idea
+.metals
+.scala
+.vscode
+null
+dist
+*.jar
