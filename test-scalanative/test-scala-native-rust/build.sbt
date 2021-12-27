@@ -1,6 +1,6 @@
 import scala.scalanative.build._
 
-scalaVersion := "2.13.5"
+scalaVersion := "2.13.6"
 
 // Set to false or remove if you want to show stubs as linking errors
 nativeLinkStubs := true

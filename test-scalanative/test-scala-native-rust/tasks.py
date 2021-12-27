@@ -25,8 +25,7 @@ def build(c):
     c.run('sbt nativeLink')
 
 
-@task
+@task(build)
 def run(c):
     """run"""
-    build(c)
     c.run('LD_LIBRARY_PATH=./myrust/target/debug/:$LD_LIBRARY_PATH sbt run')

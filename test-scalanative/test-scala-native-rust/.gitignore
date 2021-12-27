@@ -9,3 +9,5 @@ null
 
 project/target
 .metals
+.bloop
+project/project

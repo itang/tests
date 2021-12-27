@@ -1,0 +1,9 @@
+.bloop
+.metals
+.vscode
+null
+target
+project/project
+
+.idea
+*.iml
