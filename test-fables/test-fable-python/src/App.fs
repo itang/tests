@@ -1,0 +1,3 @@
+module App
+
+printfn "hello"

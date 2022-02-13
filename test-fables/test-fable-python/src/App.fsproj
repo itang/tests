@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="App.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Fable.Core.Experimental" Version="4.0.0-alpha-032" />
+    <PackageReference Include="Fable.Python" Version="0.17.0" />
+  </ItemGroup>
+</Project>

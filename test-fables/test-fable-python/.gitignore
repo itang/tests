@@ -1,0 +1,11 @@
+.ionide
+
+fable_modules/
+.fable_modules/
+
+bin/
+obj
+
+webapp/.config
+
+src/__init__.py
