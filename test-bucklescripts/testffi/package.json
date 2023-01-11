@@ -13,6 +13,6 @@
   "license": "MIT",
   "devDependencies": {
     "bs-platform": "1.8.1",
-    "vscode": "^1.1.4"
+    "vscode": "^1.1.37"
   }
 }
